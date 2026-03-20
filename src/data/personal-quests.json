@@ -1,0 +1,364 @@
+[
+  {
+    "id": 1,
+    "name": "Studium rostlin",
+    "building_unlocks": [24, 42],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Osobně sesbírej pět různých druhů bylinek skrze kořistní žetony.",
+        "value": [0, 0, 0, 0, 0]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Hledání dubu",
+    "building_unlocks": [24, 42],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Osobně nalootuj osm karet dřeva skrze kořistní žetony.",
+        "scenario_unlock": 69,
+        "value": [0, 0, 0, 0, 0, 0, 0, 0]
+      },
+      {
+        "type": "checkbox",
+        "name": "Odemkni {SCENARIO 69} a doveď ho k závěru.",
+        "value": [0]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Obchodnická třída",
+    "building_unlocks": [37, 74],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Vlastni 3 předměty {HEAD}.",
+        "value": [0, 0, 0]
+      },
+      {
+        "type": "checkbox",
+        "name": "Vlastni 3 předměty {BODY}.",
+        "value": [0, 0, 0]
+      },
+      {
+        "type": "checkbox",
+        "name": "Vlastni 3 předměty {LEGS}.",
+        "value": [0, 0, 0]
+      },
+      {
+        "type": "checkbox",
+        "name": "Vlastni 3 předměty {ONE-HAND} a/nebo {TWO-HANDS}.",
+        "value": [0, 0, 0]
+      },
+      {
+        "type": "checkbox",
+        "name": "Vlastni 4 předměty {SMALL-ITEM}.",
+        "value": [0, 0, 0, 0]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Chamtivost je dobrá",
+    "building_unlocks": [37, 74],
+    "progress": [
+      {
+        "type": "number",
+        "name": "Měj u sebe 80+20×L zlata, kde L je úroveň prosperity.",
+        "value": 0,
+        "target": 100
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Stavět, ne ničit",
+    "building_unlocks": [85, 21],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Zažij stavbu dvanácti různých budov nebo vylepšení budov.",
+        "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Budování týmu",
+    "building_unlocks": [85, 21],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Během osmi různých fází základny si přečti jméno osoby v události nebo sekci.",
+        "value": [0, 0, 0, 0, 0, 0, 0, 0]
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Aestherská základna",
+    "building_unlocks": [44, 88],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Okamžitě odemkni {SCENARIO 65}.",
+        "scenario_unlock": 65,
+        "value": [0]
+      },
+      {
+        "type": "checkbox",
+        "name": "Doveď {SCENARIO 65} k závěru.",
+        "value": [0]
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Nebezpečná hra",
+    "building_unlocks": [44, 88],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Zabij dva Algox Guardy.",
+        "value": [0, 0]
+      },
+      {
+        "type": "checkbox",
+        "name": "Zabij dva Lurker Clawcrushery.",
+        "value": [0, 0]
+      },
+      {
+        "type": "checkbox",
+        "name": "Zabij dva Robotic Boltshootery.",
+        "value": [0, 0]
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Životní lekce",
+    "building_unlocks": [90, 83],
+    "progress": [
+      {
+        "type": "number",
+        "name": "Získej 150 zkušeností z karet schopností.",
+        "value": 0,
+        "target": 150
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Prozkoumej končiny",
+    "building_unlocks": [90, 83],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Dokonči pět různých scénářů vyžadujících {BOAT}, {CLIMBING_GEAR} nebo {SLED}.",
+        "value": [0, 0, 0, 0, 0]
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Vytříbený vkus",
+    "required_building_level": [21, 0],
+    "building_unlocks": [39, 72],
+    "progress": [
+      {
+        "type": "number",
+        "name": "Vlastni předměty, jejichž výrobní náklady zahrnují celkem alespoň patnáct surovin.",
+        "value": 0,
+        "target": 15
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Hrozba z hlubin",
+    "required_building_level": [24, 0],
+    "building_unlocks": [90, 42],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Okamžitě odemkni {SCENARIO 71}.",
+        "scenario_unlock": 71,
+        "value": [0]
+      },
+      {
+        "type": "checkbox",
+        "name": "Doveď {SCENARIO 71} k závěru.",
+        "value": [0]
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Konec šprýmům",
+    "required_building_level": [37, 0],
+    "building_unlocks": [44, 74],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Zabij patnáct Impů.",
+        "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Věčný poutník",
+    "required_building_level": [39, 0],
+    "building_unlocks": [37, 72],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Dokonči scénář v Běloohoňském lese.",
+        "value": [0]
+      },
+      {
+        "type": "checkbox",
+        "name": "Dokonči scénář v Měděnokrkých horách.",
+        "value": [0]
+      },
+      {
+        "type": "checkbox",
+        "name": "Dokonči scénář v Zářivém lese.",
+        "value": [0]
+      },
+      {
+        "type": "checkbox",
+        "name": "Dokonči scénář na Křišťálových pláních.",
+        "value": [0]
+      },
+      {
+        "type": "checkbox",
+        "name": "Dokonči scénář v Štiplavém moři.",
+        "value": [0]
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Pokračující prosperita",
+    "required_building_level": [42, 0],
+    "building_unlocks": [65, 85],
+    "progress": [
+      {
+        "type": "number",
+        "name": "Daruj 70 zlata Chrámu Velkého dubu.",
+        "value": 0,
+        "target": 70
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Připraven na nejhorší",
+    "required_building_level": [44, 0],
+    "building_unlocks": [85, 88],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Zakup pět vylepšení.",
+        "value": [0, 0, 0, 0, 0]
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Legenda boje",
+    "required_building_level": [74, 0],
+    "building_unlocks": [81, 67],
+    "progress": [
+      {
+        "type": "number",
+        "name": "Získej 16 {CHECK} ze splněných bojových cílů.",
+        "value": 0,
+        "target": 16
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Nech je být",
+    "required_building_level": [81, 0],
+    "building_unlocks": [44, 67],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Dokonči osm vedlejších scénářů (číslo 65 a vyšší).",
+        "value": [0, 0, 0, 0, 0, 0, 0, 0]
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Utiš mrtvá místa",
+    "required_building_level": [83, 0],
+    "building_unlocks": [81, 67],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Získej plán \"Sekera propasti\" (Předmět 039) a použij ji k zabití deseti Frozen Corpses, Ice Wraithů a/nebo Living Doomů.",
+        "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Návrat k jednoduchosti",
+    "required_building_level": [85, 0],
+    "building_unlocks": [24, 21],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Zabij patnáct Ruined Machines.",
+        "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Studium života",
+    "required_building_level": [88, 0],
+    "building_unlocks": [39, 72],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Zajmi 8 nepřátel.",
+        "value": [0, 0, 0, 0, 0, 0, 0, 0]
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Největší výzva",
+    "required_building_level": [90, 0],
+    "building_unlocks": [37, 83],
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Dokonči dvanáct výzev.",
+        "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "name": "Vyvolený",
+    "required_building_level": [81, 1],
+    "unlock": "Otevři obálku A",
+    "progress": [
+      {
+        "type": "checkbox",
+        "name": "Zažij vyčerpání 10 spojenců během scénářů, které jinak dokončíš.",
+        "value": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      }
+    ]
+  }
+]

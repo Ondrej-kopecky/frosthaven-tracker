@@ -1,0 +1,4074 @@
+[
+  {
+    "id": 0,
+    "name": "Vytí ve sněhu",
+    "game": "fh",
+    "coordinates": {
+      "name": "N6",
+      "x": 30.55,
+      "y": 26.75
+    },
+    "chapter_id": 1,
+    "complexity": 1,
+    "root": true,
+    "treasures": [
+      47
+    ],
+    "links_to": [
+      1
+    ],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [],
+    "loot": {
+      "coins": 8,
+      "lumber": 2,
+      "metal": 2,
+      "hide": 2
+    },
+    "has_boss": false
+  },
+  {
+    "id": 1,
+    "name": "Město v plamenech",
+    "game": "fh",
+    "coordinates": {
+      "name": "FR",
+      "x": 36.6,
+      "y": 58.14
+    },
+    "chapter_id": 1,
+    "complexity": 1,
+    "root": true,
+    "treasures": [],
+    "links_to": [
+      2,
+      3
+    ],
+    "linked_from": [
+      0
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      [
+        "Gain 2 morale"
+      ],
+      [
+        "Gain 3 morale"
+      ],
+      [
+        "Gain 4 morale"
+      ],
+      [
+        "Gain 5 morale"
+      ],
+      [
+        "Gain 6 morale"
+      ],
+      [
+        "Gain 7 morale"
+      ]
+    ],
+    "loot": {
+      "coins": 6,
+      "lumber": 5,
+      "metal": 3,
+      "hide": 3,
+      "rockroot": 1,
+      "snowthistle": 2
+    },
+    "has_boss": false,
+    "prompt": "startingMorale"
+  },
+  {
+    "id": 2,
+    "name": "Průzkum Algoxů",
+    "game": "fh",
+    "coordinates": {
+      "name": "K8",
+      "x": 41.52,
+      "y": 33.15
+    },
+    "chapter_id": 1,
+    "complexity": 1,
+    "root": false,
+    "treasures": [
+      32
+    ],
+    "links_to": [
+      4
+    ],
+    "linked_from": [
+      1
+    ],
+    "blocks_on": [
+      {
+        "complete": [
+          3
+        ]
+      }
+    ],
+    "choices": [],
+    "rewards": [
+      "Gain 1 ✔ each"
+    ],
+    "loot": {
+      "coins": 4,
+      "lumber": 4,
+      "metal": 4,
+      "hide": 4,
+      "arrowvine": 2,
+      "rockroot": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 3,
+    "name": "Ofenzíva Algoxů",
+    "game": "fh",
+    "coordinates": {
+      "name": "L7",
+      "x": 40.36,
+      "y": 30.51
+    },
+    "chapter_id": 1,
+    "complexity": 1,
+    "root": false,
+    "treasures": [
+      18
+    ],
+    "links_to": [
+      4
+    ],
+    "linked_from": [
+      1
+    ],
+    "blocks_on": [
+      {
+        "complete": [
+          2
+        ]
+      }
+    ],
+    "choices": [],
+    "rewards": [
+      "Gain 1 ✔ each"
+    ],
+    "loot": {
+      "coins": 4,
+      "lumber": 4,
+      "metal": 4,
+      "hide": 4,
+      "arrowvine": 2,
+      "rockroot": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 4,
+    "name": "Srdce ledu",
+    "game": "fh",
+    "coordinates": {
+      "name": "M8",
+      "x": 35.05,
+      "y": 33.34
+    },
+    "chapter_id": 1,
+    "complexity": 1,
+    "root": false,
+    "treasures": [
+      70
+    ],
+    "links_to": [
+      5,
+      6,
+      7,
+      8
+    ],
+    "linked_from": [
+      2,
+      3
+    ],
+    "blocks_on": [],
+    "choices": [
+      5,
+      6,
+      7,
+      8
+    ],
+    "rewards": [
+      [
+        "Unlock {FF} class box",
+        "Gain 1 morale",
+        "Gain 1 prosperity",
+        "Add 156.1 to the calendar in four weeks"
+      ],
+      [
+        "Unlock {SD} class box",
+        "Gain 1 morale",
+        "Gain 1 prosperity",
+        "Add 156.1 to the calendar in four weeks"
+      ]
+    ],
+    "loot": {
+      "coins": 6,
+      "lumber": 3,
+      "metal": 5,
+      "hide": 2,
+      "corpsecap": 1,
+      "rockroot": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": true,
+    "prompt": "algoxAltercation"
+  },
+  {
+    "id": 5,
+    "name": "Zmrzlá krypta",
+    "game": "fh",
+    "coordinates": {
+      "name": "I6",
+      "x": 50.23,
+      "y": 29.77
+    },
+    "chapter_id": 2,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      46
+    ],
+    "links_to": [
+      9,
+      10
+    ],
+    "linked_from": [
+      4
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 collective {LUMBER}"
+    ],
+    "loot": {
+      "coins": 6,
+      "lumber": 4,
+      "metal": 3,
+      "hide": 1,
+      "corpsecap": 2,
+      "rockroot": 2
+    },
+    "has_boss": false
+  },
+  {
+    "id": 6,
+    "name": "Lavina",
+    "game": "fh",
+    "coordinates": {
+      "name": "L8",
+      "x": 38.41,
+      "y": 35.37
+    },
+    "chapter_id": 4,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      11,
+      12
+    ],
+    "linked_from": [
+      4
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 collective {METAL}"
+    ],
+    "loot": {
+      "coins": 9,
+      "lumber": 4,
+      "metal": 1,
+      "hide": 1,
+      "arrowvine": 2,
+      "axenut": 1,
+      "snowthistle": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 7,
+    "name": "Kraj světa",
+    "game": "fh",
+    "coordinates": {
+      "name": "K3",
+      "x": 44.97,
+      "y": 17.4
+    },
+    "chapter_id": 3,
+    "complexity": 1,
+    "root": false,
+    "treasures": [
+      44
+    ],
+    "links_to": [
+      13,
+      14
+    ],
+    "linked_from": [
+      4
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "10 experience each"
+    ],
+    "loot": {
+      "coins": 6,
+      "lumber": 3,
+      "metal": 3,
+      "hide": 3,
+      "axenut": 1,
+      "snowthistle": 2
+    },
+    "has_boss": false,
+    "achievements_awarded": [
+      "CCCS"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Křišťálový příkop",
+    "game": "fh",
+    "coordinates": {
+      "name": "G8",
+      "x": 61,
+      "y": 35.66
+    },
+    "chapter_id": 6,
+    "complexity": 1,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      15,
+      16
+    ],
+    "linked_from": [
+      4
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 collective {LUMBER}",
+      "Gain 2 collective {HIDE}"
+    ],
+    "loot": {
+      "coins": 6,
+      "lumber": 5,
+      "hide": 5,
+      "arrowvine": 1,
+      "axenut": 1,
+      "snowthistle": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 9,
+    "name": "Zářící katakomby",
+    "game": "fh",
+    "coordinates": {
+      "name": "J6",
+      "x": 49.24,
+      "y": 26.62
+    },
+    "chapter_id": 2,
+    "complexity": 1,
+    "root": false,
+    "treasures": [
+      9
+    ],
+    "links_to": [
+      17
+    ],
+    "linked_from": [
+      5
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 collective {CORPSECAP}"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 5,
+      "metal": 3,
+      "corpsecap": 1,
+      "rockroot": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 10,
+    "name": "Křišťálový výběh",
+    "game": "fh",
+    "coordinates": {
+      "name": "F6",
+      "x": 63.96,
+      "y": 27.95
+    },
+    "chapter_id": 2,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      71
+    ],
+    "links_to": [
+      18
+    ],
+    "linked_from": [
+      5
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 morale",
+      "Gain 1 inspiration"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 4,
+      "hide": 3,
+      "arrowvine": 2,
+      "axenut": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "sled"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Vrchol Snowscorn",
+    "game": "fh",
+    "coordinates": {
+      "name": "M6",
+      "x": 34.25,
+      "y": 29.59
+    },
+    "chapter_id": 4,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      71
+    ],
+    "links_to": [
+      19
+    ],
+    "linked_from": [
+      6
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 morale",
+      "Gain 1 inspiration"
+    ],
+    "loot": {
+      "coins": 6,
+      "lumber": 4,
+      "metal": 3,
+      "hide": 3,
+      "axenut": 2,
+      "flamefruit": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": true,
+    "required_by": [
+      {
+        "complete": [
+          "rope"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Vstup do chrámu",
+    "game": "fh",
+    "coordinates": {
+      "name": "K8",
+      "x": 43,
+      "y": 35.63
+    },
+    "chapter_id": 4,
+    "complexity": 1,
+    "root": false,
+    "treasures": [
+      9
+    ],
+    "links_to": [
+      20
+    ],
+    "linked_from": [
+      6
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 15 experience each"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 4,
+      "metal": 4,
+      "corpsecap": 1,
+      "rockroot": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 13,
+    "name": "Zmrzlý fjord",
+    "game": "fh",
+    "coordinates": {
+      "name": "O2",
+      "x": 27.06,
+      "y": 14.48
+    },
+    "chapter_id": 3,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      49
+    ],
+    "links_to": [
+      32
+    ],
+    "linked_from": [
+      7
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain “Dead Raven” (Item 233)"
+    ],
+    "loot": {
+      "coins": 7,
+      "lumber": 5,
+      "hide": 3,
+      "arrowvine": 2,
+      "flamefruit": 1,
+      "snowthistle": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 14,
+    "name": "Zubaté útesy",
+    "game": "fh",
+    "coordinates": {
+      "name": "L2",
+      "x": 38.94,
+      "y": 13.6
+    },
+    "chapter_id": 3,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      64
+    ],
+    "links_to": [
+      22
+    ],
+    "linked_from": [
+      7
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Choose one: Unlock {CR} class box OR unlock {DT} class box",
+      "Add event WO-81 to the winter outpost deck"
+    ],
+    "loot": {
+      "coins": 7,
+      "lumber": 4,
+      "metal": 2,
+      "hide": 5,
+      "snowthistle": 2
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "boat"
+        ]
+      }
+    ],
+    "achievements_awarded": [
+      "CCCS",
+      "CSS"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Pradávná věž",
+    "game": "fh",
+    "coordinates": {
+      "name": "D7",
+      "x": 74.35,
+      "y": 32.05
+    },
+    "chapter_id": 6,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      40
+    ],
+    "links_to": [
+      23,
+      24
+    ],
+    "linked_from": [
+      8
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 collective {LUMBER}",
+      "Gain 1 collective {METAL}",
+      "Gain 1 collective {HIDE}"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 4,
+      "metal": 5,
+      "hide": 2,
+      "corpsecap": 1,
+      "flamefruit": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 16,
+    "name": "Zchátralý výtah",
+    "game": "fh",
+    "coordinates": {
+      "name": "F10",
+      "x": 65.3,
+      "y": 40.7
+    },
+    "chapter_id": 6,
+    "complexity": 3,
+    "root": false,
+    "treasures": [
+      77
+    ],
+    "links_to": [
+      25,
+      26
+    ],
+    "linked_from": [
+      8
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 5 experience each",
+      "Gain 1 inspiration"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 4,
+      "metal": 5,
+      "rockroot": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 17,
+    "name": "Strašidelná klenba",
+    "game": "fh",
+    "coordinates": {
+      "name": "H6",
+      "x": 53.65,
+      "y": 28.14
+    },
+    "chapter_id": 2,
+    "complexity": 3,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      27
+    ],
+    "linked_from": [
+      9
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 ✔ each"
+    ],
+    "loot": {
+      "coins": 10,
+      "lumber": 5,
+      "metal": 2,
+      "corpsecap": 2
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "calendar",
+          "puzzle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Křišťálová pole",
+    "game": "fh",
+    "coordinates": {
+      "name": "E7",
+      "x": 68.67,
+      "y": 29.34
+    },
+    "chapter_id": 2,
+    "complexity": 1,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      28,
+      29
+    ],
+    "linked_from": [
+      10
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 morale",
+      "Gain one random item blueprint",
+      "Add 122.3 to the calendar in four weeks"
+    ],
+    "loot": {
+      "coins": 6,
+      "lumber": 3,
+      "metal": 2,
+      "hide": 5,
+      "arrowvine": 2,
+      "corpsecap": 1,
+      "snowthistle": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 19,
+    "name": "Nebeský sál",
+    "game": "fh",
+    "coordinates": {
+      "name": "N7",
+      "x": 31.73,
+      "y": 31.23
+    },
+    "chapter_id": 4,
+    "complexity": 3,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      30,
+      28
+    ],
+    "linked_from": [
+      11
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 morale",
+      "Gain one random item blueprint",
+      "Add 54.3 to the calendar in four weeks"
+    ],
+    "loot": {
+      "coins": 11,
+      "lumber": 2,
+      "metal": 2,
+      "hide": 2,
+      "corpsecap": 1,
+      "rockroot": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 20,
+    "name": "Chrám osvobození",
+    "game": "fh",
+    "coordinates": {
+      "name": "L9",
+      "x": 40.47,
+      "y": 38.72
+    },
+    "chapter_id": 4,
+    "complexity": 3,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      31
+    ],
+    "linked_from": [
+      12
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 15 gold each"
+    ],
+    "loot": {
+      "coins": 10,
+      "lumber": 2,
+      "metal": 5,
+      "arrowvine": 2,
+      "rockroot": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 21,
+    "name": "Říše věčného mrazu",
+    "game": "fh",
+    "coordinates": {
+      "name": "N1",
+      "x": 30.32,
+      "y": 11.02
+    },
+    "chapter_id": 3,
+    "complexity": 3,
+    "root": false,
+    "treasures": [],
+    "links_to": [],
+    "linked_from": [
+      13
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 prosperity"
+    ],
+    "loot": {
+      "coins": 6,
+      "lumber": 4,
+      "metal": 3,
+      "hide": 3,
+      "flamefruit": 1,
+      "snowthistle": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "sled"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Ledové kry",
+    "game": "fh",
+    "coordinates": {
+      "name": "I2",
+      "x": 53.13,
+      "y": 15.22
+    },
+    "chapter_id": 3,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      33
+    ],
+    "linked_from": [
+      14
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Lose 1 collective {LUMBER} for each set of five hexes with water tiles on tile 7-G",
+      "Gain 15 experience each",
+      "Add 62.2 to the calendar in two weeks"
+    ],
+    "loot": {
+      "coins": 10,
+      "lumber": 5,
+      "hide": 2,
+      "arrowvine": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "boat"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "name": "Podzemí věže",
+    "game": "fh",
+    "coordinates": {
+      "name": "B8",
+      "x": 76.92,
+      "y": 33.78
+    },
+    "chapter_id": 6,
+    "complexity": 1,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      34
+    ],
+    "linked_from": [
+      15
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain one random item blueprint"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 4,
+      "metal": 4,
+      "corpsecap": 2,
+      "flamefruit": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 24,
+    "name": "Horní věž",
+    "game": "fh",
+    "coordinates": {
+      "name": "D6",
+      "x": 74.8,
+      "y": 29.93
+    },
+    "chapter_id": 6,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      34
+    ],
+    "linked_from": [
+      15
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain one random item blueprint"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 2,
+      "metal": 4,
+      "hide": 2,
+      "axenut": 2,
+      "flamefruit": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 25,
+    "name": "Zrezivělé tunely",
+    "game": "fh",
+    "coordinates": {
+      "name": "E10",
+      "x": 69.08,
+      "y": 37.95
+    },
+    "chapter_id": 6,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      74
+    ],
+    "links_to": [
+      35
+    ],
+    "linked_from": [
+      16
+    ],
+    "blocks_on": [
+      {
+        "complete": [
+          26
+        ]
+      }
+    ],
+    "choices": [],
+    "rewards": [
+      "Gain 2 collective {LUMBER}",
+      "Gain 2 collective {METAL}",
+      "Add 128.2 to the calendar in four weeks"
+    ],
+    "loot": {
+      "coins": 10,
+      "lumber": 2,
+      "metal": 4,
+      "arrowvine": 1,
+      "rockroot": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 26,
+    "name": "Quatrylská knihovna",
+    "game": "fh",
+    "coordinates": {
+      "name": "E10",
+      "x": 68.77,
+      "y": 41.89
+    },
+    "chapter_id": 6,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      73
+    ],
+    "links_to": [
+      36,
+      37
+    ],
+    "linked_from": [
+      16
+    ],
+    "blocks_on": [
+      {
+        "complete": [
+          25
+        ]
+      }
+    ],
+    "choices": [],
+    "rewards": [
+      "Gain 10 experience each"
+    ],
+    "loot": {
+      "coins": 10,
+      "lumber": 2,
+      "metal": 4,
+      "arrowvine": 1,
+      "rockroot": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 27,
+    "name": "Hlubiny deliria",
+    "game": "fh",
+    "coordinates": {
+      "name": "H6",
+      "x": 55.4,
+      "y": 26.67
+    },
+    "chapter_id": 2,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      36,
+      24
+    ],
+    "links_to": [],
+    "linked_from": [
+      17
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 10 experience each",
+      "Gain 1 ✔ each",
+      "Ancient Technology"
+    ],
+    "loot": {
+      "coins": 13,
+      "lumber": 2,
+      "metal": 2,
+      "hide": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "CSS"
+        ]
+      }
+    ],
+    "achievements_awarded": [
+      "CCCS"
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Setkání na vrcholu",
+    "game": "fh",
+    "coordinates": {
+      "name": "J8",
+      "x": 49.4,
+      "y": 34.65
+    },
+    "chapter_id": 5,
+    "complexity": 3,
+    "root": false,
+    "treasures": [
+      48
+    ],
+    "links_to": [
+      38
+    ],
+    "linked_from": [
+      18,
+      19
+    ],
+    "blocks_on": [
+      {
+        "complete": [
+          29
+        ]
+      },
+      {
+        "complete": [
+          30
+        ]
+      }
+    ],
+    "choices": [],
+    "rewards": [
+      "Lose 1 morale"
+    ],
+    "loot": {
+      "coins": 11,
+      "lumber": 2,
+      "hide": 3,
+      "arrowvine": 1,
+      "axenut": 1,
+      "rockroot": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 29,
+    "name": "Válka o věž A",
+    "game": "fh",
+    "coordinates": {
+      "name": "F8",
+      "x": 65.93,
+      "y": 32.55
+    },
+    "chapter_id": 2,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      45
+    ],
+    "links_to": [
+      39
+    ],
+    "linked_from": [
+      18
+    ],
+    "blocks_on": [
+      {
+        "complete": [
+          28
+        ]
+      }
+    ],
+    "choices": [],
+    "rewards": [
+      "Gain 3 morale",
+      "Remove all {ALGOX} events from all outpost event decks",
+      "Add event WO-68 to the winter outpost deck",
+      "Add 46.3 to the calendar in five weeks"
+    ],
+    "loot": {
+      "coins": 12,
+      "lumber": 2,
+      "hide": 2,
+      "arrowvine": 1,
+      "axenut": 1,
+      "snowthistle": 2
+    },
+    "has_boss": false,
+    "achievements_awarded": [
+      "CDIS"
+    ]
+  },
+  {
+    "id": 30,
+    "name": "Válka o věž B",
+    "game": "fh",
+    "coordinates": {
+      "name": "E8",
+      "x": 70.54,
+      "y": 32.86
+    },
+    "chapter_id": 4,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      45
+    ],
+    "links_to": [
+      40
+    ],
+    "linked_from": [
+      19
+    ],
+    "blocks_on": [
+      {
+        "complete": [
+          28
+        ]
+      }
+    ],
+    "choices": [],
+    "rewards": [
+      "Gain 3 morale",
+      "Remove all {ALGOX} events from all outpost event decks",
+      "Add event WO-69 to the winter outpost deck",
+      "Add 34.2 to the calendar in five weeks"
+    ],
+    "loot": {
+      "coins": 12,
+      "lumber": 2,
+      "hide": 2,
+      "arrowvine": 1,
+      "axenut": 1,
+      "snowthistle": 2
+    },
+    "has_boss": false,
+    "achievements_awarded": [
+      "CDSS"
+    ]
+  },
+  {
+    "id": 31,
+    "name": "Praskající tunel",
+    "game": "fh",
+    "coordinates": {
+      "name": "F10",
+      "x": 56.35,
+      "y": 40.97
+    },
+    "chapter_id": 4,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      25,
+      26
+    ],
+    "links_to": [
+      41
+    ],
+    "linked_from": [
+      20
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 5 experience each",
+      "Gain 10 gold each"
+    ],
+    "loot": {
+      "coins": 11,
+      "lumber": 2,
+      "metal": 3,
+      "arrowvine": 1,
+      "flamefruit": 1,
+      "rockroot": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "calendar",
+          "puzzle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "name": "Havraní hnízdo",
+    "game": "fh",
+    "coordinates": {
+      "name": "Q3",
+      "x": 19.24,
+      "y": 17.14
+    },
+    "chapter_id": 3,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      67
+    ],
+    "links_to": [],
+    "linked_from": [
+      13
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain “Feathered Cloak” (Item 69) blueprint"
+    ],
+    "loot": {
+      "coins": 7,
+      "lumber": 5,
+      "hide": 3,
+      "axenut": 2,
+      "flamefruit": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "achievements_awarded": [
+      "CITF"
+    ]
+  },
+  {
+    "id": 33,
+    "name": "Roztátý les",
+    "game": "fh",
+    "coordinates": {
+      "name": "R2",
+      "x": 11.1,
+      "y": 14.2
+    },
+    "chapter_id": 3,
+    "complexity": 3,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      42
+    ],
+    "linked_from": [
+      22
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 5 experience each for each unrevealed dowsing rune",
+      "Gain “Ember Energy Source” (Item 244)",
+      "Add 135.1 to the calendar in three weeks"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 5,
+      "hide": 3,
+      "axenut": 2,
+      "flamefruit": 1,
+      "rockroot": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "CITF",
+          "calendar"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "name": "Vrchol věže",
+    "game": "fh",
+    "coordinates": {
+      "name": "C6",
+      "x": 75.38,
+      "y": 28.09
+    },
+    "chapter_id": 6,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [],
+    "linked_from": [
+      23,
+      24
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [],
+    "loot": {},
+    "has_boss": true,
+    "achievements_awarded": [
+      "CCCS"
+    ]
+  },
+  {
+    "id": 35,
+    "name": "Šrotová jáma",
+    "game": "fh",
+    "coordinates": {
+      "name": "C10",
+      "x": 73.65,
+      "y": 43.23
+    },
+    "chapter_id": 6,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      61
+    ],
+    "links_to": [
+      43
+    ],
+    "linked_from": [
+      25
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 collective {LUMBER}",
+      "Gain 2 collective {METAL}",
+      "Gain 2 collective {HIDE}"
+    ],
+    "loot": {
+      "coins": 7,
+      "lumber": 5,
+      "metal": 5,
+      "hide": 2,
+      "rockroot": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "calendar"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "name": "Zavalené potrubí",
+    "game": "fh",
+    "coordinates": {
+      "name": "C9",
+      "x": 77.14,
+      "y": 39.44
+    },
+    "chapter_id": 6,
+    "complexity": 1,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      44
+    ],
+    "linked_from": [
+      26
+    ],
+    "blocks_on": [
+      {
+        "complete": [
+          37
+        ]
+      }
+    ],
+    "choices": [],
+    "rewards": [
+      "Gain 3 collective {LUMBER}",
+      "Gain 3 collective {METAL}"
+    ],
+    "loot": {
+      "coins": 9,
+      "lumber": 3,
+      "metal": 5,
+      "arrowvine": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "calendar"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "name": "Mrtvá míle",
+    "game": "fh",
+    "coordinates": {
+      "name": "C11",
+      "x": 76.8,
+      "y": 43.4
+    },
+    "chapter_id": 6,
+    "complexity": 1,
+    "root": false,
+    "treasures": [
+      61
+    ],
+    "links_to": [
+      44
+    ],
+    "linked_from": [
+      26
+    ],
+    "blocks_on": [
+      {
+        "complete": [
+          36
+        ]
+      }
+    ],
+    "choices": [],
+    "rewards": [
+      "Gain 3 collective {LUMBER}",
+      "Gain 3 collective {METAL}"
+    ],
+    "loot": {
+      "coins": 10,
+      "lumber": 3,
+      "metal": 3,
+      "arrowvine": 2,
+      "rockroot": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "calendar"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "name": "Cesta vpřed",
+    "game": "fh",
+    "coordinates": {
+      "name": "G8",
+      "x": 59.08,
+      "y": 33.33
+    },
+    "chapter_id": 5,
+    "complexity": 3,
+    "root": false,
+    "treasures": [
+      16
+    ],
+    "links_to": [
+      45,
+      46
+    ],
+    "linked_from": [
+      28
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 10 experience each",
+      "Gain 1 ✔ each",
+      "Gain 1 inspiration"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 5,
+      "hide": 3,
+      "arrowvine": 1,
+      "axenut": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 39,
+    "name": "Zkažený tábor",
+    "game": "fh",
+    "coordinates": {
+      "name": "Q4",
+      "x": 16.55,
+      "y": 20.44
+    },
+    "chapter_id": 2,
+    "complexity": 3,
+    "root": false,
+    "treasures": [
+      41
+    ],
+    "links_to": [
+      47
+    ],
+    "linked_from": [
+      29
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Lose 1 inspiration",
+      "Gain 2 additional loot cards each"
+    ],
+    "loot": {
+      "coins": 10,
+      "lumber": 4,
+      "metal": 2,
+      "hide": 3,
+      "flamefruit": 1,
+      "snowthistle": 2
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "CITF",
+          "calendar"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "name": "Záchranná akce",
+    "game": "fh",
+    "coordinates": {
+      "name": "H9",
+      "x": 53.8,
+      "y": 38.05
+    },
+    "chapter_id": 4,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      41
+    ],
+    "links_to": [
+      48
+    ],
+    "linked_from": [
+      30
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Lose 1 inspiration",
+      "Gain 2 additional loot cards each"
+    ],
+    "loot": {
+      "coins": 10,
+      "lumber": 3,
+      "metal": 4,
+      "hide": 2,
+      "arrowvine": 2,
+      "flamefruit": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "calendar"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "name": "Nespoutaný střep",
+    "game": "fh",
+    "coordinates": {
+      "name": "E12",
+      "x": 65.8,
+      "y": 46.2
+    },
+    "chapter_id": 4,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [],
+    "linked_from": [
+      31
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 15 gold each",
+      "Gain 2 collective {AXENUT}",
+      "Ancient Technology"
+    ],
+    "loot": {
+      "coins": 9,
+      "lumber": 2,
+      "metal": 2,
+      "hide": 2,
+      "corpsecap": 2,
+      "rockroot": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "CSS"
+        ]
+      }
+    ],
+    "achievements_awarded": [
+      "CCCS"
+    ]
+  },
+  {
+    "id": 42,
+    "name": "Příkop bez slunce",
+    "game": "fh",
+    "coordinates": {
+      "name": "J1",
+      "x": 46.15,
+      "y": 10.91
+    },
+    "chapter_id": 3,
+    "complexity": 1,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      49,
+      50
+    ],
+    "linked_from": [
+      33
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 ✔ each",
+      "Add event B-16 to the boat deck",
+      "Add 114.2 to the calendar in three weeks"
+    ],
+    "loot": {
+      "coins": 12,
+      "lumber": 2,
+      "metal": 2,
+      "flamefruit": 1,
+      "snowthistle": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "boat",
+          "calendar"
+        ]
+      }
+    ],
+    "achievements_awarded": [
+      "CCCS"
+    ]
+  },
+  {
+    "id": 43,
+    "name": "Přepadená barikáda",
+    "game": "fh",
+    "coordinates": {
+      "name": "C9",
+      "x": 75.46,
+      "y": 38.65
+    },
+    "chapter_id": 6,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      51
+    ],
+    "linked_from": [
+      35
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 10 experience each"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 2,
+      "metal": 4,
+      "arrowvine": 2,
+      "rockroot": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 44,
+    "name": "Nervové centrum",
+    "game": "fh",
+    "coordinates": {
+      "name": "B10",
+      "x": 79.85,
+      "y": 41.45
+    },
+    "chapter_id": 6,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      58,
+      59
+    ],
+    "linked_from": [
+      36,
+      37
+    ],
+    "blocks_on": [],
+    "choices": [
+      58,
+      59
+    ],
+    "rewards": [
+      "Gain 5 gold each",
+      "Gain “Energizing Baton” (Item 73) blueprint"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 2,
+      "metal": 4,
+      "arrowvine": 2,
+      "rockroot": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "prompt": "finalNegotiation"
+  },
+  {
+    "id": 45,
+    "name": "Živý ledovec",
+    "game": "fh",
+    "coordinates": {
+      "name": "C3",
+      "x": 78.5,
+      "y": 18.6
+    },
+    "chapter_id": 5,
+    "complexity": 1,
+    "root": false,
+    "treasures": [
+      15
+    ],
+    "links_to": [
+      52
+    ],
+    "linked_from": [
+      38
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 morale",
+      "Gain 1 ✔ each"
+    ],
+    "loot": {
+      "coins": 10,
+      "lumber": 3,
+      "hide": 5,
+      "flamefruit": 1,
+      "rockroot": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "rope"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "name": "Mrtvý průsmyk",
+    "game": "fh",
+    "coordinates": {
+      "name": "B12",
+      "x": 79.53,
+      "y": 48.73
+    },
+    "chapter_id": 5,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      52
+    ],
+    "linked_from": [
+      38
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 morale",
+      "Gain 10 experience each"
+    ],
+    "loot": {
+      "coins": 9,
+      "lumber": 3,
+      "metal": 3,
+      "hide": 3,
+      "corpsecap": 1,
+      "rockroot": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "sled"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "name": "Mršinový hřeben",
+    "game": "fh",
+    "coordinates": {
+      "name": "Q5",
+      "x": 9.94,
+      "y": 21.84
+    },
+    "chapter_id": 1,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      15
+    ],
+    "links_to": [
+      56
+    ],
+    "linked_from": [
+      39
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 10 gold each",
+      "Gain 2 collective {LUMBER}"
+    ],
+    "loot": {
+      "coins": 7,
+      "lumber": 5,
+      "metal": 2,
+      "hide": 2,
+      "flamefruit": 2,
+      "rockroot": 2
+    },
+    "has_boss": false
+  },
+  {
+    "id": 48,
+    "name": "Ostrov blizardu",
+    "game": "fh",
+    "coordinates": {
+      "name": "D2",
+      "x": 69.9,
+      "y": 13.9
+    },
+    "chapter_id": 4,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      57
+    ],
+    "linked_from": [
+      40
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 10 gold each",
+      "Gain 2 collective {METAL}"
+    ],
+    "loot": {
+      "coins": 7,
+      "lumber": 2,
+      "metal": 2,
+      "hide": 5,
+      "corpsecap": 2,
+      "snowthistle": 2
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "boat"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "name": "Pod mořem a kamenem",
+    "game": "fh",
+    "coordinates": {
+      "name": "G3",
+      "x": 58.15,
+      "y": 15.98
+    },
+    "chapter_id": 3,
+    "complexity": 3,
+    "root": false,
+    "treasures": [
+      5
+    ],
+    "links_to": [
+      53
+    ],
+    "linked_from": [
+      42
+    ],
+    "blocks_on": [
+      {
+        "complete": [
+          50
+        ]
+      }
+    ],
+    "choices": [],
+    "rewards": [
+      "Gain 5 experience each",
+      "Gain 1 inspiration"
+    ],
+    "loot": {
+      "coins": 13,
+      "metal": 3,
+      "hide": 2,
+      "snowthistle": 2
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "boat",
+          "calendar"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "name": "Výbušný sestup",
+    "game": "fh",
+    "coordinates": {
+      "name": "G1",
+      "x": 60.14,
+      "y": 11.04
+    },
+    "chapter_id": 3,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      54
+    ],
+    "linked_from": [
+      42
+    ],
+    "blocks_on": [
+      {
+        "complete": [
+          49
+        ]
+      }
+    ],
+    "choices": [],
+    "rewards": [
+      "Lose 2 inspiration",
+      "Gain 4 collective {LUMBER}",
+      "Gain 4 collective {METAL}"
+    ],
+    "loot": {
+      "coins": 13,
+      "lumber": 2,
+      "hide": 3,
+      "arrowvine": 2
+    },
+    "has_boss": true,
+    "required_by": [
+      {
+        "complete": [
+          "boat",
+          "calendar"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 51,
+    "name": "Síně sirotka",
+    "game": "fh",
+    "coordinates": {
+      "name": "B9",
+      "x": 80.87,
+      "y": 37.9
+    },
+    "chapter_id": 6,
+    "complexity": 3,
+    "root": false,
+    "treasures": [
+      56
+    ],
+    "links_to": [
+      58,
+      59
+    ],
+    "linked_from": [
+      43
+    ],
+    "blocks_on": [],
+    "choices": [
+      58,
+      59
+    ],
+    "rewards": [
+      "Gain 10 experience each",
+      "Gain “Shock Grenades” (Item 74) blueprint"
+    ],
+    "loot": {
+      "coins": 12,
+      "lumber": 2,
+      "metal": 4,
+      "arrowvine": 1,
+      "flamefruit": 1
+    },
+    "has_boss": false,
+    "prompt": "finalNegotiation"
+  },
+  {
+    "id": 52,
+    "name": "Prchavá stálost",
+    "game": "fh",
+    "coordinates": {
+      "name": "G7",
+      "x": 58.65,
+      "y": 30.97
+    },
+    "chapter_id": 5,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      1,
+      28,
+      43,
+      66
+    ],
+    "links_to": [
+      55
+    ],
+    "linked_from": [
+      45,
+      46
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 morale",
+      "Gain 1 inspiration"
+    ],
+    "loot": {
+      "coins": 6,
+      "lumber": 2,
+      "metal": 2,
+      "hide": 5,
+      "corpsecap": 2,
+      "snowthistle": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          45,
+          46
+        ]
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "name": "Podmořský trůn",
+    "game": "fh",
+    "coordinates": {
+      "name": "E2",
+      "x": 65.55,
+      "y": 14.36
+    },
+    "chapter_id": 3,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      60
+    ],
+    "linked_from": [
+      49
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 ✔ each"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 2,
+      "metal": 2,
+      "hide": 3,
+      "arrowvine": 2,
+      "axenut": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": true,
+    "required_by": [
+      {
+        "complete": [
+          "boat"
+        ]
+      }
+    ],
+    "achievements_awarded": [
+      "CCCS"
+    ]
+  },
+  {
+    "id": 54,
+    "name": "Mezi troskami",
+    "game": "fh",
+    "coordinates": {
+      "name": "F1",
+      "x": 65.28,
+      "y": 11.17
+    },
+    "chapter_id": 3,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      5,
+      63
+    ],
+    "links_to": [
+      60
+    ],
+    "linked_from": [
+      50
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 ✔ each"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 2,
+      "metal": 2,
+      "hide": 3,
+      "arrowvine": 2,
+      "axenut": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": true,
+    "achievements_awarded": [
+      "CCCS"
+    ]
+  },
+  {
+    "id": 55,
+    "name": "Změna srdce",
+    "game": "fh",
+    "coordinates": {
+      "name": "M8",
+      "x": 34.63,
+      "y": 32.45
+    },
+    "chapter_id": 5,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      41
+    ],
+    "links_to": [],
+    "linked_from": [
+      52
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 morale",
+      "Gain 2 prosperity",
+      "Unlock whichever class box is still locked: {FF} or {SD}",
+      "Remove all {ALGOX} events from all outpost event decks",
+      "Add events WO-66 and WO-67 to the winter outpost deck",
+      "Add one +50 card to town guard deck"
+    ],
+    "loot": {
+      "coins": 3,
+      "lumber": 2,
+      "metal": 4,
+      "hide": 2,
+      "corpsecap": 1,
+      "rockroot": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": true,
+    "achievements_awarded": [
+      "CFFS"
+    ]
+  },
+  {
+    "id": 56,
+    "name": "Volání zvěstovatele",
+    "game": "fh",
+    "coordinates": {
+      "name": "R4",
+      "x": 11.34,
+      "y": 19.43
+    },
+    "chapter_id": 2,
+    "complexity": 3,
+    "root": false,
+    "treasures": [
+      4
+    ],
+    "links_to": [],
+    "linked_from": [
+      47
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 morale",
+      "Gain 1 inspiration",
+      "Unlock {FF} class box",
+      "Add event SO-51 to the summer outpost deck",
+      "Add one +50 card to town guard deck"
+    ],
+    "loot": {
+      "coins": 6,
+      "lumber": 5,
+      "metal": 2,
+      "hide": 2,
+      "flamefruit": 2,
+      "rockroot": 2
+    },
+    "has_boss": true,
+    "achievements_awarded": [
+      "CFIS"
+    ]
+  },
+  {
+    "id": 57,
+    "name": "Svatyně sněhu",
+    "game": "fh",
+    "coordinates": {
+      "name": "D1",
+      "x": 71.37,
+      "y": 11.15
+    },
+    "chapter_id": 4,
+    "complexity": 3,
+    "root": false,
+    "treasures": [
+      53
+    ],
+    "links_to": [],
+    "linked_from": [
+      48
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 morale",
+      "Gain 1 inspiration",
+      "Unlock {SD} class box",
+      "Add event WO-68 to the winter outpost deck",
+      "Add one +50 card to town guard deck"
+    ],
+    "loot": {},
+    "has_boss": true,
+    "required_by": [
+      {
+        "complete": [
+          "boat"
+        ]
+      }
+    ],
+    "achievements_awarded": [
+      "CFSS"
+    ]
+  },
+  {
+    "id": 58,
+    "name": "Jádro sirotka",
+    "game": "fh",
+    "coordinates": {
+      "name": "A10",
+      "x": 83.59,
+      "y": 40.3
+    },
+    "chapter_id": 6,
+    "complexity": 3,
+    "root": false,
+    "treasures": [
+      81
+    ],
+    "links_to": [],
+    "linked_from": [
+      44,
+      51
+    ],
+    "blocks_on": [
+      {
+        "complete": [
+          59
+        ]
+      }
+    ],
+    "choices": [],
+    "rewards": [
+      "Gain 1 morale",
+      "Gain “Key Card” (Item 246)",
+      "Gain 3 collective {LUMBER}",
+      "Gain 3 collective {METAL}",
+      "Gain 3 collective {HIDE}",
+      "Unlock {HV} class box",
+      "Remove all {UNFETTERED} events from all outpost event decks",
+      "Add events WO-64 and WO-65 to the winter outpost deck",
+      "Add one +50 card to town guard deck"
+    ],
+    "loot": {
+      "coins": 6,
+      "lumber": 2,
+      "metal": 4,
+      "corpsecap": 1,
+      "flamefruit": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "achievements_awarded": [
+      "CUD"
+    ]
+  },
+  {
+    "id": 59,
+    "name": "Povstání automatů",
+    "game": "fh",
+    "coordinates": {
+      "name": "A11",
+      "x": 80.55,
+      "y": 43.24
+    },
+    "chapter_id": 6,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      7
+    ],
+    "links_to": [],
+    "linked_from": [
+      44,
+      51
+    ],
+    "blocks_on": [
+      {
+        "complete": [
+          58
+        ]
+      }
+    ],
+    "choices": [],
+    "rewards": [
+      "Gain 2 morale",
+      "Gain 2 prosperity",
+      "Gain “Key Card” (Item 246)",
+      "Unlock {HV} class box",
+      "Remove all {UNFETTERED} events from all outpost event decks",
+      "Add event SO-49 to the summer outpost deck and event WO-63 to the winter outpost deck",
+      "Add one +50 card to town guard deck"
+    ],
+    "loot": {
+      "coins": 11,
+      "metal": 4,
+      "axenut": 1,
+      "rockroot": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "achievements_awarded": [
+      "CUA"
+    ]
+  },
+  {
+    "id": 60,
+    "name": "Sjednocení koruny",
+    "game": "fh",
+    "coordinates": {
+      "name": "G2",
+      "x": 60.87,
+      "y": 12.7
+    },
+    "chapter_id": 3,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [],
+    "linked_from": [
+      53,
+      54
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 morale",
+      "Gain 1 prosperity",
+      "Gain 30 experience each",
+      "Unlock whichever class box is still locked: {CR} or {DT}",
+      "Remove all {LURKERS} events from all outpost event decks",
+      "Add event SO-48 to the summer outpost deck and event B-17 to the boat deck",
+      "Add one +50 card to town guard deck"
+    ],
+    "loot": {
+      "coins": 8,
+      "arrowvine": 1,
+      "axenut": 1,
+      "corpsecap": 1,
+      "flamefruit": 1,
+      "rockroot": 1,
+      "snowthistle": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": true,
+    "required_by": [
+      {
+        "complete": [
+          "boat"
+        ]
+      }
+    ],
+    "achievements_awarded": [
+      "CCU"
+    ]
+  },
+  {
+    "id": 61,
+    "name": "Život a smrt",
+    "game": "fh",
+    "coordinates": {
+      "name": "I11",
+      "x": 53.2,
+      "y": 44.9
+    },
+    "chapter_id": 108,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      76
+    ],
+    "links_to": [
+      62
+    ],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Unlock {SH} class box",
+      "Add section 140.3 to the calendar in one week"
+    ],
+    "loot": {
+      "coins": 5,
+      "lumber": 4,
+      "metal": 4,
+      "hide": 4,
+      "corpsecap": 2,
+      "rockroot": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 62,
+    "name": "Nespoutaná pečeť",
+    "game": "fh",
+    "coordinates": {
+      "name": "B8",
+      "x": 82.95,
+      "y": 36.11
+    },
+    "chapter_id": 108,
+    "complexity": 3,
+    "root": false,
+    "treasures": [
+      21
+    ],
+    "links_to": [
+      63
+    ],
+    "linked_from": [
+      61
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 prosperity"
+    ],
+    "loot": {
+      "coins": 5,
+      "lumber": 4,
+      "metal": 4,
+      "hide": 4,
+      "arrowvine": 2,
+      "snowthistle": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "puzzle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 63,
+    "name": "Savvasská pečeť",
+    "game": "fh",
+    "coordinates": {
+      "name": "G12",
+      "x": 58.48,
+      "y": 47.77
+    },
+    "chapter_id": 108,
+    "complexity": 3,
+    "root": false,
+    "treasures": [
+      72
+    ],
+    "links_to": [
+      64
+    ],
+    "linked_from": [
+      62
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 prosperity"
+    ],
+    "loot": {
+      "coins": 5,
+      "lumber": 4,
+      "metal": 4,
+      "hide": 4,
+      "corpsecap": 2,
+      "rockroot": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 64,
+    "name": "Frosthavenská pečeť",
+    "game": "fh",
+    "coordinates": {
+      "name": "FR",
+      "x": 33.07,
+      "y": 73.07
+    },
+    "chapter_id": 108,
+    "complexity": 3,
+    "root": false,
+    "treasures": [],
+    "links_to": [],
+    "linked_from": [
+      63
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 3 morale",
+      "Gain 3 prosperity",
+      "Gain 3 ✔ each"
+    ],
+    "loot": {
+      "coins": 5,
+      "lumber": 4,
+      "metal": 4,
+      "hide": 4,
+      "axenut": 2,
+      "flamefruit": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": true
+  },
+  {
+    "id": 65,
+    "name": "Pevné základy",
+    "game": "fh",
+    "coordinates": {
+      "name": "L4",
+      "x": 38.7,
+      "y": 22.47
+    },
+    "chapter_id": 107,
+    "complexity": 1,
+    "root": false,
+    "treasures": [
+      39
+    ],
+    "links_to": [
+      66
+    ],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 collective {LUMBER}",
+      "Gain 2 collective {METAL}",
+      "Add 95.4 to the calendar in six weeks"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 2,
+      "metal": 2,
+      "hide": 4,
+      "arrowvine": 2,
+      "snowthistle": 2
+    },
+    "has_boss": false
+  },
+  {
+    "id": 66,
+    "name": "Elementální jádra",
+    "game": "fh",
+    "coordinates": {
+      "name": "L4",
+      "x": 35.08,
+      "y": 20.08
+    },
+    "chapter_id": 107,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      67
+    ],
+    "linked_from": [
+      65
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain “Elemental Stone” (Item 212)",
+      "Add 29.3 to the calendar in six weeks"
+    ],
+    "loot": {
+      "coins": 12,
+      "lumber": 2,
+      "metal": 2,
+      "hide": 2,
+      "arrowvine": 1,
+      "axenut": 1,
+      "corpsecap": 1,
+      "flamefruit": 1,
+      "rockroot": 1,
+      "snowthistle": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "calendar"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 67,
+    "name": "Sladění jádra",
+    "game": "fh",
+    "coordinates": {
+      "name": "K4",
+      "x": 40.54,
+      "y": 20.2
+    },
+    "chapter_id": 107,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      68
+    ],
+    "linked_from": [
+      66
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 morale",
+      "Gain 1 prosperity"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 3,
+      "metal": 3,
+      "hide": 3,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "calendar"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 68,
+    "name": "Tvář utrpení",
+    "game": "fh",
+    "coordinates": {
+      "name": "L3",
+      "x": 40.37,
+      "y": 15.87
+    },
+    "chapter_id": 107,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      59
+    ],
+    "links_to": [],
+    "linked_from": [
+      67
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "“Aesther Outpost” personal quest complete",
+      "Add 133.1 to the calendar in two weeks"
+    ],
+    "loot": {
+      "lumber": 5,
+      "metal": 5,
+      "hide": 5,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 69,
+    "name": "Posvátná půda",
+    "game": "fh",
+    "coordinates": {
+      "name": "P2",
+      "x": 20.93,
+      "y": 14.05
+    },
+    "chapter_id": 107,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      70
+    ],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 {ARROWVINE}",
+      "Gain 1 {AXENUT}",
+      "Gain 1 {FLAMEFRUIT}",
+      "Add 15.4 to the calendar in three weeks"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 5,
+      "hide": 4,
+      "axenut": 2,
+      "flamefruit": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "CITF"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 70,
+    "name": "Pravý dub",
+    "game": "fh",
+    "coordinates": {
+      "name": "Q2",
+      "x": 16.67,
+      "y": 13.25
+    },
+    "chapter_id": 107,
+    "complexity": 1,
+    "root": false,
+    "treasures": [
+      82
+    ],
+    "links_to": [],
+    "linked_from": [
+      69
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "“The True Oak” personal quest complete",
+      "Gain 1 Prosperity"
+    ],
+    "loot": {
+      "coins": 7,
+      "lumber": 5,
+      "hide": 3,
+      "axenut": 2,
+      "flamefruit": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "calendar"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 71,
+    "name": "Invaze na přístav",
+    "game": "fh",
+    "coordinates": {
+      "name": "FR",
+      "x": 76.77,
+      "y": 75.7
+    },
+    "chapter_id": 107,
+    "complexity": 3,
+    "root": false,
+    "treasures": [
+      22,
+      23
+    ],
+    "links_to": [
+      72
+    ],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Damage any one even building between 71 and 89",
+      "Gain 10 experience each",
+      "Add 149.5 to the calendar in five weeks"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 4,
+      "metal": 4,
+      "hide": 4
+    },
+    "has_boss": false
+  },
+  {
+    "id": 72,
+    "name": "Obří kus ledu",
+    "game": "fh",
+    "coordinates": {
+      "name": "A5",
+      "x": 84.8,
+      "y": 24.85
+    },
+    "chapter_id": 107,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      37
+    ],
+    "links_to": [
+      73
+    ],
+    "linked_from": [
+      71
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 ✔ each"
+    ],
+    "loot": {
+      "coins": 9,
+      "lumber": 3,
+      "metal": 3,
+      "corpsecap": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "calendar"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 73,
+    "name": "Trosky na moři",
+    "game": "fh",
+    "coordinates": {
+      "name": "D3",
+      "x": 74.57,
+      "y": 16.95
+    },
+    "chapter_id": 107,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      33
+    ],
+    "links_to": [
+      74
+    ],
+    "linked_from": [
+      72
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 3 collective {LUMBER}",
+      "Add 146.1 to the calendar in five weeks"
+    ],
+    "loot": {
+      "coins": 9,
+      "lumber": 5,
+      "hide": 3,
+      "arrowvine": 2,
+      "flamefruit": 1
+    },
+    "has_boss": true,
+    "prompt": "friendOfTheFishKing"
+  },
+  {
+    "id": 74,
+    "name": "Mezery v cestě",
+    "game": "fh",
+    "coordinates": {
+      "name": "G6",
+      "x": 60.15,
+      "y": 28.51
+    },
+    "chapter_id": 107,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      75,
+      76
+    ],
+    "linked_from": [
+      73
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain one random item blueprint"
+    ],
+    "loot": {
+      "coins": 7,
+      "lumber": 5,
+      "metal": 2,
+      "hide": 3,
+      "arrowvine": 2,
+      "flamefruit": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "calendar"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 75,
+    "name": "Infiltrace doupěte",
+    "game": "fh",
+    "coordinates": {
+      "name": "C2",
+      "x": 76.05,
+      "y": 12.71
+    },
+    "chapter_id": 107,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      20,
+      51,
+      55
+    ],
+    "links_to": [
+      77
+    ],
+    "linked_from": [
+      74
+    ],
+    "blocks_on": [
+      {
+        "complete": [
+          "CFFK"
+        ]
+      }
+    ],
+    "choices": [],
+    "rewards": [
+      "Gain 10 gold each"
+    ],
+    "loot": {
+      "coins": 8,
+      "metal": 2,
+      "hide": 5,
+      "axenut": 1,
+      "snowthistle": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "boat"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 76,
+    "name": "Apoteóza",
+    "game": "fh",
+    "coordinates": {
+      "name": "B2",
+      "x": 80.63,
+      "y": 14.12
+    },
+    "chapter_id": 107,
+    "complexity": 3,
+    "root": false,
+    "treasures": [
+      2,
+      55
+    ],
+    "links_to": [
+      77
+    ],
+    "linked_from": [
+      74
+    ],
+    "blocks_on": [
+      {
+        "incomplete": [
+          "CFFK"
+        ]
+      }
+    ],
+    "choices": [
+      77
+    ],
+    "rewards": [
+      [
+        "“Threat from the Deep” personal quest complete",
+        "Gain “Wave Blade” (Item 201)",
+        "Add event B-18 to the boat deck"
+      ],
+      []
+    ],
+    "loot": {
+      "coins": 9,
+      "metal": 2,
+      "hide": 5,
+      "axenut": 1,
+      "snowthistle": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "prompt": "acceptTheAscension",
+    "required_by": [
+      {
+        "complete": [
+          "boat"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 77,
+    "name": "Vzestup Rybího krále",
+    "game": "fh",
+    "coordinates": {
+      "name": "B1",
+      "x": 79.85,
+      "y": 11
+    },
+    "chapter_id": 107,
+    "complexity": 3,
+    "root": false,
+    "treasures": [],
+    "links_to": [],
+    "linked_from": [
+      75,
+      76
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "“Threat from the Deep” personal quest complete",
+      "Gain “Wave Blade” (Item 201)",
+      "Add event B-19 to the boat deck"
+    ],
+    "loot": {
+      "coins": 4,
+      "lumber": 2,
+      "metal": 2,
+      "hide": 2,
+      "corpsecap": 2,
+      "flamefruit": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": true,
+    "required_by": [
+      {
+        "complete": [
+          "boat"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 78,
+    "name": "Problém Lurkerů",
+    "game": "fh",
+    "coordinates": {
+      "name": "H5",
+      "x": 55.15,
+      "y": 23.82
+    },
+    "chapter_id": 111,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      58,
+      13
+    ],
+    "links_to": [],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 10 experience each"
+    ],
+    "loot": {
+      "coins": 6,
+      "lumber": 3,
+      "metal": 3,
+      "hide": 4,
+      "arrowvine": 2,
+      "rockroot": 2
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "rope"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 79,
+    "name": "Relikvie",
+    "game": "fh",
+    "coordinates": {
+      "name": "B5",
+      "x": 80.22,
+      "y": 25.75
+    },
+    "chapter_id": 111,
+    "complexity": 3,
+    "root": false,
+    "treasures": [
+      8
+    ],
+    "links_to": [
+      80
+    ],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 3 morale",
+      "Add 45.2 to the calendar in three weeks"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 3,
+      "metal": 5,
+      "hide": 2,
+      "corpsecap": 2
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "sled"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 80,
+    "name": "Obnovená relikvie",
+    "game": "fh",
+    "coordinates": {
+      "name": "FR",
+      "x": 17.97,
+      "y": 58.28
+    },
+    "chapter_id": 111,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      62,
+      69
+    ],
+    "links_to": [],
+    "linked_from": [
+      79
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 collective {LUMBER}",
+      "Gain 2 collective {METAL}",
+      "Gain 2 collective {HIDE}",
+      "Gain 2 morale"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 2,
+      "metal": 3,
+      "hide": 2,
+      "axenut": 1,
+      "rockroot": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": true,
+    "required_by": [
+      {
+        "complete": [
+          "calendar"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 81,
+    "name": "Zničená výzkumná laboratoř",
+    "game": "fh",
+    "coordinates": {
+      "name": "A12",
+      "x": 83.67,
+      "y": 46.7
+    },
+    "chapter_id": 110,
+    "complexity": 3,
+    "root": false,
+    "treasures": [
+      19
+    ],
+    "links_to": [],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 prosperity",
+      "Gain “Aesther Robe” (Item 70) blueprint"
+    ],
+    "loot": {
+      "coins": 9,
+      "lumber": 2,
+      "metal": 5,
+      "hide": 2,
+      "rockroot": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "puzzle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 82,
+    "name": "Expedice na sever",
+    "game": "fh",
+    "coordinates": {
+      "name": "P8",
+      "x": 20.7,
+      "y": 34.03
+    },
+    "chapter_id": 110,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 prosperity",
+      "Add the following Forgotten Circles items to the Frosthaven supply: 153, 159, and 161"
+    ],
+    "loot": {
+      "coins": 12,
+      "lumber": 1,
+      "rockroot": 1,
+      "snowthistle": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "calendar"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 83,
+    "name": "Stoupající solanka",
+    "game": "fh",
+    "coordinates": {
+      "name": "E3",
+      "x": 67.76,
+      "y": 20.76
+    },
+    "chapter_id": 111,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain “Giant Piranha Pig Spine” (Item 202)"
+    ],
+    "loot": {
+      "coins": 7,
+      "lumber": 3,
+      "metal": 3,
+      "hide": 3,
+      "arrowvine": 2,
+      "flamefruit": 1,
+      "snowthistle": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "boat"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 84,
+    "name": "Tady jsou slizáci",
+    "game": "fh",
+    "coordinates": {
+      "name": "R5",
+      "x": 11.5,
+      "y": 24.72
+    },
+    "chapter_id": 111,
+    "complexity": 3,
+    "root": false,
+    "treasures": [],
+    "links_to": [],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain “Ooze Vial” (Item 234)"
+    ],
+    "loot": {
+      "coins": 15,
+      "lumber": 3,
+      "metal": 3,
+      "corpsecap": 2,
+      "random-item-treasure": 1
+    },
+    "has_boss": true,
+    "achievements_awarded": [
+      "CBT"
+    ]
+  },
+  {
+    "id": 85,
+    "name": "Smrtelné zábavy",
+    "game": "fh",
+    "coordinates": {
+      "name": "O5",
+      "x": 24.14,
+      "y": 25.88
+    },
+    "chapter_id": 111,
+    "complexity": 3,
+    "root": false,
+    "treasures": [],
+    "links_to": [],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 15 experience each",
+      "Gain 1 ✔ each"
+    ],
+    "loot": {
+      "coins": 7,
+      "lumber": 2,
+      "metal": 3,
+      "hide": 4,
+      "rockroot": 2,
+      "snowthistle": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "rope"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 86,
+    "name": "Paní v bílém",
+    "game": "fh",
+    "coordinates": {
+      "name": "FR",
+      "x": 71,
+      "y": 60.4
+    },
+    "chapter_id": 111,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      17
+    ],
+    "links_to": [],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 morale"
+    ],
+    "loot": {
+      "coins": 10,
+      "lumber": 4,
+      "hide": 2,
+      "arrowvine": 2,
+      "axenut": 1,
+      "flamefruit": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 87,
+    "name": "Sbírka",
+    "game": "fh",
+    "coordinates": {
+      "name": "J7",
+      "x": 47.06,
+      "y": 31.16
+    },
+    "chapter_id": 111,
+    "complexity": 1,
+    "root": false,
+    "treasures": [
+      27,
+      38
+    ],
+    "links_to": [
+      88
+    ],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      [
+        "Gain 2 inspiration"
+      ],
+      [
+        "Gain 1 inspiration"
+      ]
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 2,
+      "metal": 4,
+      "hide": 3,
+      "arrowvine": 1,
+      "corpsecap": 1,
+      "rockroot": 1
+    },
+    "has_boss": false,
+    "prompt": "brothersSurvival"
+  },
+  {
+    "id": 88,
+    "name": "Vrchol sbírky",
+    "game": "fh",
+    "coordinates": {
+      "name": "I7",
+      "x": 52.28,
+      "y": 32.32
+    },
+    "chapter_id": 111,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      6
+    ],
+    "links_to": [],
+    "linked_from": [
+      87
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 morale"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 3,
+      "metal": 4,
+      "hide": 2,
+      "corpsecap": 1,
+      "rockroot": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 89,
+    "name": "Zadržený oheň",
+    "game": "fh",
+    "coordinates": {
+      "name": "G10",
+      "x": 61.7,
+      "y": 38.9
+    },
+    "chapter_id": 111,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      42
+    ],
+    "links_to": [],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 collective {ROCKROOT}",
+      "Gain 2 collective {LUMBER}"
+    ],
+    "loot": {
+      "coins": 10,
+      "lumber": 2,
+      "metal": 2,
+      "hide": 2,
+      "arrowvine": 2,
+      "flamefruit": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 90,
+    "name": "Zmrzlý poklad",
+    "game": "fh",
+    "coordinates": {
+      "name": "I3",
+      "x": 49.65,
+      "y": 17.54
+    },
+    "chapter_id": 111,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      91
+    ],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      [
+        "Gain 1 ✔ each",
+        "Each character gains 10 gold for each numbered token they looted",
+        "Lose 10 collective gold"
+      ],
+      [
+        "Gain 1 ✔ each",
+        "Each character gains 10 gold for each numbered token they looted",
+        "Lose 5 collective gold",
+        "All characters start the next scenario with {MUDDLE.fh} and {CURSE.fh}"
+      ]
+    ],
+    "loot": {
+      "coins": 5,
+      "lumber": 4,
+      "hide": 4,
+      "snowthistle": 2
+    },
+    "has_boss": false,
+    "prompt": "rattuscasShare"
+  },
+  {
+    "id": 91,
+    "name": "Bitva na pobřeží",
+    "game": "fh",
+    "coordinates": {
+      "name": "J4",
+      "x": 45.44,
+      "y": 21.75
+    },
+    "chapter_id": 111,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [],
+    "linked_from": [
+      90
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 2 collective {LUMBER}",
+      "Gain 1 morale"
+    ],
+    "loot": {
+      "coins": 10,
+      "lumber": 4,
+      "hide": 4,
+      "flamefruit": 1,
+      "snowthistle": 1
+    },
+    "has_boss": false
+  },
+  {
+    "id": 92,
+    "name": "Potápějící se loď",
+    "game": "fh",
+    "coordinates": {
+      "name": "I4",
+      "x": 50.92,
+      "y": 19.38
+    },
+    "chapter_id": 111,
+    "complexity": 3,
+    "root": false,
+    "treasures": [],
+    "links_to": [],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Collectively lose 5xC/2 loot tokens. Loot tokens are then traded in for loot cards",
+      "Add 181.2 to the calendar in one week"
+    ],
+    "loot": {
+      "coins": 7,
+      "lumber": 4,
+      "metal": 3,
+      "hide": 2,
+      "axenut": 2,
+      "flamefruit": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "boat"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 93,
+    "name": "Rvačka uprostřed zimy",
+    "game": "fh",
+    "coordinates": {
+      "name": "H7",
+      "x": 55.47,
+      "y": 32.17
+    },
+    "chapter_id": 111,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      [
+        "Gain “Small Rat” (Item 235)"
+      ],
+      [
+        "Gain “Roasted Fowl” (Item 79)"
+      ]
+    ],
+    "loot": {
+      "coins": 9,
+      "lumber": 4,
+      "metal": 2,
+      "hide": 2,
+      "axenut": 1,
+      "flamefruit": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "prompt": "peaceNegotiations"
+  },
+  {
+    "id": 94,
+    "name": "Velkolepý výhled",
+    "game": "fh",
+    "coordinates": {
+      "name": "B6",
+      "x": 81.16,
+      "y": 27.9
+    },
+    "chapter_id": 111,
+    "complexity": 3,
+    "root": false,
+    "treasures": [
+      12,
+      29
+    ],
+    "links_to": [
+      95
+    ],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 10 experience each"
+    ],
+    "loot": {
+      "coins": 9,
+      "lumber": 3,
+      "metal": 5,
+      "arrowvine": 1,
+      "rockroot": 1,
+      "random-item-treasure": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "sled"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 95,
+    "name": "Pohřbít mrtvé",
+    "game": "fh",
+    "coordinates": {
+      "name": "FR",
+      "x": 23.97,
+      "y": 61.51
+    },
+    "chapter_id": 111,
+    "complexity": 2,
+    "root": false,
+    "treasures": [],
+    "links_to": [],
+    "linked_from": [
+      94
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 morale",
+      "Gain 10 gold each"
+    ],
+    "loot": {
+      "coins": 8,
+      "lumber": 4,
+      "metal": 2,
+      "corpsecap": 2,
+      "snowthistle": 2
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "calendar"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 96,
+    "name": "Podzemní stanice",
+    "game": "fh",
+    "coordinates": {
+      "name": "E11",
+      "x": 70.17,
+      "y": 44.85
+    },
+    "chapter_id": 111,
+    "complexity": 2,
+    "root": false,
+    "treasures": [
+      10
+    ],
+    "links_to": [
+      97
+    ],
+    "linked_from": [],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 morale",
+      "Gain 5 experience each"
+    ],
+    "loot": {
+      "coins": 14,
+      "lumber": 1,
+      "metal": 3,
+      "axenut": 1,
+      "rockroot": 1
+    },
+    "has_boss": false,
+    "required_by": [
+      {
+        "complete": [
+          "rope"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 97,
+    "name": "Řídicí centrum programu",
+    "game": "fh",
+    "coordinates": {
+      "name": "D12",
+      "x": 71.03,
+      "y": 48
+    },
+    "chapter_id": 111,
+    "complexity": 3,
+    "root": false,
+    "treasures": [],
+    "links_to": [
+      98
+    ],
+    "linked_from": [
+      96
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 5 collective {METAL}"
+    ],
+    "loot": {
+      "coins": 10,
+      "lumber": 2,
+      "metal": 4,
+      "random-item-treasure": 1
+    },
+    "has_boss": true
+  },
+  {
+    "id": 98,
+    "name": "Hroutící se průduch",
+    "game": "fh",
+    "coordinates": {
+      "name": "E12",
+      "x": 67.2,
+      "y": 48.8
+    },
+    "chapter_id": 111,
+    "complexity": 1,
+    "root": false,
+    "treasures": [
+      35,
+      65
+    ],
+    "links_to": [],
+    "linked_from": [
+      97
+    ],
+    "blocks_on": [],
+    "choices": [],
+    "rewards": [
+      "Gain 1 prosperity"
+    ],
+    "loot": {
+      "coins": 10,
+      "lumber": 1,
+      "metal": 4,
+      "hide": 3,
+      "rockroot": 2
+    },
+    "has_boss": false
+  }
+]

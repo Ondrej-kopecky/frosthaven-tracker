@@ -1,0 +1,28 @@
+import { apiPost, apiPostForm, apiGet } from './apiClient'
+
+export interface AuthUser {
+  id: number
+  email: string
+  username: string
+  is_verified: boolean
+}
+
+export function register(email: string, username: string, password: string) {
+  return apiPost<{ message: string }>('/auth/register', { email, username, password })
+}
+
+export function verify(email: string, code: string) {
+  return apiPost<{ message: string }>('/auth/verify', { email, code })
+}
+
+export function resendCode(email: string) {
+  return apiPost<{ message: string }>('/auth/resend-code', { email })
+}
+
+export function login(email: string, password: string) {
+  return apiPostForm<{ access_token: string; token_type: string }>('/auth/login', { username: email, password })
+}
+
+export function getMe() {
+  return apiGet<AuthUser>('/auth/me')
+}

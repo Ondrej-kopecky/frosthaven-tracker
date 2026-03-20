@@ -1,0 +1,261 @@
+@import "tailwindcss";
+
+@theme {
+  /* Frosthaven: winter/ice palette */
+  --color-fh-dark: #060a12;
+  --color-fh-dark-alt: #0a1020;
+  --color-fh-card: #0d1528;
+  --color-fh-card-hover: #121d35;
+  --color-fh-border: #1a2744;
+  --color-fh-border-light: #243558;
+  --color-fh-primary: #5ba4cf;
+  --color-fh-primary-light: #7dbde5;
+  --color-fh-primary-dim: #3a7a9e;
+  --color-fh-primary-glow: rgba(91, 164, 207, 0.15);
+  --color-fh-frost: #a8d8ea;
+  --color-fh-ice: #cce7f0;
+  --color-fh-completed: #22c55e;
+  --color-fh-available: #5ba4cf;
+  --color-fh-locked: #5a6577;
+  --color-fh-blocked: #ef4444;
+  --color-fh-required: #eab308;
+  --color-fh-attempted: #f97316;
+  --font-family-display: 'Cinzel', 'Georgia', serif;
+  --font-family-body: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+html {
+  overflow-x: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  font-family: var(--font-family-body);
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(91, 164, 207, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(168, 216, 234, 0.03) 0%, transparent 50%),
+    linear-gradient(180deg, #060a12 0%, #0a1020 30%, #060a12 100%);
+  background-attachment: fixed;
+  color: #e2e8f0;
+}
+
+/* Fantasy display headings */
+.font-display {
+  font-family: var(--font-family-display);
+  letter-spacing: 0.05em;
+}
+
+/* Consistent card style */
+.fh-card {
+  background: linear-gradient(135deg, #0d1528 0%, #0a1020 100%);
+  border: 1px solid #1a2744;
+  border-radius: 0.875rem;
+  transition: all 0.3s ease;
+}
+.fh-card:hover {
+  border-color: rgba(91, 164, 207, 0.25);
+  box-shadow: 0 0 20px rgba(91, 164, 207, 0.05), 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Interactive card (clickable) */
+.fh-card-interactive {
+  cursor: pointer;
+}
+.fh-card-interactive:hover {
+  border-color: rgba(91, 164, 207, 0.35);
+  box-shadow: 0 0 25px rgba(91, 164, 207, 0.08), 0 8px 30px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Ice glow button */
+.fh-btn-primary {
+  background: linear-gradient(135deg, #5ba4cf 0%, #3a7a9e 100%);
+  color: #060a12;
+  font-weight: 600;
+  border-radius: 0.625rem;
+  padding: 0.625rem 1.25rem;
+  transition: all 0.3s ease;
+  border: none;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+.fh-btn-primary:hover {
+  box-shadow: 0 0 25px rgba(91, 164, 207, 0.35), 0 4px 15px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #7dbde5 0%, #5ba4cf 100%);
+}
+
+.fh-btn-secondary {
+  background: rgba(91, 164, 207, 0.08);
+  color: #5ba4cf;
+  border: 1px solid rgba(91, 164, 207, 0.2);
+  font-weight: 500;
+  border-radius: 0.625rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+.fh-btn-secondary:hover {
+  background: rgba(91, 164, 207, 0.15);
+  border-color: rgba(91, 164, 207, 0.4);
+  box-shadow: 0 0 15px rgba(91, 164, 207, 0.1);
+}
+
+.fh-btn-ghost {
+  background: rgba(255, 255, 255, 0.03);
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-weight: 500;
+  border-radius: 0.625rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+}
+.fh-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #e2e8f0;
+}
+
+/* Consistent input style */
+.fh-input {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #1a2744;
+  border-radius: 0.625rem;
+  padding: 0.625rem 0.875rem;
+  color: #e2e8f0;
+  transition: all 0.3s ease;
+  outline: none;
+}
+.fh-input::placeholder {
+  color: #4a5568;
+}
+.fh-input:focus {
+  border-color: rgba(91, 164, 207, 0.5);
+  box-shadow: 0 0 0 3px rgba(91, 164, 207, 0.08), 0 0 20px rgba(91, 164, 207, 0.06);
+}
+select.fh-input option {
+  background: #0d1528;
+  color: #e2e8f0;
+}
+
+/* Section divider with ornament */
+.fh-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #4a5568;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+.fh-divider::before,
+.fh-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #1a2744, transparent);
+}
+
+/* Page header decoration */
+.fh-page-header {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-top: 0.5rem;
+}
+.fh-page-header::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 2px;
+  margin-top: 0.75rem;
+  background: linear-gradient(90deg, #5ba4cf, transparent);
+  border-radius: 1px;
+}
+
+/* Status badge base */
+.fh-badge {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  letter-spacing: 0.02em;
+}
+
+/* Subtle glow for active/highlighted elements */
+.fh-glow-ice {
+  box-shadow: 0 0 20px rgba(91, 164, 207, 0.12);
+}
+.fh-glow-green {
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.12);
+}
+.fh-glow-frost {
+  box-shadow: 0 0 20px rgba(168, 216, 234, 0.12);
+}
+
+/* Stat card for numbers */
+.fh-stat {
+  text-align: center;
+  padding: 1.25rem;
+}
+.fh-stat-value {
+  font-family: var(--font-family-display);
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.fh-stat-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #64748b;
+  margin-top: 0.5rem;
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #1a2744;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #243558;
+}
+
+/* Smooth transitions */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Selection */
+::selection {
+  background: rgba(91, 164, 207, 0.3);
+  color: #fff;
+}
+
+/* Safe area utilities */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Frost progress bar gradient */
+.fh-progress-bar {
+  background: linear-gradient(90deg, #3a7a9e 0%, #5ba4cf 50%, #a8d8ea 100%);
+  border-radius: 9999px;
+}

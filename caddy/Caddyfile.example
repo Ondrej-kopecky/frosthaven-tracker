@@ -1,0 +1,33 @@
+# Frosthaven Tracker - Caddy reverse proxy config
+# Add this to your existing Caddyfile on the server
+
+# Option A: As a separate site block
+frosthaven.ongy.cz {
+    # API routes → fh-api backend
+    handle /api/* {
+        reverse_proxy fh-api:8001
+    }
+
+    # Static files → frontend container
+    handle {
+        root * /srv/frosthaven
+        try_files {path} /index.html
+        file_server
+
+        header /assets/* Cache-Control "public, max-age=31536000, immutable"
+        header /img/* Cache-Control "public, max-age=2592000"
+    }
+}
+
+# Option B: As a handler in existing :80 block
+# @frosthaven host frosthaven.ongy.cz
+# handle @frosthaven {
+#     handle /api/* {
+#         reverse_proxy fh-api:8001
+#     }
+#     handle {
+#         root * /srv/frosthaven
+#         try_files {path} /index.html
+#         file_server
+#     }
+# }
