@@ -223,6 +223,64 @@ def send_verification_email(to_email: str, code: str, username: str):
         logger.warning(f"Fallback — verification code for {to_email}: {code}")
 
 
+def send_password_reset_email(to_email: str, code: str, username: str):
+    """Send password reset code."""
+    html = f"""
+    <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 480px; margin: 0 auto;
+                background: linear-gradient(135deg, #0a1628 0%, #0f2847 50%, #0a1628 100%);
+                border: 1px solid #3b82f6; border-radius: 12px; padding: 32px; color: #e2e8f0;">
+        <div style="text-align: center; margin-bottom: 24px;">
+            <h1 style="color: #60a5fa; font-size: 24px; margin: 0;">
+                &#10052; Frosthaven Tracker
+            </h1>
+            <p style="color: #94a3b8; font-size: 13px; margin-top: 4px;">
+                Reset hesla
+            </p>
+        </div>
+        <p style="color: #cbd5e1; font-size: 15px;">
+            Ahoj <strong style="color: #60a5fa;">{username}</strong>,
+        </p>
+        <p style="color: #cbd5e1; font-size: 15px;">
+            Kód pro reset hesla:
+        </p>
+        <div style="text-align: center; margin: 24px 0;">
+            <span style="font-size: 36px; font-weight: bold; letter-spacing: 8px;
+                         color: #60a5fa; background: rgba(59,130,246,0.1);
+                         padding: 12px 24px; border-radius: 8px; border: 1px solid #3b82f6;">
+                {code}
+            </span>
+        </div>
+        <p style="color: #94a3b8; font-size: 13px; text-align: center;">
+            Kód je platný 15 minut.
+        </p>
+        <hr style="border: none; border-top: 1px solid #1e3a5f; margin: 24px 0;">
+        <p style="color: #64748b; font-size: 12px; text-align: center;">
+            Pokud jsi o reset hesla nežádal/a, tento e-mail ignoruj.
+        </p>
+    </div>
+    """
+
+    if not SMTP_USER or not SMTP_PASSWORD:
+        logger.warning(f"SMTP not configured. Reset code for {to_email}: {code}")
+        return
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = f"Frosthaven Tracker — Reset hesla: {code}"
+    msg["From"] = SMTP_FROM
+    msg["To"] = to_email
+    msg.attach(MIMEText(html, "html"))
+
+    try:
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=context) as server:
+            server.login(SMTP_USER, SMTP_PASSWORD)
+            server.sendmail(SMTP_FROM, to_email, msg.as_string())
+        logger.info(f"Password reset email sent to {to_email}")
+    except Exception as e:
+        logger.error(f"Failed to send reset email to {to_email}: {e}")
+        logger.warning(f"Fallback — reset code for {to_email}: {code}")
+
+
 # ---------------------------------------------------------------------------
 # Pydantic models
 # ---------------------------------------------------------------------------
@@ -241,6 +299,16 @@ class VerifyRequest(BaseModel):
 
 class ResendCodeRequest(BaseModel):
     email: EmailStr
+
+
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr
+
+
+class ResetPasswordRequest(BaseModel):
+    email: EmailStr
+    code: str
+    new_password: str
 
 
 class CampaignSaveRequest(BaseModel):
@@ -442,6 +510,60 @@ async def resend_code(req: ResendCodeRequest):
     )
     send_verification_email(req.email, code, user.username)
     return {"message": "Nový ověřovací kód byl odeslán"}
+
+
+@app.post("/api/auth/forgot-password")
+async def forgot_password(req: ForgotPasswordRequest, request: Request):
+    client_ip = request.client.host if request.client else "unknown"
+    check_rate_limit(f"forgot:{client_ip}", max_requests=5, window_seconds=3600)
+
+    user = await database.fetch_one(
+        users.select().where(users.c.email == req.email)
+    )
+    if not user:
+        # Don't reveal if email exists
+        return {"message": "Pokud účet existuje, byl odeslán kód pro reset hesla"}
+
+    code = generate_verification_code()
+    expires = datetime.now(timezone.utc) + timedelta(minutes=15)
+    await database.execute(
+        users.update().where(users.c.id == user.id).values(
+            verification_code=code,
+            verification_code_expires_at=expires,
+        )
+    )
+
+    # Send reset email
+    send_password_reset_email(req.email, code, user.username)
+    return {"message": "Pokud účet existuje, byl odeslán kód pro reset hesla"}
+
+
+@app.post("/api/auth/reset-password")
+async def reset_password(req: ResetPasswordRequest, request: Request):
+    client_ip = request.client.host if request.client else "unknown"
+    check_rate_limit(f"reset:{client_ip}", max_requests=10, window_seconds=3600)
+
+    user = await database.fetch_one(
+        users.select().where(users.c.email == req.email)
+    )
+    if not user:
+        raise HTTPException(400, "Neplatný požadavek")
+    if not user.verification_code or user.verification_code != req.code:
+        raise HTTPException(400, "Nesprávný kód")
+    if user.verification_code_expires_at and user.verification_code_expires_at < datetime.now(timezone.utc):
+        raise HTTPException(400, "Kód vypršel. Požádejte o nový.")
+    if len(req.new_password) < 6:
+        raise HTTPException(400, "Heslo musí mít alespoň 6 znaků")
+
+    hashed = get_password_hash(req.new_password)
+    await database.execute(
+        users.update().where(users.c.id == user.id).values(
+            hashed_password=hashed,
+            verification_code=None,
+            verification_code_expires_at=None,
+        )
+    )
+    return {"message": "Heslo bylo změněno"}
 
 
 @app.post("/api/auth/login")

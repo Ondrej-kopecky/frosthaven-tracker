@@ -85,6 +85,12 @@ const router = createRouter({
       component: () => import('@/pages/RegisterPage.vue'),
       meta: { title: 'Registrace', icon: 'register' },
     },
+    {
+      path: '/zapomenute-heslo',
+      name: 'forgot-password',
+      component: () => import('@/pages/ForgotPasswordPage.vue'),
+      meta: { title: 'Zapomenuté heslo' },
+    },
   ],
 })
 

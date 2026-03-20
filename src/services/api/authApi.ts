@@ -23,6 +23,14 @@ export function login(email: string, password: string) {
   return apiPostForm<{ access_token: string; token_type: string }>('/auth/login', { username: email, password })
 }
 
+export function forgotPassword(email: string) {
+  return apiPost<{ message: string }>('/auth/forgot-password', { email })
+}
+
+export function resetPassword(email: string, code: string, newPassword: string) {
+  return apiPost<{ message: string }>('/auth/reset-password', { email, code, new_password: newPassword })
+}
+
 export function getMe() {
   return apiGet<AuthUser>('/auth/me')
 }

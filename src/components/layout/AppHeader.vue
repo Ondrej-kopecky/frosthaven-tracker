@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore'
 
 const route = useRoute()
+const authStore = useAuthStore()
 const menuOpen = ref(false)
 
 const navItems = [
@@ -48,18 +50,63 @@ function isActive(path: string): boolean {
           </svg>
           {{ item.label }}
         </router-link>
+
+        <!-- User / Login button (desktop) -->
+        <router-link
+          v-if="authStore.isLoggedIn"
+          to="/nastaveni"
+          class="ml-2 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium no-underline bg-fh-primary/10 text-fh-primary hover:bg-fh-primary/20 transition-all"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          {{ authStore.user?.username }}
+        </router-link>
+        <router-link
+          v-else
+          to="/prihlaseni"
+          class="ml-2 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium no-underline text-gray-400 hover:text-fh-primary hover:bg-white/5 transition-all"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+          </svg>
+          Přihlásit
+        </router-link>
       </nav>
 
-      <!-- Mobile hamburger -->
-      <button
-        class="lg:hidden p-2 text-gray-400 hover:text-gray-200 transition-colors"
-        @click="menuOpen = !menuOpen"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-          <path v-if="!menuOpen" stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          <path v-else stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
+      <!-- Mobile: user icon + hamburger -->
+      <div class="lg:hidden flex items-center gap-2">
+        <!-- User badge (mobile) -->
+        <router-link
+          v-if="authStore.isLoggedIn"
+          to="/nastaveni"
+          class="p-2 text-fh-primary no-underline"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        </router-link>
+        <router-link
+          v-else
+          to="/prihlaseni"
+          class="p-2 text-gray-400 hover:text-fh-primary no-underline transition-colors"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+          </svg>
+        </router-link>
+
+        <!-- Hamburger -->
+        <button
+          class="p-2 text-gray-400 hover:text-gray-200 transition-colors"
+          @click="menuOpen = !menuOpen"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path v-if="!menuOpen" stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            <path v-else stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
     </div>
 
     <!-- Mobile slide-out menu -->
@@ -81,6 +128,44 @@ function isActive(path: string): boolean {
             </svg>
             {{ item.label }}
           </router-link>
+
+          <!-- Login/user in mobile menu -->
+          <div class="mt-2 pt-2 border-t border-fh-border/50">
+            <router-link
+              v-if="authStore.isLoggedIn"
+              to="/nastaveni"
+              class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-fh-primary no-underline"
+              @click="menuOpen = false"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              {{ authStore.user?.username }}
+              <span class="text-xs text-gray-500 ml-auto">přihlášen/a</span>
+            </router-link>
+            <template v-else>
+              <router-link
+                to="/prihlaseni"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 no-underline"
+                @click="menuOpen = false"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                </svg>
+                Přihlásit se
+              </router-link>
+              <router-link
+                to="/registrace"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 no-underline"
+                @click="menuOpen = false"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
+                </svg>
+                Registrace
+              </router-link>
+            </template>
+          </div>
         </nav>
       </div>
     </Transition>
