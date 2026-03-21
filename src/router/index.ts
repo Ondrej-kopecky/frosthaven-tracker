@@ -1,5 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+// Pages that don't require a campaign
+const PUBLIC_ROUTES = new Set([
+  'campaign-select', 'login', 'register', 'forgot-password',
+])
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -11,7 +16,7 @@ const router = createRouter({
       path: '/prehled',
       name: 'dashboard',
       component: () => import('@/pages/DashboardPage.vue'),
-      meta: { title: 'Přehled', icon: 'dashboard' },
+      meta: { title: 'Domů', icon: 'dashboard' },
     },
     {
       path: '/mapa',
@@ -110,6 +115,22 @@ const router = createRouter({
       meta: { title: 'Zapomenuté heslo' },
     },
   ],
+})
+
+// Route guard: redirect to campaign select if no campaign exists
+router.beforeEach((to) => {
+  if (PUBLIC_ROUTES.has(to.name as string)) return true
+
+  // Check if a campaign is active (read directly from localStorage to avoid circular deps)
+  const profileId = localStorage.getItem('fh_tracker_active_profile') ?? 'default'
+  const prefix = `fh_tracker_${profileId}_`
+  const activeCampaign = localStorage.getItem(`${prefix}active_campaign`)
+
+  if (!activeCampaign) {
+    return { name: 'campaign-select' }
+  }
+
+  return true
 })
 
 export default router

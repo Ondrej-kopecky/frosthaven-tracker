@@ -4,11 +4,27 @@ import { useRouter } from 'vue-router'
 import { useCampaignStore } from '@/stores/campaignStore'
 import { useScenarioStore } from '@/stores/scenarioStore'
 import { useCharacterStore } from '@/stores/characterStore'
+import { useAuthStore } from '@/stores/authStore'
 
 const router = useRouter()
 const campaignStore = useCampaignStore()
 const scenarioStore = useScenarioStore()
 const characterStore = useCharacterStore()
+const authStore = useAuthStore()
+
+const isSyncing = ref(false)
+
+async function handleCloudSync() {
+  isSyncing.value = true
+  await campaignStore.pullFromCloud()
+  isSyncing.value = false
+}
+
+async function handleCloudPush() {
+  isSyncing.value = true
+  await campaignStore.syncToCloud()
+  isSyncing.value = false
+}
 
 onMounted(async () => {
   if (!campaignStore.hasCampaign) {
@@ -254,7 +270,62 @@ function deleteCampaign() {
       </div>
     </div>
 
-    <!-- 4. Podporte vyvoj -->
+    <!-- 4. Cloud sync -->
+    <div class="fh-divider mb-4">Cloud</div>
+    <div class="fh-card p-5 mb-6 space-y-4">
+      <template v-if="authStore.isLoggedIn">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="text-sm text-gray-200">Synchronizace</div>
+            <div class="text-xs text-gray-500">
+              <template v-if="campaignStore.syncStatus === 'synced'">Synchronizovano</template>
+              <template v-else-if="campaignStore.syncStatus === 'syncing'">Synchronizuji...</template>
+              <template v-else-if="campaignStore.syncStatus === 'error'">Chyba: {{ campaignStore.syncError }}</template>
+              <template v-else>Automaticky se synchronizuje pri zmenach</template>
+            </div>
+          </div>
+          <div
+            class="w-2.5 h-2.5 rounded-full"
+            :class="{
+              'bg-green-500': campaignStore.syncStatus === 'synced',
+              'bg-fh-primary animate-pulse': campaignStore.syncStatus === 'syncing',
+              'bg-red-500': campaignStore.syncStatus === 'error',
+              'bg-gray-600': campaignStore.syncStatus === 'idle',
+            }"
+          ></div>
+        </div>
+        <div class="flex gap-2">
+          <button
+            class="fh-btn-secondary text-sm flex items-center gap-2"
+            :disabled="isSyncing"
+            @click="handleCloudSync"
+          >
+            <svg class="w-4 h-4" :class="isSyncing ? 'animate-spin' : ''" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182M2.985 19.644l3.181-3.182" />
+            </svg>
+            Synchronizovat
+          </button>
+          <button
+            class="fh-btn-ghost text-sm flex items-center gap-2"
+            :disabled="isSyncing"
+            @click="handleCloudPush"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+            </svg>
+            Odeslat do cloudu
+          </button>
+        </div>
+      </template>
+      <template v-else>
+        <div class="text-sm text-gray-400">
+          Pro synchronizaci kampane mezi zarizeni se
+          <router-link to="/prihlaseni" class="text-fh-primary hover:text-fh-primary-light no-underline">prihlaste</router-link>.
+        </div>
+      </template>
+    </div>
+
+    <!-- 5. Podporte vyvoj -->
     <div class="fh-divider mb-4">Podporte vyvoj</div>
     <div class="fh-card p-5 mb-6">
       <p class="text-sm text-gray-400 leading-relaxed">

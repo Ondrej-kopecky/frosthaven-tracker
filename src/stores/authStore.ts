@@ -28,7 +28,15 @@ export const useAuthStore = defineStore('auth', () => {
     if (result.data) {
       setToken(result.data.access_token)
       const me = await getMe()
-      if (me.data) user.value = me.data
+      if (me.data) {
+        user.value = me.data
+        // Auto-sync campaigns from cloud after login
+        try {
+          const { useCampaignStore } = await import('./campaignStore')
+          const campaignStore = useCampaignStore()
+          campaignStore.pullFromCloud()
+        } catch { /* ignore sync errors on login */ }
+      }
       return null
     }
     return 'Neznama chyba'
