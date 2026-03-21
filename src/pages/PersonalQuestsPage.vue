@@ -135,7 +135,7 @@ const filteredQuests = computed(() => {
 
 // Active characters for assignment dropdown
 const activeCharacters = computed(() => {
-  return campaignStore.currentCampaign?.characters?.map((c) => c.name) ?? []
+  return campaignStore.currentCampaign?.characters?.map((c) => c.playerName) ?? []
 })
 
 // Expand/collapse
