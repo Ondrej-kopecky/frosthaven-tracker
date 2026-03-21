@@ -110,17 +110,14 @@ function handleAddCard() {
 
 // ── Buildings ──
 
-// Building levels stored in campaign (buildingLevels: Record<number, number>)
 function getBuildingLevel(id: number): number {
-  const levels = (campaign.value as Record<string, unknown>)?.buildingLevels as Record<number, number> | undefined
-  return levels?.[id] ?? 0
+  return campaign.value?.buildingLevels?.[id] ?? 0
 }
 
 function setBuildingLevel(id: number, level: number) {
   if (!campaign.value) return
-  const c = campaign.value as Record<string, unknown>
-  if (!c.buildingLevels) c.buildingLevels = {}
-  ;(c.buildingLevels as Record<number, number>)[id] = level
+  if (!campaign.value.buildingLevels) campaign.value.buildingLevels = {}
+  campaign.value.buildingLevels[id] = level
   campaignStore.autoSave()
 }
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCampaignStore } from '@/stores/campaignStore'
 import { useScenarioStore } from '@/stores/scenarioStore'
@@ -70,9 +70,15 @@ function centerMap() {
 
 function handleResize() {
   if (!pz) return
+  // Only update min zoom constraint, don't reset user's current view
   pz.setMinZoom(getMinZoom())
-  centerMap()
 }
+
+// Re-init when campaign changes
+watch(() => campaignStore.activeCampaignId, async () => {
+  await scenarioStore.loadScenarioData()
+  selectedId.value = null
+})
 
 // Visible: completed, available, attempted, blocked, required — NOT locked
 const visibleScenarios = computed(() =>
