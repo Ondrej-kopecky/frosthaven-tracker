@@ -229,29 +229,24 @@ function goToOutpost() {
       />
 
       <!-- Built buildings in town area -->
-      <div
+      <img
         v-for="b in builtBuildings"
         :key="'building-' + b.id"
-        class="absolute cursor-pointer transition-all duration-200 hover:scale-110"
+        :src="`/img/buildings/${b.id}-level-${b.level}.webp`"
+        :alt="b.name"
+        :title="b.name + ' (Level ' + b.level + ')'"
+        class="absolute cursor-pointer transition-transform duration-150 hover:scale-125"
         :style="{
           left: b.x + '%',
           top: b.y + '%',
-          transform: 'translate(-50%, -50%)',
+          width: '3.2%',
+          filter: 'drop-shadow(0 0 4px rgba(91,164,207,0.5))',
           zIndex: 15,
         }"
+        loading="lazy"
         @click.stop="goToOutpost"
-      >
-        <img
-          :src="`/img/buildings/${b.id}-level-${getBuildingLevel(b.id)}.webp`"
-          :alt="b.name"
-          class="w-12 h-12 sm:w-16 sm:h-16 rounded-lg border-2 border-fh-primary/40 shadow-lg shadow-fh-primary/20"
-          loading="lazy"
-          @error="($event.target as HTMLImageElement).style.display = 'none'"
-        />
-        <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap text-[8px] text-fh-frost font-display font-bold bg-black/60 px-1.5 py-0.5 rounded">
-          {{ b.name }}
-        </div>
-      </div>
+        @error="($event.target as HTMLImageElement).style.display = 'none'"
+      />
     </div>
 
     <!-- Tooltip popup -->
