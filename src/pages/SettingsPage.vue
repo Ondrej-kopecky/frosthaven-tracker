@@ -5,6 +5,7 @@ import { useCampaignStore } from '@/stores/campaignStore'
 import { useScenarioStore } from '@/stores/scenarioStore'
 import { useCharacterStore } from '@/stores/characterStore'
 import { useAuthStore } from '@/stores/authStore'
+import { changePassword } from '@/services/api/authApi'
 
 const router = useRouter()
 const campaignStore = useCampaignStore()
@@ -124,6 +125,46 @@ function handleImport(e: Event) {
   }
   reader.readAsText(file)
   input.value = ''
+}
+
+// Change password
+const cpCurrentPassword = ref('')
+const cpNewPassword = ref('')
+const cpConfirmPassword = ref('')
+const cpError = ref('')
+const cpSuccess = ref(false)
+const cpLoading = ref(false)
+
+async function handleChangePassword() {
+  cpError.value = ''
+  cpSuccess.value = false
+
+  if (!cpCurrentPassword.value) {
+    cpError.value = 'Zadejte aktuální heslo'
+    return
+  }
+  if (cpNewPassword.value.length < 6) {
+    cpError.value = 'Nové heslo musí mít alespoň 6 znaků'
+    return
+  }
+  if (cpNewPassword.value !== cpConfirmPassword.value) {
+    cpError.value = 'Nová hesla se neshodují'
+    return
+  }
+
+  cpLoading.value = true
+  try {
+    await changePassword(cpCurrentPassword.value, cpNewPassword.value)
+    cpSuccess.value = true
+    cpCurrentPassword.value = ''
+    cpNewPassword.value = ''
+    cpConfirmPassword.value = ''
+    setTimeout(() => { cpSuccess.value = false }, 5000)
+  } catch (e: any) {
+    cpError.value = e?.response?.data?.detail || e?.message || 'Nepodařilo se změnit heslo'
+  } finally {
+    cpLoading.value = false
+  }
 }
 
 // Delete campaign
@@ -325,7 +366,53 @@ function deleteCampaign() {
       </template>
     </div>
 
-    <!-- 5. Podporte vyvoj -->
+    <!-- 5. Zmena hesla -->
+    <template v-if="authStore.isLoggedIn">
+      <div class="fh-divider mb-4">Zmena hesla</div>
+      <div class="fh-card p-5 mb-6 space-y-4">
+        <div>
+          <label class="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">Aktualni heslo</label>
+          <input
+            v-model="cpCurrentPassword"
+            type="password"
+            class="fh-input w-full sm:w-80"
+            placeholder="Zadejte aktualni heslo"
+          />
+        </div>
+        <div>
+          <label class="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">Nove heslo</label>
+          <input
+            v-model="cpNewPassword"
+            type="password"
+            class="fh-input w-full sm:w-80"
+            placeholder="Minimalne 6 znaku"
+          />
+        </div>
+        <div>
+          <label class="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">Potvrzeni noveho hesla</label>
+          <input
+            v-model="cpConfirmPassword"
+            type="password"
+            class="fh-input w-full sm:w-80"
+            placeholder="Zadejte nove heslo znovu"
+            @keyup.enter="handleChangePassword"
+          />
+        </div>
+        <div>
+          <button
+            class="fh-btn-primary text-sm px-4 py-2"
+            :disabled="cpLoading"
+            @click="handleChangePassword"
+          >
+            {{ cpLoading ? 'Menim heslo...' : 'Zmenit heslo' }}
+          </button>
+        </div>
+        <p v-if="cpError" class="text-xs text-red-400">{{ cpError }}</p>
+        <p v-if="cpSuccess" class="text-xs text-fh-completed">Heslo bylo uspesne zmeneno!</p>
+      </div>
+    </template>
+
+    <!-- 6. Podporte vyvoj -->
     <div class="fh-divider mb-4">Podporte vyvoj</div>
     <div class="fh-card p-5 mb-6">
       <p class="text-sm text-gray-400 leading-relaxed">

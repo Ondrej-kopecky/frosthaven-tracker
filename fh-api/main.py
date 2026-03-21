@@ -324,6 +324,11 @@ class ResetPasswordRequest(BaseModel):
     new_password: str
 
 
+class ChangePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str
+
+
 class CampaignSaveRequest(BaseModel):
     id: str
     name: str
@@ -623,6 +628,26 @@ async def me(current_user=Depends(get_current_user)):
         "is_verified": current_user.is_verified,
         "created_at": current_user.created_at.isoformat() if current_user.created_at else None,
     }
+
+
+@app.post("/api/auth/change-password")
+async def change_password(req: ChangePasswordRequest, current_user=Depends(get_current_user)):
+    # Verify current password
+    if not verify_password(req.current_password, current_user.hashed_password):
+        raise HTTPException(400, "Nesprávné aktuální heslo")
+
+    # Validate new password
+    if len(req.new_password) < 6:
+        raise HTTPException(400, "Nové heslo musí mít alespoň 6 znaků")
+
+    # Update password
+    hashed = hash_password(req.new_password)
+    await database.execute(
+        users.update()
+        .where(users.c.id == current_user.id)
+        .values(hashed_password=hashed)
+    )
+    return {"message": "Heslo bylo úspěšně změněno"}
 
 
 # ---------------------------------------------------------------------------
