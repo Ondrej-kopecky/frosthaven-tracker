@@ -54,8 +54,49 @@ function isSecondaryActive(): boolean {
   <header class="fixed top-0 left-0 right-0 z-50 bg-fh-dark/95 backdrop-blur-sm border-b border-fh-border safe-area-top">
     <div class="max-w-7xl mx-auto px-3 h-14 flex items-center justify-between">
       <!-- Logo -->
-      <router-link to="/" class="flex items-center gap-1.5 no-underline shrink-0">
-        <span class="font-display text-fh-frost text-base font-bold tracking-wider">FROSTHAVEN</span>
+      <router-link to="/" class="flex items-center gap-2 no-underline shrink-0 group">
+        <!-- Snowflake icon -->
+        <svg class="w-7 h-7 shrink-0 transition-transform duration-300 group-hover:rotate-30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="hdr-ice" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#a8d8ea"/>
+              <stop offset="50%" stop-color="#5ba4cf"/>
+              <stop offset="100%" stop-color="#3a7a9e"/>
+            </linearGradient>
+            <linearGradient id="hdr-glow" x1="24" y1="4" x2="24" y2="44" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#cce7f0"/>
+              <stop offset="100%" stop-color="#5ba4cf"/>
+            </linearGradient>
+          </defs>
+          <circle cx="24" cy="24" r="3.5" fill="url(#hdr-glow)" opacity="0.9"/>
+          <g stroke="url(#hdr-ice)" stroke-width="2.5" stroke-linecap="round">
+            <line x1="24" y1="5" x2="24" y2="43"/>
+            <line x1="24" y1="24" x2="40.5" y2="14.5"/>
+            <line x1="24" y1="24" x2="7.5" y2="33.5"/>
+            <line x1="24" y1="24" x2="40.5" y2="33.5"/>
+            <line x1="24" y1="24" x2="7.5" y2="14.5"/>
+          </g>
+          <g stroke="url(#hdr-glow)" stroke-width="1.6" stroke-linecap="round" opacity="0.85">
+            <line x1="24" y1="11" x2="28" y2="14"/>
+            <line x1="24" y1="11" x2="20" y2="14"/>
+            <line x1="24" y1="37" x2="28" y2="34"/>
+            <line x1="24" y1="37" x2="20" y2="34"/>
+            <line x1="34.5" y1="18" x2="33.5" y2="22"/>
+            <line x1="13.5" y1="30" x2="14.5" y2="26"/>
+            <line x1="13.5" y1="18" x2="14.5" y2="22"/>
+            <line x1="34.5" y1="30" x2="33.5" y2="26"/>
+          </g>
+          <g fill="url(#hdr-glow)" opacity="0.9">
+            <circle cx="24" cy="5" r="1.8"/>
+            <circle cx="24" cy="43" r="1.8"/>
+            <circle cx="40.5" cy="14.5" r="1.8"/>
+            <circle cx="7.5" cy="33.5" r="1.8"/>
+            <circle cx="40.5" cy="33.5" r="1.8"/>
+            <circle cx="7.5" cy="14.5" r="1.8"/>
+          </g>
+        </svg>
+        <span class="font-display text-fh-frost text-sm font-bold tracking-widest">FROSTHAVEN</span>
+        <span class="text-fh-primary-dim text-[10px] font-semibold tracking-widest uppercase hidden sm:block">Tracker</span>
       </router-link>
 
       <!-- Desktop nav -->
