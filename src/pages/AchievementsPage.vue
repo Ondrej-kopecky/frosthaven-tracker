@@ -25,9 +25,11 @@ const tabs: { key: FilterTab; label: string }[] = [
 ]
 
 // All definitions: show non-hidden + achieved hidden ones
+// When spoilers are on, only show achieved achievements
 const displayedDefinitions = computed(() => {
   return achievementStore.definitions.filter((a) => {
     if (a.hidden && !achievementStore.isAchieved(a.id)) return false
+    if (campaignStore.currentCampaign?.hideSpoilers && !achievementStore.isAchieved(a.id)) return false
     return true
   })
 })

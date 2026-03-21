@@ -234,9 +234,27 @@ function truncateDesc(desc: string, maxLen = 80): string {
   return translateDescription(desc.slice(0, maxLen) + '...')
 }
 
+// --- Spoiler-safe sources (visible even with hideSpoilers on) ---
+const SPOILER_SAFE_SOURCES = new Set(['Počáteční nabídka', 'Řemeslník', 'Alchymie'])
+
+function isItemSpoilerSafe(item: ItemData): boolean {
+  const ps = primarySource(item.source)
+  if (SPOILER_SAFE_SOURCES.has(ps)) return true
+  // Items from crafting levels up to current prosperity
+  if (ps.startsWith('Řemeslník') || ps.startsWith('Klenotník')) return true
+  // Items owned by characters are always visible
+  const characters = campaignStore.currentCampaign?.characters ?? []
+  for (const c of characters) {
+    if (c.items?.includes(String(item.id)) || c.items?.includes(item.name)) return true
+  }
+  return false
+}
+
 // --- Filtering ---
 const filteredItems = computed(() => {
   return allItems.filter((item) => {
+    // Spoiler filter
+    if (campaignStore.currentCampaign?.hideSpoilers && !isItemSpoilerSafe(item)) return false
     if (filterSlot.value !== 'all' && item.slot !== filterSlot.value) return false
     if (filterSource.value !== 'all' && primarySource(item.source) !== filterSource.value) return false
     if (search.value) {

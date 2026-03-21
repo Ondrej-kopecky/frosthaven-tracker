@@ -62,6 +62,24 @@ const router = createRouter({
       meta: { title: 'Achievementy', icon: 'trophy' },
     },
     {
+      path: '/prehled-scenaru',
+      name: 'flowchart',
+      component: () => import('@/pages/FlowchartPage.vue'),
+      meta: { title: 'Přehled scénářů', icon: 'flowchart' },
+    },
+    {
+      path: '/osobni-ukoly',
+      name: 'personal-quests',
+      component: () => import('@/pages/PersonalQuestsPage.vue'),
+      meta: { title: 'Osobní úkoly', icon: 'quest' },
+    },
+    {
+      path: '/pribeh',
+      name: 'story',
+      component: () => import('@/pages/StoryPage.vue'),
+      meta: { title: 'Příběh', icon: 'book' },
+    },
+    {
       path: '/nastaveni',
       name: 'settings',
       component: () => import('@/pages/SettingsPage.vue'),
