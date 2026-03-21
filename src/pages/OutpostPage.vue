@@ -142,6 +142,31 @@ function toggleBuilding(id: number) {
   expandedBuildingId.value = expandedBuildingId.value === id ? null : id
 }
 
+// Building card image for current level
+function buildingImageUrl(id: number, level: number): string {
+  return `/img/buildings/${id}-level-${level}.webp`
+}
+
+function buildingFrontUrl(id: number, level: number): string {
+  return `/img/buildings/${id}-level-${level}-front.webp`
+}
+
+// Show building card modal
+const cardModal = ref<{ id: number; level: number; side: 'main' | 'front' } | null>(null)
+
+function showBuildingCard(id: number, level: number) {
+  cardModal.value = { id, level, side: 'main' }
+}
+
+function toggleCardSide() {
+  if (cardModal.value) {
+    cardModal.value = {
+      ...cardModal.value,
+      side: cardModal.value.side === 'main' ? 'front' : 'main',
+    }
+  }
+}
+
 // Stats
 const builtCount = computed(() => buildings.filter((b) => getBuildingLevel(b.id) > 0).length)
 </script>
@@ -233,6 +258,18 @@ const builtCount = computed(() => buildings.filter((b) => getBuildingLevel(b.id)
 
         <!-- Expanded -->
         <div v-if="expandedBuildingId === building.id" class="border-t border-fh-border/30 p-4 space-y-3">
+          <!-- Building card image -->
+          <div class="flex justify-center">
+            <img
+              :src="buildingImageUrl(building.id, getBuildingLevel(building.id))"
+              :alt="building.name + ' level ' + getBuildingLevel(building.id)"
+              class="w-48 rounded-lg border border-fh-border/30 cursor-pointer hover:border-fh-primary/40 transition-all hover:shadow-lg hover:shadow-fh-primary/10"
+              loading="lazy"
+              @click="showBuildingCard(building.id, getBuildingLevel(building.id))"
+              @error="($event.target as HTMLImageElement).style.display = 'none'"
+            />
+          </div>
+
           <!-- Level controls -->
           <div class="flex items-center justify-center gap-4">
             <button
@@ -474,5 +511,46 @@ const builtCount = computed(() => buildings.filter((b) => getBuildingLevel(b.id)
 
     <!-- EventCard overlay -->
     <EventCard />
+
+    <!-- Building card modal -->
+    <Teleport to="body">
+      <transition name="modal">
+        <div v-if="cardModal" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" @click="cardModal = null" />
+          <div class="relative z-10 w-full max-w-sm">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-sm text-gray-400 font-display">
+                Level {{ cardModal.level }}
+              </span>
+              <div class="flex gap-2">
+                <button
+                  class="px-3 py-1 rounded-lg text-xs bg-fh-primary/10 text-fh-primary border border-fh-primary/20 hover:bg-fh-primary/20 transition-all"
+                  @click="toggleCardSide"
+                >
+                  {{ cardModal.side === 'main' ? 'Detail →' : '← Budova' }}
+                </button>
+                <button class="text-gray-500 hover:text-gray-300 p-1" @click="cardModal = null">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <img
+              v-if="cardModal.side === 'main'"
+              :src="buildingImageUrl(cardModal.id, cardModal.level)"
+              class="w-full rounded-xl shadow-2xl border border-fh-border"
+              @click="toggleCardSide"
+            />
+            <img
+              v-else
+              :src="buildingFrontUrl(cardModal.id, cardModal.level)"
+              class="w-full rounded-xl shadow-2xl border border-fh-border"
+              @click="toggleCardSide"
+            />
+          </div>
+        </div>
+      </transition>
+    </Teleport>
   </div>
 </template>
