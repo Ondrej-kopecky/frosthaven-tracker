@@ -96,11 +96,37 @@ export const useEventStore = defineStore('events', () => {
     }
   }
 
+  // Faction card ranges in outpost decks (summer & winter)
+  // ALGOX: cards 21-40, UNFETTERED: cards 41-60, LURKERS: cards 61-80
+  const factionCardRanges: Record<string, { start: number; end: number }> = {
+    ALGOX: { start: 21, end: 40 },
+    UNFETTERED: { start: 41, end: 60 },
+    LURKERS: { start: 61, end: 80 },
+  }
+
   // Remove all cards of a faction from all outpost decks
   function removeFactionCards(faction: string) {
-    // This is a simplified version — in practice, specific card numbers
-    // would be associated with factions. For now, just log it.
-    console.log(`Remove ${faction} events from outpost decks`)
+    const range = factionCardRanges[faction]
+    if (!range) {
+      console.warn(`Unknown faction: ${faction}`)
+      return
+    }
+
+    const outpostDecks: DeckId[] = ['summerOutpost', 'winterOutpost']
+    for (const deckId of outpostDecks) {
+      const state = getDeckState(deckId)
+      const before = state.available.length
+      state.available = state.available.filter(
+        (c) => c < range.start || c > range.end
+      )
+      // Also clean removed list so faction cards don't linger
+      state.removed = state.removed.filter(
+        (c) => c < range.start || c > range.end
+      )
+      if (state.available.length !== before) {
+        saveDeckState(deckId, state)
+      }
+    }
   }
 
   // Reset deck to starting cards

@@ -1,0 +1,46 @@
+{
+  "14": [
+    { "action": "add", "deck": "winterOutpost", "cards": [81] }
+  ],
+  "29": [
+    { "action": "removeFaction", "faction": "ALGOX" },
+    { "action": "add", "deck": "winterOutpost", "cards": [68] }
+  ],
+  "30": [
+    { "action": "removeFaction", "faction": "ALGOX" },
+    { "action": "add", "deck": "winterOutpost", "cards": [69] }
+  ],
+  "42": [
+    { "action": "add", "deck": "boat", "cards": [16] }
+  ],
+  "55": [
+    { "action": "removeFaction", "faction": "ALGOX" },
+    { "action": "add", "deck": "winterOutpost", "cards": [66, 67] }
+  ],
+  "56": [
+    { "action": "add", "deck": "summerOutpost", "cards": [51] }
+  ],
+  "57": [
+    { "action": "add", "deck": "winterOutpost", "cards": [68] }
+  ],
+  "58": [
+    { "action": "removeFaction", "faction": "UNFETTERED" },
+    { "action": "add", "deck": "winterOutpost", "cards": [64, 65] }
+  ],
+  "59": [
+    { "action": "removeFaction", "faction": "UNFETTERED" },
+    { "action": "add", "deck": "summerOutpost", "cards": [49] },
+    { "action": "add", "deck": "winterOutpost", "cards": [63] }
+  ],
+  "60": [
+    { "action": "removeFaction", "faction": "LURKERS" },
+    { "action": "add", "deck": "summerOutpost", "cards": [48] },
+    { "action": "add", "deck": "boat", "cards": [17] }
+  ],
+  "76": [
+    { "action": "add", "deck": "boat", "cards": [18] }
+  ],
+  "77": [
+    { "action": "add", "deck": "boat", "cards": [19] }
+  ]
+}

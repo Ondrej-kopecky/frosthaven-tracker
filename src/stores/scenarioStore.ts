@@ -5,10 +5,21 @@ import type { ScenarioData, ScenarioCondition } from '@/models/Scenario'
 import type { ScenarioState } from '@/models/Campaign'
 import { useCampaignStore } from './campaignStore'
 import { useAchievementStore } from './achievementStore'
+import { useEventStore } from './eventStore'
+import type { DeckId } from './eventStore'
+import scenarioEvents from '@/data/scenario-events.json'
+
+interface ScenarioEventAction {
+  action: 'add' | 'removeFaction'
+  deck?: string
+  cards?: number[]
+  faction?: string
+}
 
 export const useScenarioStore = defineStore('scenario', () => {
   const campaignStore = useCampaignStore()
   const achievementStore = useAchievementStore()
+  const eventStore = useEventStore()
 
   const scenarioDefinitions = ref<ScenarioData[]>([])
   const isDataLoaded = ref(false)
@@ -181,6 +192,20 @@ export const useScenarioStore = defineStore('scenario', () => {
     if (def.achievements_awarded) {
       for (const achId of def.achievements_awarded) {
         achievementStore.award(achId)
+      }
+    }
+
+    // Apply event deck modifications
+    const eventActions = (scenarioEvents as Record<string, ScenarioEventAction[]>)[String(id)]
+    if (eventActions) {
+      for (const ev of eventActions) {
+        if (ev.action === 'removeFaction' && ev.faction) {
+          eventStore.removeFactionCards(ev.faction)
+        } else if (ev.action === 'add' && ev.deck && ev.cards) {
+          for (const cardNum of ev.cards) {
+            eventStore.addCard(ev.deck as DeckId, cardNum)
+          }
+        }
       }
     }
 
