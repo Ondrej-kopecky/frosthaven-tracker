@@ -41,10 +41,14 @@ const layout = computed(() => {
   )
 })
 
+const SPOILER_VISIBLE = new Set(['completed', 'available', 'attempted', 'required'])
+
 const filteredNodes = computed(() => {
   let nodes = layout.value.nodes
-  // Flowchart always shows all nodes (including locked) for overview purposes
-  // Only filter by status tab if user explicitly selects one
+  // Spoiler filter: hide locked/blocked MAIN scenarios, but always show side scenarios
+  if (campaignStore.currentCampaign?.hideSpoilers) {
+    nodes = nodes.filter((n) => n.isSide || SPOILER_VISIBLE.has(n.status))
+  }
   const { filterStatus } = flowchartStore
   if (filterStatus === 'all') return nodes
   return nodes.filter((n) => n.status === filterStatus)
