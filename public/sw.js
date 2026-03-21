@@ -1,5 +1,5 @@
 // Frosthaven Tracker — Service Worker
-const CACHE_VERSION = 'fh-cache-v1';
+const CACHE_VERSION = 'fh-cache-v2';
 
 const STATIC_EXTENSIONS = ['.js', '.css', '.svg', '.png', '.jpg', '.jpeg', '.webp', '.woff', '.woff2', '.ttf', '.eot'];
 
