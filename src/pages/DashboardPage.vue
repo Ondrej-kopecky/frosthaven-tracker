@@ -3,11 +3,13 @@ import { onMounted } from 'vue'
 import { useCampaignStore } from '@/stores/campaignStore'
 import { useScenarioStore } from '@/stores/scenarioStore'
 import { useCharacterStore } from '@/stores/characterStore'
+import { useAuthStore } from '@/stores/authStore'
 import { useRouter } from 'vue-router'
 
 const campaignStore = useCampaignStore()
 const scenarioStore = useScenarioStore()
 const characterStore = useCharacterStore()
+const authStore = useAuthStore()
 const router = useRouter()
 
 onMounted(async () => {
@@ -55,64 +57,88 @@ const quickLinks = [
 <template>
   <!-- No campaign: welcome screen -->
   <div v-if="!campaignStore.hasCampaign" class="flex flex-col items-center justify-center min-h-[70vh] text-center">
-    <div class="relative mb-8">
-      <!-- Frost crystal icon -->
-      <div class="w-24 h-24 rounded-full bg-fh-primary/10 border border-fh-primary/20 flex items-center justify-center">
-        <svg class="w-12 h-12 text-fh-frost" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+    <div class="relative mb-6">
+      <div class="w-20 h-20 rounded-full bg-fh-primary/10 border border-fh-primary/20 flex items-center justify-center">
+        <svg class="w-10 h-10 text-fh-frost" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m0-18l-3 3m3-3l3 3m-3 15l-3-3m3 3l3-3M3 12h18M3 12l3-3m-3 3l3 3m15-3l-3-3m3 3l-3 3" />
         </svg>
       </div>
       <div class="absolute inset-0 rounded-full bg-fh-primary/5 blur-2xl"></div>
     </div>
 
-    <h1 class="font-display text-3xl sm:text-4xl font-bold text-fh-frost mb-3 tracking-wide">
+    <h1 class="font-display text-3xl sm:text-4xl font-bold text-fh-frost mb-2 tracking-wide">
       Frosthaven Tracker
     </h1>
-    <p class="text-gray-400 max-w-md mb-2 text-sm sm:text-base">
-      Sleduj průběh své kampaně ve Frosthavenu. Scénáře, postavy, předměty, výroba a základna — vše na jednom místě.
-    </p>
-    <p class="text-gray-500 text-xs mb-8">
-      Zimní dobrodružství začíná tady.
+    <p class="text-gray-400 max-w-md mb-8 text-sm">
+      Sleduj průběh své kampaně ve Frosthavenu — scénáře, postavy, předměty a základna.
     </p>
 
-    <button
-      class="fh-btn-primary text-base px-8 py-3 rounded-xl"
-      @click="startNewCampaign"
-    >
-      Začít kampaň
-    </button>
-
-    <router-link
-      to="/kampan"
-      class="mt-4 text-fh-primary-dim text-sm hover:text-fh-primary transition-colors no-underline"
-    >
-      Nebo načíst existující kampaň
-    </router-link>
-
-    <!-- Login/Register section -->
-    <div class="mt-10 pt-6 border-t border-fh-border/30 flex flex-col items-center gap-3">
-      <p class="text-xs text-gray-600">Přihlas se pro synchronizaci kampaně mezi zařízeními</p>
-      <div class="flex gap-3">
-        <router-link
-          to="/prihlaseni"
-          class="fh-btn-secondary text-sm px-5 py-2 no-underline flex items-center gap-2"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+    <!-- Two main paths -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-lg mb-6">
+      <!-- Start playing -->
+      <div class="fh-card p-6 text-center space-y-4">
+        <div class="w-12 h-12 mx-auto rounded-xl bg-fh-primary/15 border border-fh-primary/25 flex items-center justify-center">
+          <svg class="w-6 h-6 text-fh-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
           </svg>
-          Přihlásit se
-        </router-link>
-        <router-link
-          to="/registrace"
-          class="fh-btn-ghost text-sm px-5 py-2 no-underline flex items-center gap-2"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
+        </div>
+        <h2 class="font-display text-lg font-semibold text-fh-frost">Hrát</h2>
+        <p class="text-xs text-gray-500">Začni novou kampaň nebo pokračuj v existující</p>
+        <div class="space-y-2">
+          <button
+            class="fh-btn-primary w-full text-sm py-2.5 rounded-lg"
+            @click="startNewCampaign"
+          >
+            Nová kampaň
+          </button>
+          <router-link
+            to="/kampan"
+            class="block w-full fh-btn-ghost text-sm py-2 rounded-lg no-underline text-center"
+          >
+            Načíst existující
+          </router-link>
+        </div>
+      </div>
+
+      <!-- Login / Account -->
+      <div class="fh-card p-6 text-center space-y-4">
+        <div class="w-12 h-12 mx-auto rounded-xl bg-fh-primary/15 border border-fh-primary/25 flex items-center justify-center">
+          <svg class="w-6 h-6 text-fh-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
           </svg>
-          Registrace
-        </router-link>
+        </div>
+        <template v-if="authStore.isLoggedIn">
+          <h2 class="font-display text-lg font-semibold text-fh-frost">{{ authStore.user?.username }}</h2>
+          <p class="text-xs text-gray-500">Přihlášen/a — kampaně se synchronizují</p>
+          <div class="fh-badge bg-green-900/20 text-green-400 border border-green-800/30 inline-flex items-center gap-1.5 px-3 py-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+            Synchronizováno
+          </div>
+        </template>
+        <template v-else>
+          <h2 class="font-display text-lg font-semibold text-fh-frost">Účet</h2>
+          <p class="text-xs text-gray-500">Přihlas se pro synchronizaci kampaně mezi zařízeními</p>
+          <div class="space-y-2">
+            <router-link
+              to="/prihlaseni"
+              class="block w-full fh-btn-secondary text-sm py-2.5 rounded-lg no-underline text-center"
+            >
+              Přihlásit se
+            </router-link>
+            <router-link
+              to="/registrace"
+              class="block w-full fh-btn-ghost text-sm py-2 rounded-lg no-underline text-center"
+            >
+              Vytvořit účet
+            </router-link>
+          </div>
+        </template>
       </div>
     </div>
+
+    <p class="text-gray-600 text-[11px]">
+      Zimní dobrodružství začíná tady.
+    </p>
   </div>
 
   <!-- Has campaign: dashboard -->
