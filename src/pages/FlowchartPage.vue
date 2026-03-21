@@ -41,14 +41,10 @@ const layout = computed(() => {
   )
 })
 
-const SPOILER_VISIBLE = new Set(['completed', 'available', 'attempted', 'required'])
-
 const filteredNodes = computed(() => {
   let nodes = layout.value.nodes
-  // Hide locked/blocked when spoilers are on
-  if (campaignStore.currentCampaign?.hideSpoilers) {
-    nodes = nodes.filter((n) => SPOILER_VISIBLE.has(n.status))
-  }
+  // Flowchart always shows all nodes (including locked) for overview purposes
+  // Only filter by status tab if user explicitly selects one
   const { filterStatus } = flowchartStore
   if (filterStatus === 'all') return nodes
   return nodes.filter((n) => n.status === filterStatus)
@@ -107,7 +103,7 @@ function statusColor(status: string): string {
     case SCENARIO_STATUSES.BLOCKED: return '#ef4444'
     case SCENARIO_STATUSES.REQUIRED: return '#eab308'
     case SCENARIO_STATUSES.ATTEMPTED: return '#f97316'
-    default: return '#374151'
+    default: return '#5a6577'
   }
 }
 
@@ -118,7 +114,7 @@ function statusBg(status: string): string {
     case SCENARIO_STATUSES.BLOCKED: return 'rgba(239,68,68,0.12)'
     case SCENARIO_STATUSES.REQUIRED: return 'rgba(234,179,8,0.12)'
     case SCENARIO_STATUSES.ATTEMPTED: return 'rgba(249,115,22,0.12)'
-    default: return 'rgba(55,65,81,0.08)'
+    default: return 'rgba(90,101,119,0.12)'
   }
 }
 
