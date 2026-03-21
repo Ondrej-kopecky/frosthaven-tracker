@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import AppHeader from '@/components/layout/AppHeader.vue'
+import FeedbackButton from '@/components/FeedbackButton.vue'
 import { useProfileStore } from '@/stores/profileStore'
 import { useAuthStore } from '@/stores/authStore'
 
@@ -23,6 +24,7 @@ onMounted(() => {
         </transition>
       </router-view>
     </main>
+    <FeedbackButton />
   </div>
 </template>
 

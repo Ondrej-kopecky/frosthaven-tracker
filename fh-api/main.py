@@ -83,6 +83,19 @@ campaigns = sqlalchemy.Table(
     sqlalchemy.Column("updated_at", sqlalchemy.DateTime, default=datetime.utcnow),
 )
 
+feedback = sqlalchemy.Table(
+    "feedback",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("type", sqlalchemy.String),
+    sqlalchemy.Column("message", sqlalchemy.Text),
+    sqlalchemy.Column("email", sqlalchemy.String, nullable=True),
+    sqlalchemy.Column("page", sqlalchemy.String, nullable=True),
+    sqlalchemy.Column("user_agent", sqlalchemy.Text, nullable=True),
+    sqlalchemy.Column("ip", sqlalchemy.String, nullable=True),
+    sqlalchemy.Column("created_at", sqlalchemy.DateTime, default=datetime.utcnow),
+)
+
 engine = sqlalchemy.create_engine(
     DATABASE_URL.replace("sqlite:///", "sqlite:///"),
     connect_args={"check_same_thread": False},
@@ -317,6 +330,14 @@ class CampaignSaveRequest(BaseModel):
     created_at: str
     last_played_at: str
     data: str  # JSON string
+
+
+class FeedbackRequest(BaseModel):
+    type: str  # 'bug' | 'navrh' | 'jine'
+    message: str
+    email: Optional[str] = None
+    page: Optional[str] = None
+    userAgent: Optional[str] = None
 
 
 class UserResponse(BaseModel):
@@ -709,6 +730,36 @@ async def delete_campaign(campaign_id: str, current_user=Depends(get_current_use
         )
     )
     return {"status": "deleted"}
+
+
+# ---------------------------------------------------------------------------
+# Feedback endpoint
+# ---------------------------------------------------------------------------
+
+
+@app.post("/api/feedback/")
+async def submit_feedback(req: FeedbackRequest, request: Request):
+    client_ip = request.client.host if request.client else "unknown"
+    check_rate_limit(f"feedback:{client_ip}", max_requests=5, window_seconds=3600)
+
+    if not req.message or not req.message.strip():
+        raise HTTPException(400, "Zpráva je povinná")
+    if req.type not in ("bug", "navrh", "jine"):
+        raise HTTPException(400, "Neplatný typ zpětné vazby")
+
+    await database.execute(
+        feedback.insert().values(
+            type=req.type,
+            message=req.message.strip(),
+            email=req.email,
+            page=req.page,
+            user_agent=req.userAgent,
+            ip=client_ip,
+            created_at=datetime.utcnow(),
+        )
+    )
+    logger.info(f"Feedback received: type={req.type}, ip={client_ip}")
+    return {"ok": True}
 
 
 # ---------------------------------------------------------------------------

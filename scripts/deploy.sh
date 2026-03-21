@@ -17,19 +17,19 @@ if [ ! -d "dist" ]; then
   exit 1
 fi
 
-# Upload frontend
+# Upload frontend (clean old files first to avoid stale cache)
 echo "[2/4] Uploading frontend..."
-ssh $SERVER "mkdir -p $REMOTE_DIST"
-rsync -avz --delete dist/ $SERVER:$REMOTE_DIST/
+ssh $SERVER "rm -rf $REMOTE_DIST/* && mkdir -p $REMOTE_DIST"
+scp -r dist/* $SERVER:$REMOTE_DIST/
 
 # Upload backend
 echo "[3/4] Uploading backend..."
 ssh $SERVER "mkdir -p $REMOTE_API/data"
-rsync -avz --exclude '__pycache__' --exclude 'data/' --exclude '.env' fh-api/ $SERVER:$REMOTE_API/
+scp -r fh-api/*.py fh-api/requirements.txt $SERVER:$REMOTE_API/ 2>/dev/null || true
 
 # Restart services
 echo "[4/4] Restarting services..."
-ssh $SERVER "cd $REMOTE_BASE && docker compose up -d --build fh-api 2>/dev/null || echo 'Docker restart skipped (configure docker-compose first)'"
+ssh $SERVER "cd $REMOTE_BASE && docker compose restart frosthaven fh-api 2>/dev/null || docker restart frosthaven fh-api 2>/dev/null || echo 'Docker restart skipped'"
 
 echo ""
 echo "Deploy complete!"
