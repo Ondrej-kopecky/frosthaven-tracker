@@ -861,7 +861,7 @@
     },
     {
         "id": 87,
-        "name": "Léčivý lektvar",
+        "name": "Lektvar uzdravení",
         "count": 2,
         "resources": { "arrowvine": 1, "corpsecap": 1 },
         "slot": "Small Item",
@@ -1252,7 +1252,7 @@
     },
     {
         "id": 126,
-        "name": "Závaží s sítí",
+        "name": "Závaží se sítí",
         "count": 2,
         "cost": 20,
         "slot": "Two Hands",
@@ -1449,7 +1449,7 @@
     },
     {
         "id": 146,
-        "name": "Háková řetěz",
+        "name": "Hákový řetěz",
         "count": 2,
         "cost": 35,
         "slot": "Two Hands",
@@ -1872,7 +1872,7 @@
         "cost": 35,
         "slot": "Small Item",
         "source": "Náhodná kořist",
-        "desc": "Během tvého tahu vytvoř jednu 1-hexovou dlaždici nebezpečného terénu, ledového terénu nebo vody v sousedním prázdném hexu.",
+        "desc": "Během tvého tahu vytvoř jednu 1-hexovou dlaždici nebezpečného terénu, ledového terénu nebo vody v sousedním hexu bez prvků.",
         "consumed": true
     },
     {
@@ -2267,7 +2267,7 @@
     },
     {
         "id": 228,
-        "name": "Vysouvaí tyč",
+        "name": "Vysouvací tyč",
         "count": 1,
         "cost": 20,
         "slot": "One Hand",
@@ -2555,7 +2555,7 @@
     },
     {
         "id": 257,
-        "name": "Lstivý maskování",
+        "name": "Lstivé maskování",
         "count": 1,
         "cost": 0,
         "slot": "One Hand",
