@@ -7,7 +7,8 @@ import { register, verify, resendCode } from '@/services/api/authApi'
 const router = useRouter()
 const authStore = useAuthStore()
 
-onMounted(() => {
+onMounted(async () => {
+  await authStore.waitForInit()
   if (authStore.isLoggedIn) router.replace('/prehled')
 })
 

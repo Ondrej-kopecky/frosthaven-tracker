@@ -196,7 +196,7 @@ function isSecondaryActive(): boolean {
           </button>
         </template>
         <router-link
-          v-else
+          v-else-if="authStore.isInitialized"
           to="/prihlaseni"
           class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium no-underline bg-fh-primary/8 text-fh-primary-dim border border-fh-primary/15 hover:text-fh-primary hover:bg-fh-primary/15 transition-all"
         >
@@ -312,7 +312,7 @@ function isSecondaryActive(): boolean {
               </button>
             </div>
           </template>
-          <template v-else>
+          <template v-else-if="authStore.isInitialized">
             <div class="flex gap-2">
               <router-link
                 to="/prihlaseni"

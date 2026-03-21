@@ -6,12 +6,23 @@ import { login as apiLogin, getMe, type AuthUser } from '@/services/api/authApi'
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<AuthUser | null>(null)
   const isLoading = ref(false)
+  const isInitialized = ref(false)
+  let _initPromise: Promise<void> | null = null
 
   const isLoggedIn = computed(() => !!user.value)
   const isVerified = computed(() => user.value?.is_verified ?? false)
 
   async function init() {
-    if (!hasToken()) return
+    if (_initPromise) return _initPromise
+    _initPromise = _doInit()
+    return _initPromise
+  }
+
+  async function _doInit() {
+    if (!hasToken()) {
+      isInitialized.value = true
+      return
+    }
     isLoading.value = true
     const result = await getMe()
     if (result.data) {
@@ -20,6 +31,13 @@ export const useAuthStore = defineStore('auth', () => {
       clearToken()
     }
     isLoading.value = false
+    isInitialized.value = true
+  }
+
+  /** Wait until init() has completed (useful for pages that need auth state) */
+  async function waitForInit() {
+    if (isInitialized.value) return
+    if (_initPromise) await _initPromise
   }
 
   async function login(email: string, password: string): Promise<string | null> {
@@ -39,7 +57,7 @@ export const useAuthStore = defineStore('auth', () => {
       }
       return null
     }
-    return 'Neznama chyba'
+    return 'Neznámá chyba'
   }
 
   function logout() {
@@ -52,7 +70,9 @@ export const useAuthStore = defineStore('auth', () => {
     isLoading,
     isLoggedIn,
     isVerified,
+    isInitialized,
     init,
+    waitForInit,
     login,
     logout,
   }

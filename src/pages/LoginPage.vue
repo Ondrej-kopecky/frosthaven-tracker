@@ -7,7 +7,8 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 // If already logged in, redirect
-onMounted(() => {
+onMounted(async () => {
+  await authStore.waitForInit()
   if (authStore.isLoggedIn) {
     router.replace('/prehled')
   }
