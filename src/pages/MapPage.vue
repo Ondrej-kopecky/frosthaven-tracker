@@ -11,6 +11,41 @@ const router = useRouter()
 const campaignStore = useCampaignStore()
 const scenarioStore = useScenarioStore()
 
+// Building positions on the map (bottom section = Frosthaven town)
+// Positions in % of map dimensions, placed in the town area
+const buildingPositions: { id: number; name: string; x: number; y: number }[] = [
+  { id: 98, name: 'Kasárna', x: 8, y: 82 },
+  { id: 5, name: 'Důlní tábor', x: 16, y: 78 },
+  { id: 17, name: 'Dřevorubci', x: 24, y: 82 },
+  { id: 12, name: 'Lovci', x: 32, y: 78 },
+  { id: 34, name: 'Řemeslník', x: 40, y: 82 },
+  { id: 35, name: 'Alchymista', x: 48, y: 78 },
+  { id: 37, name: 'Obchod', x: 56, y: 82 },
+  { id: 39, name: 'Klenotník', x: 64, y: 78 },
+  { id: 42, name: 'Chrám', x: 72, y: 82 },
+  { id: 44, name: 'Vylepšovatel', x: 80, y: 78 },
+  { id: 21, name: 'Hostinec', x: 12, y: 88 },
+  { id: 24, name: 'Zahrada', x: 24, y: 92 },
+  { id: 74, name: 'Taverna', x: 36, y: 88 },
+  { id: 81, name: 'Síň zábavy', x: 48, y: 92 },
+  { id: 83, name: 'Knihovna', x: 60, y: 88 },
+  { id: 84, name: 'Dílna', x: 72, y: 92 },
+  { id: 85, name: 'Tesař', x: 84, y: 88 },
+  { id: 88, name: 'Stáje', x: 20, y: 96 },
+  { id: 90, name: 'Radnice', x: 40, y: 96 },
+  { id: 65, name: 'Sklad kovů', x: 56, y: 96 },
+  { id: 67, name: 'Sklad dřeva', x: 68, y: 96 },
+  { id: 72, name: 'Sklad kůží', x: 80, y: 96 },
+]
+
+function getBuildingLevel(id: number): number {
+  return campaignStore.currentCampaign?.buildingLevels?.[id] ?? 0
+}
+
+const builtBuildings = computed(() =>
+  buildingPositions.filter((b) => getBuildingLevel(b.id) > 0)
+)
+
 const mapContainer = ref<HTMLElement | null>(null)
 const mapElement = ref<HTMLElement | null>(null)
 let pz: PanZoom | null = null
@@ -139,6 +174,10 @@ function onMarkerClick(id: number) {
 function goToScenarios(id: number) {
   router.push({ path: '/scenare', query: { open: String(id) } })
 }
+
+function goToOutpost() {
+  router.push('/outpost')
+}
 </script>
 
 <template>
@@ -180,6 +219,31 @@ function goToScenarios(id: number) {
         @click.stop="onMarkerClick(s.id)"
         @touchend.stop.prevent="onMarkerClick(s.id)"
       />
+
+      <!-- Built buildings in town area -->
+      <div
+        v-for="b in builtBuildings"
+        :key="'building-' + b.id"
+        class="absolute cursor-pointer transition-all duration-200 hover:scale-110"
+        :style="{
+          left: b.x + '%',
+          top: b.y + '%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 15,
+        }"
+        @click.stop="goToOutpost"
+      >
+        <img
+          :src="`/img/buildings/${b.id}-level-${getBuildingLevel(b.id)}.webp`"
+          :alt="b.name"
+          class="w-12 h-12 sm:w-16 sm:h-16 rounded-lg border-2 border-fh-primary/40 shadow-lg shadow-fh-primary/20"
+          loading="lazy"
+          @error="($event.target as HTMLImageElement).style.display = 'none'"
+        />
+        <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap text-[8px] text-fh-frost font-display font-bold bg-black/60 px-1.5 py-0.5 rounded">
+          {{ b.name }}
+        </div>
+      </div>
     </div>
 
     <!-- Tooltip popup -->
