@@ -8,8 +8,8 @@ const props = withDefaults(defineProps<{
   color: 'currentColor',
 })
 
-// Import all FH class SVGs
-const svgModules = import.meta.glob('@/assets/characters/*.svg', { as: 'raw', eager: true })
+// Import all FH class SVGs (Vite 8: use query + import instead of 'as')
+const svgModules = import.meta.glob('@/assets/characters/*.svg', { query: '?raw', import: 'default', eager: true })
 
 function getSvg(): string {
   for (const [path, content] of Object.entries(svgModules)) {
