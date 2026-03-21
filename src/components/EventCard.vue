@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useEventStore, type DeckId } from '@/stores/eventStore'
+import { useEventStore } from '@/stores/eventStore'
 
 const eventStore = useEventStore()
 

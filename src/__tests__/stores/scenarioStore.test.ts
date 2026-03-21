@@ -4,8 +4,6 @@ import { useScenarioStore } from '@/stores/scenarioStore'
 import { useCampaignStore } from '@/stores/campaignStore'
 import { useAchievementStore } from '@/stores/achievementStore'
 import { SCENARIO_STATUSES } from '@/models/types'
-import type { ScenarioData } from '@/models/Scenario'
-
 // Mock localStorage
 const localStorageMock = (() => {
   let store: Record<string, string> = {}
@@ -29,27 +27,6 @@ vi.mock('@/services/api/campaignApi', () => ({
   listCampaigns: vi.fn(),
   getCampaign: vi.fn(),
 }))
-
-function createMockScenario(overrides: Partial<ScenarioData> = {}): ScenarioData {
-  return {
-    id: 0,
-    name: 'Test Scenario',
-    game: 'fh',
-    coordinates: { name: 'N6', x: 0, y: 0 },
-    chapter_id: 1,
-    complexity: 1,
-    root: false,
-    treasures: [],
-    links_to: [],
-    linked_from: [],
-    blocks_on: [],
-    choices: [],
-    rewards: [],
-    loot: {},
-    has_boss: false,
-    ...overrides,
-  }
-}
 
 describe('scenarioStore', () => {
   beforeEach(() => {

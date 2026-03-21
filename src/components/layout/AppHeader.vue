@@ -34,10 +34,12 @@ const secondaryNav = [
   { path: '/pribeh', label: 'Příběh', icon: 'M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25' },
 ] as const
 
-const allNav = [...primaryNav, ...secondaryNav] as const
-
 // Desktop: more dropdown open state
 const moreOpen = ref(false)
+
+function closeMoreDelayed() {
+  window.setTimeout(() => { moreOpen.value = false }, 150)
+}
 
 function isActive(path: string): boolean {
   return route.path === path
@@ -82,7 +84,7 @@ function isSecondaryActive(): boolean {
               ? 'bg-fh-primary/15 text-fh-primary-light'
               : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'"
             @click="moreOpen = !moreOpen"
-            @blur="setTimeout(() => moreOpen = false, 150)"
+            @blur="closeMoreDelayed"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
