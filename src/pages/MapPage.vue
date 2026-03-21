@@ -11,40 +11,48 @@ const router = useRouter()
 const campaignStore = useCampaignStore()
 const scenarioStore = useScenarioStore()
 
-// Building positions on the map (bottom section = Frosthaven town)
-// Positions in % of map dimensions, placed in the town area
-const buildingPositions: { id: number; name: string; x: number; y: number }[] = [
-  { id: 98, name: 'Kasárna', x: 8, y: 82 },
-  { id: 5, name: 'Důlní tábor', x: 16, y: 78 },
-  { id: 17, name: 'Dřevorubci', x: 24, y: 82 },
-  { id: 12, name: 'Lovci', x: 32, y: 78 },
-  { id: 34, name: 'Řemeslník', x: 40, y: 82 },
-  { id: 35, name: 'Alchymista', x: 48, y: 78 },
-  { id: 37, name: 'Obchod', x: 56, y: 82 },
-  { id: 39, name: 'Klenotník', x: 64, y: 78 },
-  { id: 42, name: 'Chrám', x: 72, y: 82 },
-  { id: 44, name: 'Vylepšovatel', x: 80, y: 78 },
-  { id: 21, name: 'Hostinec', x: 12, y: 88 },
-  { id: 24, name: 'Zahrada', x: 24, y: 92 },
-  { id: 74, name: 'Taverna', x: 36, y: 88 },
-  { id: 81, name: 'Síň zábavy', x: 48, y: 92 },
-  { id: 83, name: 'Knihovna', x: 60, y: 88 },
-  { id: 84, name: 'Dílna', x: 72, y: 92 },
-  { id: 85, name: 'Tesař', x: 84, y: 88 },
-  { id: 88, name: 'Stáje', x: 20, y: 96 },
-  { id: 90, name: 'Radnice', x: 40, y: 96 },
-  { id: 65, name: 'Sklad kovů', x: 56, y: 96 },
-  { id: 67, name: 'Sklad dřeva', x: 68, y: 96 },
-  { id: 72, name: 'Sklad kůží', x: 80, y: 96 },
-]
+// Building coordinates from reference project (per level, in % of map)
+const buildingCoords: Record<number, { name: string; levels: Record<number, { x: number; y: number }> }> = {
+  5:  { name: 'Důlní tábor', levels: { 1: { x: 13.25, y: 61.2 }, 2: { x: 13.06, y: 61.14 }, 3: { x: 13, y: 61 }, 4: { x: 12.7, y: 60.8 } } },
+  12: { name: 'Lovecká chata', levels: { 1: { x: 32.4, y: 81.2 }, 2: { x: 31.95, y: 80.96 }, 3: { x: 31.53, y: 80.75 }, 4: { x: 31.27, y: 80.6 } } },
+  17: { name: 'Dřevorubci', levels: { 1: { x: 58.8, y: 63.5 }, 2: { x: 58.6, y: 63 }, 3: { x: 58.36, y: 62.92 }, 4: { x: 58.16, y: 62.72 } } },
+  21: { name: 'Hostinec', levels: { 1: { x: 33.46, y: 66.56 }, 2: { x: 33.13, y: 66.3 }, 3: { x: 32.65, y: 65.75 } } },
+  24: { name: 'Zahrada', levels: { 1: { x: 17.9, y: 74.6 }, 2: { x: 17.9, y: 74.6 }, 3: { x: 17.9, y: 74.6 }, 4: { x: 17.9, y: 74.6 } } },
+  34: { name: 'Řemeslník', levels: { 1: { x: 26.33, y: 80.87 }, 2: { x: 26.55, y: 79.95 }, 3: { x: 26.27, y: 79.78 }, 4: { x: 26, y: 79.63 }, 5: { x: 25.7, y: 79.5 }, 6: { x: 23.7, y: 79.2 }, 7: { x: 23.5, y: 79.1 }, 8: { x: 23.4, y: 78.78 }, 9: { x: 23.4, y: 78.74 } } },
+  35: { name: 'Alchymista', levels: { 1: { x: 41.1, y: 66.52 }, 2: { x: 41, y: 66.26 }, 3: { x: 39.86, y: 64.46 } } },
+  37: { name: 'Obchod', levels: { 1: { x: 38.4, y: 62.54 }, 2: { x: 38.2, y: 62.45 }, 3: { x: 38.08, y: 62 }, 4: { x: 37.6, y: 61.74 } } },
+  39: { name: 'Klenotník', levels: { 1: { x: 28.77, y: 63.94 }, 2: { x: 28.6, y: 63.45 }, 3: { x: 28.12, y: 62.72 } } },
+  42: { name: 'Chrám', levels: { 1: { x: 34, y: 74 }, 2: { x: 33.4, y: 73.4 }, 3: { x: 33.06, y: 73.14 }, 4: { x: 32.48, y: 72.49 } } },
+  44: { name: 'Vylepšovatel', levels: { 1: { x: 26.38, y: 76.1 }, 2: { x: 26.1, y: 75.32 }, 3: { x: 25.5, y: 75 }, 4: { x: 23.26, y: 73.54 } } },
+  65: { name: 'Sklad kovů', levels: { 1: { x: 23.64, y: 65.4 }, 2: { x: 23.44, y: 65.28 } } },
+  67: { name: 'Sklad dřeva', levels: { 1: { x: 52.22, y: 66.88 }, 2: { x: 51.8, y: 66.04 } } },
+  72: { name: 'Sklad kůží', levels: { 1: { x: 41.9, y: 75.3 }, 2: { x: 41.76, y: 74.84 } } },
+  74: { name: 'Taverna', levels: { 1: { x: 50.8, y: 78.1 }, 2: { x: 45.82, y: 77.26 }, 3: { x: 45.56, y: 76.97 } } },
+  81: { name: 'Síň zábavy', levels: { 1: { x: 16.1, y: 68.38 }, 2: { x: 15.9, y: 67.65 } } },
+  83: { name: 'Knihovna', levels: { 1: { x: 26.66, y: 70.26 }, 2: { x: 26.4, y: 69.15 }, 3: { x: 26.06, y: 68.5 } } },
+  84: { name: 'Dílna', levels: { 1: { x: 58.82, y: 78.95 } } },
+  85: { name: 'Tesař', levels: { 1: { x: 50.62, y: 63.85 }, 2: { x: 49.4, y: 62.94 } } },
+  88: { name: 'Stáje', levels: { 1: { x: 68.8, y: 75.06 }, 2: { x: 68.44, y: 74.61 }, 3: { x: 67.87, y: 74.41 }, 4: { x: 67.7, y: 73.98 } } },
+  90: { name: 'Radnice', levels: { 1: { x: 46.45, y: 68.74 }, 2: { x: 43.6, y: 68.08 }, 3: { x: 42.6, y: 67.64 } } },
+  98: { name: 'Kasárna', levels: { 1: { x: 72.61, y: 67.29 }, 2: { x: 71.96, y: 66.94 }, 3: { x: 71.5, y: 66.66 }, 4: { x: 71.35, y: 64.4 } } },
+}
 
 function getBuildingLevel(id: number): number {
   return campaignStore.currentCampaign?.buildingLevels?.[id] ?? 0
 }
 
-const builtBuildings = computed(() =>
-  buildingPositions.filter((b) => getBuildingLevel(b.id) > 0)
-)
+const builtBuildings = computed(() => {
+  return Object.entries(buildingCoords)
+    .map(([idStr, data]) => {
+      const id = Number(idStr)
+      const level = getBuildingLevel(id)
+      if (level === 0) return null
+      const coords = data.levels[level] ?? data.levels[1]
+      if (!coords) return null
+      return { id, name: data.name, level, x: coords.x, y: coords.y }
+    })
+    .filter(Boolean) as { id: number; name: string; level: number; x: number; y: number }[]
+})
 
 const mapContainer = ref<HTMLElement | null>(null)
 const mapElement = ref<HTMLElement | null>(null)
