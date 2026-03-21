@@ -1,10 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 
 const router = useRouter()
 const authStore = useAuthStore()
+
+// If already logged in, redirect
+onMounted(() => {
+  if (authStore.isLoggedIn) {
+    router.replace('/prehled')
+  }
+})
 
 const email = ref('')
 const password = ref('')
@@ -19,7 +26,7 @@ async function handleLogin() {
   if (err) {
     error.value = err
   } else {
-    router.push('/kampan')
+    router.push('/prehled')
   }
 }
 </script>

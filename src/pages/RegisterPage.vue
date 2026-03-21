@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 import { register, verify, resendCode } from '@/services/api/authApi'
 
 const router = useRouter()
 const authStore = useAuthStore()
+
+onMounted(() => {
+  if (authStore.isLoggedIn) router.replace('/prehled')
+})
 
 const phase = ref<'register' | 'verify'>('register')
 const email = ref('')
