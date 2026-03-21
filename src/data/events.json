@@ -1,0 +1,44 @@
+{
+  "decks": {
+    "summerRoad": {
+      "name": "Letní cesta",
+      "code": "SR",
+      "season": "summer",
+      "type": "road",
+      "startCards": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+      "totalCards": 52
+    },
+    "winterRoad": {
+      "name": "Zimní cesta",
+      "code": "WR",
+      "season": "winter",
+      "type": "road",
+      "startCards": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+      "totalCards": 49
+    },
+    "summerOutpost": {
+      "name": "Letní základna",
+      "code": "SO",
+      "season": "summer",
+      "type": "outpost",
+      "startCards": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+      "totalCards": 65
+    },
+    "winterOutpost": {
+      "name": "Zimní základna",
+      "code": "WO",
+      "season": "winter",
+      "type": "outpost",
+      "startCards": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+      "totalCards": 81
+    },
+    "boat": {
+      "name": "Loď",
+      "code": "B",
+      "season": "both",
+      "type": "boat",
+      "startCards": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "totalCards": 19
+    }
+  }
+}

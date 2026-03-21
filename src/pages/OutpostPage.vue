@@ -2,6 +2,8 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCampaignStore } from '@/stores/campaignStore'
+import { useEventStore, type DeckId } from '@/stores/eventStore'
+import EventCard from '@/components/EventCard.vue'
 import townGuardData from '@/data/town-guard.json'
 import buildingsData from '@/data/buildings.json'
 
@@ -23,6 +25,7 @@ interface BuildingDef {
 
 const router = useRouter()
 const campaignStore = useCampaignStore()
+const eventStore = useEventStore()
 const buildings = buildingsData as BuildingDef[]
 
 onMounted(() => {
@@ -80,6 +83,30 @@ function cleanPerkDesc(desc: string): string {
 
 // Season
 const season = ref<'summer' | 'winter'>('summer')
+
+// Event decks for current season
+const seasonDecks = computed(() => eventStore.getDecksByType(season.value))
+
+function handleDraw(deckId: DeckId) {
+  eventStore.drawCard(deckId)
+}
+
+function handleResetDeck(deckId: DeckId) {
+  if (confirm('Opravdu resetovat balíček na výchozí karty?')) {
+    eventStore.resetDeck(deckId)
+  }
+}
+
+// Add card modal
+const showAddCard = ref<DeckId | null>(null)
+const addCardNum = ref(1)
+
+function handleAddCard() {
+  if (showAddCard.value && addCardNum.value > 0) {
+    eventStore.addCard(showAddCard.value, addCardNum.value)
+    showAddCard.value = null
+  }
+}
 
 // ── Buildings ──
 
@@ -357,15 +384,98 @@ const builtCount = computed(() => buildings.filter((b) => getBuildingLevel(b.id)
           </span>
         </button>
       </div>
-      <div class="text-center py-6">
-        <svg class="w-12 h-12 mx-auto mb-3 text-fh-primary-dim" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-        <p class="text-sm text-gray-500">Správa sezónních událostí — připravuje se</p>
-        <p class="text-xs text-gray-600 mt-1">
-          {{ season === 'summer' ? 'Letní události (Summer Road / Summer Outpost)' : 'Zimní události (Winter Road / Winter Outpost)' }}
-        </p>
+      <!-- Deck cards -->
+      <div class="space-y-3">
+        <div
+          v-for="deck in seasonDecks"
+          :key="deck.id"
+          class="fh-card p-4"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h4 class="font-display text-sm font-semibold text-gray-200">{{ deck.def.name }}</h4>
+              <p class="text-[11px] text-gray-500">
+                {{ eventStore.availableCount(deck.id) }} karet v balíčku
+                <span v-if="eventStore.removedCount(deck.id) > 0" class="text-gray-600">
+                  · {{ eventStore.removedCount(deck.id) }} odebráno
+                </span>
+              </p>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <!-- Add card -->
+              <button
+                class="p-1.5 rounded-lg text-gray-600 hover:text-fh-primary hover:bg-fh-primary/10 transition-all"
+                title="Přidat kartu"
+                @click="showAddCard = deck.id"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+              </button>
+              <!-- Reset -->
+              <button
+                class="p-1.5 rounded-lg text-gray-600 hover:text-amber-400 hover:bg-amber-500/10 transition-all"
+                title="Resetovat balíček"
+                @click="handleResetDeck(deck.id)"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182M2.985 19.644l3.181-3.182" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Draw button -->
+          <button
+            class="w-full fh-btn-primary py-2.5 text-sm rounded-lg flex items-center justify-center gap-2 disabled:opacity-40"
+            :disabled="eventStore.availableCount(deck.id) === 0"
+            @click="handleDraw(deck.id)"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75a1.5 1.5 0 00-1.5 1.5v13.5a1.5 1.5 0 001.5 1.5z" />
+            </svg>
+            Lízni kartu
+          </button>
+
+          <!-- Progress bar -->
+          <div class="mt-2 h-1 bg-black/30 rounded-full overflow-hidden border border-fh-border/20">
+            <div
+              class="fh-progress-bar h-full transition-all duration-300"
+              :style="{ width: (eventStore.availableCount(deck.id) / Math.max(1, eventStore.availableCount(deck.id) + eventStore.removedCount(deck.id))) * 100 + '%' }"
+            />
+          </div>
+        </div>
       </div>
+
+      <!-- Add card modal -->
+      <Teleport to="body">
+        <transition name="modal">
+          <div v-if="showAddCard" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div class="absolute inset-0 bg-black/60" @click="showAddCard = null" />
+            <div class="relative fh-card p-5 w-full max-w-xs space-y-4">
+              <h3 class="font-display text-base font-semibold text-fh-frost">Přidat kartu</h3>
+              <p class="text-xs text-gray-500">{{ eventStore.deckDefs[showAddCard]?.name }}</p>
+              <div class="flex items-center gap-3">
+                <label class="text-sm text-gray-400 shrink-0">Číslo:</label>
+                <input
+                  v-model.number="addCardNum"
+                  type="number"
+                  min="1"
+                  :max="eventStore.deckDefs[showAddCard]?.totalCards ?? 99"
+                  class="fh-input flex-1 text-center py-1.5"
+                />
+              </div>
+              <div class="flex gap-2">
+                <button class="flex-1 fh-btn-primary text-sm py-2 rounded-lg" @click="handleAddCard">Přidat</button>
+                <button class="flex-1 fh-btn-ghost text-sm py-2 rounded-lg" @click="showAddCard = null">Zrušit</button>
+              </div>
+            </div>
+          </div>
+        </transition>
+      </Teleport>
     </div>
+
+    <!-- EventCard overlay -->
+    <EventCard />
   </div>
 </template>
