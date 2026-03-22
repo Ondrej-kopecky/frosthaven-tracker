@@ -95,7 +95,8 @@ function isSecondaryActive(): boolean {
             <circle cx="7.5" cy="14.5" r="1.8"/>
           </g>
         </svg>
-        <span class="font-display text-fh-frost text-sm font-bold tracking-widest">FROSTHAVEN</span>
+        <span class="font-display text-fh-frost text-sm font-bold tracking-widest hidden sm:inline">FROSTHAVEN</span>
+        <span class="font-display text-fh-frost text-xs font-bold tracking-wider sm:hidden">FH Tracker</span>
         <span class="text-fh-primary-dim text-[10px] font-semibold tracking-widest uppercase hidden sm:block">Tracker</span>
       </router-link>
 

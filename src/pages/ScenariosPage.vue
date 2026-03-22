@@ -215,10 +215,28 @@ function lootEntries(loot: ScenarioData['loot']): { key: string; name: string; a
     }))
 }
 
-function formatRewards(rewards: string[][] | string[]): string[] {
+type RewardGroup = { label: string; items: string[] }
+
+function formatRewards(rewards: string[][] | string[]): RewardGroup[] {
   if (!rewards || rewards.length === 0) return []
-  // Flatten: if nested arrays, join each sub-array; if flat strings, use directly
-  return rewards.map(r => Array.isArray(r) ? r.join(', ') : r)
+  // Check if it's choice-based (array of arrays with multiple options)
+  const isChoiceBased = rewards.length > 1 && Array.isArray(rewards[0])
+  if (isChoiceBased) {
+    return (rewards as string[][]).map((group, i) => ({
+      label: `Varianta ${String.fromCharCode(65 + i)}`,
+      items: group,
+    }))
+  }
+  // Flat list or single array
+  const items = rewards.map(r => Array.isArray(r) ? r.join(', ') : r)
+  return [{ label: '', items }]
+}
+
+function formatDate(iso: string | undefined): string {
+  if (!iso) return ''
+  try {
+    return new Date(iso).toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' })
+  } catch { return '' }
 }
 
 function lootPreview(loot: ScenarioData['loot']): string {
@@ -428,19 +446,28 @@ function lootPreview(loot: ScenarioData['loot']): string {
                 <p class="text-sm text-gray-300 leading-relaxed italic">{{ selectedScenario.prompt }}</p>
               </div>
 
+              <!-- completed date -->
+              <div v-if="selectedScenario.computedStatus === SCENARIO_STATUSES.COMPLETED && selectedScenario.state.completedAt" class="flex items-center gap-2 text-xs text-gray-500">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+                Dokončeno {{ formatDate(selectedScenario.state.completedAt) }}
+              </div>
+
               <!-- rewards -->
               <div v-if="formatRewards(selectedScenario.rewards).length > 0">
                 <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Odměny</h3>
-                <div class="space-y-1.5">
-                  <div
-                    v-for="(reward, idx) in formatRewards(selectedScenario.rewards)"
-                    :key="idx"
-                    class="flex items-center gap-2 text-xs"
-                  >
-                    <span class="w-5 h-5 rounded flex items-center justify-center text-[10px] font-bold shrink-0 bg-fh-primary/10 text-fh-primary border border-fh-primary/20">
-                      {{ idx + 1 }}
-                    </span>
-                    <span class="text-gray-300">{{ reward }}</span>
+                <div class="space-y-3">
+                  <div v-for="(group, gi) in formatRewards(selectedScenario.rewards)" :key="gi">
+                    <div v-if="group.label" class="text-[10px] font-semibold text-fh-primary/60 uppercase tracking-wider mb-1">{{ group.label }}</div>
+                    <div class="space-y-1">
+                      <div
+                        v-for="(item, idx) in group.items"
+                        :key="idx"
+                        class="flex items-start gap-2 text-xs"
+                      >
+                        <span class="w-1.5 h-1.5 rounded-full bg-fh-primary/40 mt-1.5 shrink-0"></span>
+                        <span class="text-gray-300">{{ item }}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -53,22 +53,22 @@
     "choices": [],
     "rewards": [
       [
-        "Gain 2 morale"
+        "Získej 2 morálky"
       ],
       [
-        "Gain 3 morale"
+        "Získej 3 morálky"
       ],
       [
-        "Gain 4 morale"
+        "Získej 4 morálky"
       ],
       [
-        "Gain 5 morale"
+        "Získej 5 morálky"
       ],
       [
-        "Gain 6 morale"
+        "Získej 6 morálky"
       ],
       [
-        "Gain 7 morale"
+        "Získej 7 morálky"
       ]
     ],
     "loot": {
@@ -112,7 +112,7 @@
     ],
     "choices": [],
     "rewards": [
-      "Gain 1 ✔ each"
+      "Získej 1 ✔ každý"
     ],
     "loot": {
       "coins": 4,
@@ -155,7 +155,7 @@
     ],
     "choices": [],
     "rewards": [
-      "Gain 1 ✔ each"
+      "Získej 1 ✔ každý"
     ],
     "loot": {
       "coins": 4,
@@ -202,16 +202,16 @@
     ],
     "rewards": [
       [
-        "Unlock {FF} class box",
-        "Gain 1 morale",
-        "Gain 1 prosperity",
-        "Add 156.1 to the calendar in four weeks"
+        "Odemkni {FF} box třídy",
+        "Získej 1 morálky",
+        "Získej 1 prosperity",
+        "Přidej 156.1 do kalendáře za 4 týdny"
       ],
       [
-        "Unlock {SD} class box",
-        "Gain 1 morale",
-        "Gain 1 prosperity",
-        "Add 156.1 to the calendar in four weeks"
+        "Odemkni {SD} box třídy",
+        "Získej 1 morálky",
+        "Získej 1 prosperity",
+        "Přidej 156.1 do kalendáře za 4 týdny"
       ]
     ],
     "loot": {
@@ -251,7 +251,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 collective {LUMBER}"
+      "Získej 2 dřeva"
     ],
     "loot": {
       "coins": 6,
@@ -286,7 +286,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 collective {METAL}"
+      "Získej 2 kovu"
     ],
     "loot": {
       "coins": 9,
@@ -324,7 +324,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "10 experience each"
+      "10 zkušeností každý"
     ],
     "loot": {
       "coins": 6,
@@ -362,8 +362,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 collective {LUMBER}",
-      "Gain 2 collective {HIDE}"
+      "Získej 1 dřeva",
+      "Získej 2 kůží"
     ],
     "loot": {
       "coins": 6,
@@ -399,7 +399,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 collective {CORPSECAP}"
+      "Získej 2 mrtvolníku"
     ],
     "loot": {
       "coins": 8,
@@ -435,8 +435,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 morale",
-      "Gain 1 inspiration"
+      "Získej 1 morálky",
+      "Získej 1 inspirace"
     ],
     "loot": {
       "coins": 8,
@@ -479,8 +479,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 morale",
-      "Gain 1 inspiration"
+      "Získej 1 morálky",
+      "Získej 1 inspirace"
     ],
     "loot": {
       "coins": 6,
@@ -524,7 +524,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 15 experience each"
+      "Získej 15 zkušeností každý"
     ],
     "loot": {
       "coins": 8,
@@ -560,7 +560,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain “Dead Raven” (Item 233)"
+      "Získej “Dead Raven” (Item 233)"
     ],
     "loot": {
       "coins": 7,
@@ -597,8 +597,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Choose one: Unlock {CR} class box OR unlock {DT} class box",
-      "Add event WO-81 to the winter outpost deck"
+      "Vyber jedno: Odemkni {CR} box třídy NEBO odemkni {DT} box třídy",
+      "Přidej událost WO-81 do zimního balíčku událostí"
     ],
     "loot": {
       "coins": 7,
@@ -645,9 +645,9 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 collective {LUMBER}",
-      "Gain 1 collective {METAL}",
-      "Gain 1 collective {HIDE}"
+      "Získej 1 dřeva",
+      "Získej 1 kovu",
+      "Získej 1 kůží"
     ],
     "loot": {
       "coins": 8,
@@ -685,8 +685,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 5 experience each",
-      "Gain 1 inspiration"
+      "Získej 5 zkušeností každý",
+      "Získej 1 inspirace"
     ],
     "loot": {
       "coins": 8,
@@ -719,7 +719,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 ✔ each"
+      "Získej 1 ✔ každý"
     ],
     "loot": {
       "coins": 10,
@@ -760,9 +760,9 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 morale",
-      "Gain one random item blueprint",
-      "Add 122.3 to the calendar in four weeks"
+      "Získej 1 morálky",
+      "Získej jeden náhodný plán předmětu",
+      "Přidej 122.3 do kalendáře za 4 týdny"
     ],
     "loot": {
       "coins": 6,
@@ -798,9 +798,9 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 morale",
-      "Gain one random item blueprint",
-      "Add 54.3 to the calendar in four weeks"
+      "Získej 1 morálky",
+      "Získej jeden náhodný plán předmětu",
+      "Přidej 54.3 do kalendáře za 4 týdny"
     ],
     "loot": {
       "coins": 11,
@@ -835,7 +835,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 15 gold each"
+      "Získej 15 zlata každý"
     ],
     "loot": {
       "coins": 10,
@@ -866,7 +866,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 prosperity"
+      "Získej 2 prosperity"
     ],
     "loot": {
       "coins": 6,
@@ -908,9 +908,9 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Lose 1 collective {LUMBER} for each set of five hexes with water tiles on tile 7-G",
-      "Gain 15 experience each",
-      "Add 62.2 to the calendar in two weeks"
+      "Ztráta 1 dřeva za každou sadu pěti hexů s vodními dlaždicemi na dlaždici 7-G",
+      "Získej 15 zkušeností každý",
+      "Přidej 62.2 do kalendáře za 2 týdny"
     ],
     "loot": {
       "coins": 10,
@@ -950,7 +950,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain one random item blueprint"
+      "Získej jeden náhodný plán předmětu"
     ],
     "loot": {
       "coins": 8,
@@ -984,7 +984,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain one random item blueprint"
+      "Získej jeden náhodný plán předmětu"
     ],
     "loot": {
       "coins": 8,
@@ -1027,9 +1027,9 @@
     ],
     "choices": [],
     "rewards": [
-      "Gain 2 collective {LUMBER}",
-      "Gain 2 collective {METAL}",
-      "Add 128.2 to the calendar in four weeks"
+      "Získej 2 dřeva",
+      "Získej 2 kovu",
+      "Přidej 128.2 do kalendáře za 4 týdny"
     ],
     "loot": {
       "coins": 10,
@@ -1071,7 +1071,7 @@
     ],
     "choices": [],
     "rewards": [
-      "Gain 10 experience each"
+      "Získej 10 zkušeností každý"
     ],
     "loot": {
       "coins": 10,
@@ -1105,9 +1105,9 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 10 experience each",
-      "Gain 1 ✔ each",
-      "Ancient Technology"
+      "Získej 10 zkušeností každý",
+      "Získej 1 ✔ každý",
+      "Starověká technologie"
     ],
     "loot": {
       "coins": 13,
@@ -1164,7 +1164,7 @@
     ],
     "choices": [],
     "rewards": [
-      "Lose 1 morale"
+      "Ztráta 1 morálky"
     ],
     "loot": {
       "coins": 11,
@@ -1206,10 +1206,10 @@
     ],
     "choices": [],
     "rewards": [
-      "Gain 3 morale",
-      "Remove all {ALGOX} events from all outpost event decks",
-      "Add event WO-68 to the winter outpost deck",
-      "Add 46.3 to the calendar in five weeks"
+      "Získej 3 morálky",
+      "Odstraň všechny ALGOX události ze všech balíčků událostí",
+      "Přidej událost WO-68 do zimního balíčku událostí",
+      "Přidej 46.3 do kalendáře za 5 týdnů"
     ],
     "loot": {
       "coins": 12,
@@ -1254,10 +1254,11 @@
     ],
     "choices": [],
     "rewards": [
-      "Gain 3 morale",
-      "Remove all {ALGOX} events from all outpost event decks",
-      "Add event WO-69 to the winter outpost deck",
-      "Add 34.2 to the calendar in five weeks"
+      "Získej 3 morálky",
+      "Získej “Destroyer of the Snowspeakers” samolepku",
+      "Odstraň všechny ALGOX události ze všech balíčků událostí",
+      "Přidej událost WO-69 do zimního balíčku událostí",
+      "Přidej 34.2 do kalendáře za 5 týdnů"
     ],
     "loot": {
       "coins": 12,
@@ -1297,8 +1298,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 5 experience each",
-      "Gain 10 gold each"
+      "Získej 5 zkušeností každý",
+      "Získej 10 zlata každý"
     ],
     "loot": {
       "coins": 11,
@@ -1340,7 +1341,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain “Feathered Cloak” (Item 69) blueprint"
+      "Získej “Feathered Cloak” (Item 69) plán"
     ],
     "loot": {
       "coins": 7,
@@ -1377,9 +1378,9 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 5 experience each for each unrevealed dowsing rune",
-      "Gain “Ember Energy Source” (Item 244)",
-      "Add 135.1 to the calendar in three weeks"
+      "Získej 5 zkušeností každý za každou neodkrytou proutěnou runu",
+      "Získej “Ember Energy Source” (Item 244)",
+      "Přidej 135.1 do kalendáře za 3 týdny"
     ],
     "loot": {
       "coins": 8,
@@ -1450,9 +1451,9 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 collective {LUMBER}",
-      "Gain 2 collective {METAL}",
-      "Gain 2 collective {HIDE}"
+      "Získej 2 dřeva",
+      "Získej 2 kovu",
+      "Získej 2 kůží"
     ],
     "loot": {
       "coins": 7,
@@ -1499,8 +1500,8 @@
     ],
     "choices": [],
     "rewards": [
-      "Gain 3 collective {LUMBER}",
-      "Gain 3 collective {METAL}"
+      "Získej 3 dřeva",
+      "Získej 3 kovu"
     ],
     "loot": {
       "coins": 9,
@@ -1548,8 +1549,8 @@
     ],
     "choices": [],
     "rewards": [
-      "Gain 3 collective {LUMBER}",
-      "Gain 3 collective {METAL}"
+      "Získej 3 dřeva",
+      "Získej 3 kovu"
     ],
     "loot": {
       "coins": 10,
@@ -1593,9 +1594,9 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 10 experience each",
-      "Gain 1 ✔ each",
-      "Gain 1 inspiration"
+      "Získej 10 zkušeností každý",
+      "Získej 1 ✔ každý",
+      "Získej 1 inspirace"
     ],
     "loot": {
       "coins": 8,
@@ -1631,8 +1632,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Lose 1 inspiration",
-      "Gain 2 additional loot cards each"
+      "Ztráta 1 inspirace",
+      "Získej 2 additional loot cards každý"
     ],
     "loot": {
       "coins": 10,
@@ -1676,8 +1677,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Lose 1 inspiration",
-      "Gain 2 additional loot cards each"
+      "Ztráta 1 inspirace",
+      "Získej 2 additional loot cards každý"
     ],
     "loot": {
       "coins": 10,
@@ -1716,9 +1717,9 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 15 gold each",
-      "Gain 2 collective {AXENUT}",
-      "Ancient Technology"
+      "Získej 15 zlata každý",
+      "Získej 2 sekeřičníku",
+      "Starověká technologie"
     ],
     "loot": {
       "coins": 9,
@@ -1764,9 +1765,9 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 ✔ each",
-      "Add event B-16 to the boat deck",
-      "Add 114.2 to the calendar in three weeks"
+      "Získej 2 ✔ každý",
+      "Přidej událost B-16 to the boat deck",
+      "Přidej 114.2 do kalendáře za 3 týdny"
     ],
     "loot": {
       "coins": 12,
@@ -1811,7 +1812,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 10 experience each"
+      "Získej 10 zkušeností každý"
     ],
     "loot": {
       "coins": 8,
@@ -1850,8 +1851,8 @@
       59
     ],
     "rewards": [
-      "Gain 5 gold each",
-      "Gain “Energizing Baton” (Item 73) blueprint"
+      "Získej 5 zlata každý",
+      "Získej “Energizing Baton” (Item 73) plán"
     ],
     "loot": {
       "coins": 8,
@@ -1888,8 +1889,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 morale",
-      "Gain 1 ✔ each"
+      "Získej 1 morálky",
+      "Získej 1 ✔ každý"
     ],
     "loot": {
       "coins": 10,
@@ -1929,8 +1930,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 morale",
-      "Gain 10 experience each"
+      "Získej 1 morálky",
+      "Získej 10 zkušeností každý"
     ],
     "loot": {
       "coins": 9,
@@ -1973,8 +1974,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 10 gold each",
-      "Gain 2 collective {LUMBER}"
+      "Získej 10 zlata každý",
+      "Získej 2 dřeva"
     ],
     "loot": {
       "coins": 7,
@@ -2008,8 +2009,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 10 gold each",
-      "Gain 2 collective {METAL}"
+      "Získej 10 zlata každý",
+      "Získej 2 kovu"
     ],
     "loot": {
       "coins": 7,
@@ -2058,8 +2059,8 @@
     ],
     "choices": [],
     "rewards": [
-      "Gain 5 experience each",
-      "Gain 1 inspiration"
+      "Získej 5 zkušeností každý",
+      "Získej 1 inspirace"
     ],
     "loot": {
       "coins": 13,
@@ -2105,9 +2106,9 @@
     ],
     "choices": [],
     "rewards": [
-      "Lose 2 inspiration",
-      "Gain 4 collective {LUMBER}",
-      "Gain 4 collective {METAL}"
+      "Ztráta 2 inspirace",
+      "Získej 4 dřeva",
+      "Získej 4 kovu"
     ],
     "loot": {
       "coins": 13,
@@ -2153,8 +2154,8 @@
       59
     ],
     "rewards": [
-      "Gain 10 experience each",
-      "Gain “Shock Grenades” (Item 74) blueprint"
+      "Získej 10 zkušeností každý",
+      "Získej “Shock Grenades” (Item 74) plán"
     ],
     "loot": {
       "coins": 12,
@@ -2194,8 +2195,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 morale",
-      "Gain 1 inspiration"
+      "Získej 1 morálky",
+      "Získej 1 inspirace"
     ],
     "loot": {
       "coins": 6,
@@ -2238,7 +2239,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 ✔ each"
+      "Získej 2 ✔ každý"
     ],
     "loot": {
       "coins": 8,
@@ -2286,7 +2287,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 ✔ each"
+      "Získej 2 ✔ každý"
     ],
     "loot": {
       "coins": 8,
@@ -2324,12 +2325,12 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 morale",
-      "Gain 2 prosperity",
-      "Unlock whichever class box is still locked: {FF} or {SD}",
-      "Remove all {ALGOX} events from all outpost event decks",
-      "Add events WO-66 and WO-67 to the winter outpost deck",
-      "Add one +50 card to town guard deck"
+      "Získej 2 morálky",
+      "Získej 2 prosperity",
+      "Odemkni whichever box třídy is still locked: {FF} or {SD}",
+      "Odstraň všechny ALGOX události ze všech balíčků událostí",
+      "Přidej událosts WO-66 and WO-67 do zimního balíčku událostí",
+      "Přidej one +50 card to town guard deck"
     ],
     "loot": {
       "coins": 3,
@@ -2367,11 +2368,11 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 morale",
-      "Gain 1 inspiration",
-      "Unlock {FF} class box",
-      "Add event SO-51 to the summer outpost deck",
-      "Add one +50 card to town guard deck"
+      "Získej 1 morálky",
+      "Získej 1 inspirace",
+      "Odemkni {FF} box třídy",
+      "Přidej událost SO-51 do letního balíčku událostí",
+      "Přidej one +50 card to town guard deck"
     ],
     "loot": {
       "coins": 6,
@@ -2408,11 +2409,11 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 morale",
-      "Gain 1 inspiration",
-      "Unlock {SD} class box",
-      "Add event WO-68 to the winter outpost deck",
-      "Add one +50 card to town guard deck"
+      "Získej 1 morálky",
+      "Získej 1 inspirace",
+      "Odemkni {SD} box třídy",
+      "Přidej událost WO-68 do zimního balíčku událostí",
+      "Přidej one +50 card to town guard deck"
     ],
     "loot": {},
     "has_boss": true,
@@ -2456,15 +2457,15 @@
     ],
     "choices": [],
     "rewards": [
-      "Gain 1 morale",
-      "Gain “Key Card” (Item 246)",
-      "Gain 3 collective {LUMBER}",
-      "Gain 3 collective {METAL}",
-      "Gain 3 collective {HIDE}",
-      "Unlock {HV} class box",
-      "Remove all {UNFETTERED} events from all outpost event decks",
-      "Add events WO-64 and WO-65 to the winter outpost deck",
-      "Add one +50 card to town guard deck"
+      "Získej 1 morálky",
+      "Získej “Key Card” (Item 246)",
+      "Získej 3 dřeva",
+      "Získej 3 kovu",
+      "Získej 3 kůží",
+      "Odemkni {HV} box třídy",
+      "Odstraň všechny UNFETTERED události ze všech balíčků událostí",
+      "Přidej událosts WO-64 and WO-65 do zimního balíčku událostí",
+      "Přidej one +50 card to town guard deck"
     ],
     "loot": {
       "coins": 6,
@@ -2508,13 +2509,13 @@
     ],
     "choices": [],
     "rewards": [
-      "Gain 2 morale",
-      "Gain 2 prosperity",
-      "Gain “Key Card” (Item 246)",
-      "Unlock {HV} class box",
-      "Remove all {UNFETTERED} events from all outpost event decks",
-      "Add event SO-49 to the summer outpost deck and event WO-63 to the winter outpost deck",
-      "Add one +50 card to town guard deck"
+      "Získej 2 morálky",
+      "Získej 2 prosperity",
+      "Získej “Key Card” (Item 246)",
+      "Odemkni {HV} box třídy",
+      "Odstraň všechny UNFETTERED události ze všech balíčků událostí",
+      "Přidej událost SO-49 do letního balíčku událostí and event WO-63 do zimního balíčku událostí",
+      "Přidej one +50 card to town guard deck"
     ],
     "loot": {
       "coins": 11,
@@ -2549,13 +2550,13 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 morale",
-      "Gain 1 prosperity",
-      "Gain 30 experience each",
-      "Unlock whichever class box is still locked: {CR} or {DT}",
-      "Remove all {LURKERS} events from all outpost event decks",
-      "Add event SO-48 to the summer outpost deck and event B-17 to the boat deck",
-      "Add one +50 card to town guard deck"
+      "Získej 2 morálky",
+      "Získej 1 prosperity",
+      "Získej 30 zkušeností každý",
+      "Odemkni whichever box třídy is still locked: {CR} or {DT}",
+      "Odstraň všechny {LURKERS} události ze všech balíčků událostí",
+      "Přidej událost SO-48 do letního balíčku událostí and event B-17 to the boat deck",
+      "Přidej one +50 card to town guard deck"
     ],
     "loot": {
       "coins": 8,
@@ -2601,8 +2602,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Unlock {SH} class box",
-      "Add section 140.3 to the calendar in one week"
+      "Odemkni {SH} box třídy",
+      "Přidej section 140.3 do kalendáře za one týden"
     ],
     "loot": {
       "coins": 5,
@@ -2639,7 +2640,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 prosperity"
+      "Získej 1 prosperity"
     ],
     "loot": {
       "coins": 5,
@@ -2683,7 +2684,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 prosperity"
+      "Získej 2 prosperity"
     ],
     "loot": {
       "coins": 5,
@@ -2716,9 +2717,9 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 3 morale",
-      "Gain 3 prosperity",
-      "Gain 3 ✔ each"
+      "Získej 3 morálky",
+      "Získej 3 prosperity",
+      "Získej 3 ✔ každý"
     ],
     "loot": {
       "coins": 5,
@@ -2753,9 +2754,9 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 collective {LUMBER}",
-      "Gain 2 collective {METAL}",
-      "Add 95.4 to the calendar in six weeks"
+      "Získej 2 dřeva",
+      "Získej 2 kovu",
+      "Přidej 95.4 do kalendáře za six týdnů"
     ],
     "loot": {
       "coins": 8,
@@ -2789,8 +2790,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain “Elemental Stone” (Item 212)",
-      "Add 29.3 to the calendar in six weeks"
+      "Získej “Elemental Stone” (Item 212)",
+      "Přidej 29.3 do kalendáře za six týdnů"
     ],
     "loot": {
       "coins": 12,
@@ -2835,8 +2836,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 morale",
-      "Gain 1 prosperity"
+      "Získej 1 morálky",
+      "Získej 1 prosperity"
     ],
     "loot": {
       "coins": 8,
@@ -2877,7 +2878,7 @@
     "choices": [],
     "rewards": [
       "“Aesther Outpost” personal quest complete",
-      "Add 133.1 to the calendar in two weeks"
+      "Přidej 133.1 do kalendáře za 2 týdny"
     ],
     "loot": {
       "lumber": 5,
@@ -2907,10 +2908,10 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 {ARROWVINE}",
-      "Gain 1 {AXENUT}",
-      "Gain 1 {FLAMEFRUIT}",
-      "Add 15.4 to the calendar in three weeks"
+      "Získej 1 šípobylu",
+      "Získej 1 sekeřičníku",
+      "Získej 1 plamenoplodu",
+      "Přidej 15.4 do kalendáře za 3 týdny"
     ],
     "loot": {
       "coins": 8,
@@ -2951,7 +2952,7 @@
     "choices": [],
     "rewards": [
       "“The True Oak” personal quest complete",
-      "Gain 1 Prosperity"
+      "Získej 1 Prosperity"
     ],
     "loot": {
       "coins": 7,
@@ -2994,8 +2995,8 @@
     "choices": [],
     "rewards": [
       "Damage any one even building between 71 and 89",
-      "Gain 10 experience each",
-      "Add 149.5 to the calendar in five weeks"
+      "Získej 10 zkušeností každý",
+      "Přidej 149.5 do kalendáře za 5 týdnů"
     ],
     "loot": {
       "coins": 8,
@@ -3029,7 +3030,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 ✔ each"
+      "Získej 1 ✔ každý"
     ],
     "loot": {
       "coins": 9,
@@ -3071,8 +3072,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 3 collective {LUMBER}",
-      "Add 146.1 to the calendar in five weeks"
+      "Získej 3 dřeva",
+      "Přidej 146.1 do kalendáře za 5 týdnů"
     ],
     "loot": {
       "coins": 9,
@@ -3107,7 +3108,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain one random item blueprint"
+      "Získej jeden náhodný plán předmětu"
     ],
     "loot": {
       "coins": 7,
@@ -3158,7 +3159,7 @@
     ],
     "choices": [],
     "rewards": [
-      "Gain 10 gold each"
+      "Získej 10 zlata každý"
     ],
     "loot": {
       "coins": 8,
@@ -3212,8 +3213,8 @@
     "rewards": [
       [
         "“Threat from the Deep” personal quest complete",
-        "Gain “Wave Blade” (Item 201)",
-        "Add event B-18 to the boat deck"
+        "Získej “Wave Blade” (Item 201)",
+        "Přidej událost B-18 to the boat deck"
       ],
       []
     ],
@@ -3257,8 +3258,8 @@
     "choices": [],
     "rewards": [
       "“Threat from the Deep” personal quest complete",
-      "Gain “Wave Blade” (Item 201)",
-      "Add event B-19 to the boat deck"
+      "Získej “Wave Blade” (Item 201)",
+      "Přidej událost B-19 to the boat deck"
     ],
     "loot": {
       "coins": 4,
@@ -3299,7 +3300,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 10 experience each"
+      "Získej 10 zkušeností každý"
     ],
     "loot": {
       "coins": 6,
@@ -3340,8 +3341,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 3 morale",
-      "Add 45.2 to the calendar in three weeks"
+      "Získej 3 morálky",
+      "Přidej 45.2 do kalendáře za 3 týdny"
     ],
     "loot": {
       "coins": 8,
@@ -3382,10 +3383,10 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 collective {LUMBER}",
-      "Gain 2 collective {METAL}",
-      "Gain 2 collective {HIDE}",
-      "Gain 2 morale"
+      "Získej 2 dřeva",
+      "Získej 2 kovu",
+      "Získej 2 kůží",
+      "Získej 2 morálky"
     ],
     "loot": {
       "coins": 8,
@@ -3425,8 +3426,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 prosperity",
-      "Gain “Aesther Robe” (Item 70) blueprint"
+      "Získej 1 prosperity",
+      "Získej “Aesther Robe” (Item 70) plán"
     ],
     "loot": {
       "coins": 9,
@@ -3463,8 +3464,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 prosperity",
-      "Add the following Forgotten Circles items to the Frosthaven supply: 153, 159, and 161"
+      "Získej 2 prosperity",
+      "Přidej the following Forgotten Circles items to the Frosthaven supply: 153, 159, and 161"
     ],
     "loot": {
       "coins": 12,
@@ -3500,7 +3501,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain “Giant Piranha Pig Spine” (Item 202)"
+      "Získej “Giant Piranha Pig Spine” (Item 202)"
     ],
     "loot": {
       "coins": 7,
@@ -3538,7 +3539,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain “Ooze Vial” (Item 234)"
+      "Získej “Ooze Vial” (Item 234)"
     ],
     "loot": {
       "coins": 15,
@@ -3570,8 +3571,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 15 experience each",
-      "Gain 1 ✔ each"
+      "Získej 15 zkušeností každý",
+      "Získej 1 ✔ každý"
     ],
     "loot": {
       "coins": 7,
@@ -3611,7 +3612,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 morale"
+      "Získej 2 morálky"
     ],
     "loot": {
       "coins": 10,
@@ -3647,10 +3648,10 @@
     "choices": [],
     "rewards": [
       [
-        "Gain 2 inspiration"
+        "Získej 2 inspirace"
       ],
       [
-        "Gain 1 inspiration"
+        "Získej 1 inspirace"
       ]
     ],
     "loot": {
@@ -3687,7 +3688,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 morale"
+      "Získej 2 morálky"
     ],
     "loot": {
       "coins": 8,
@@ -3720,8 +3721,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 collective {ROCKROOT}",
-      "Gain 2 collective {LUMBER}"
+      "Získej 2 skalokořenu",
+      "Získej 2 dřeva"
     ],
     "loot": {
       "coins": 10,
@@ -3755,14 +3756,14 @@
     "choices": [],
     "rewards": [
       [
-        "Gain 1 ✔ each",
-        "Each character gains 10 gold for each numbered token they looted",
-        "Lose 10 collective gold"
+        "Získej 1 ✔ každý",
+        "Each character získejs 10 gold for každý numbered token they looted",
+        "Ztráta 10 gold"
       ],
       [
-        "Gain 1 ✔ each",
-        "Each character gains 10 gold for each numbered token they looted",
-        "Lose 5 collective gold",
+        "Získej 1 ✔ každý",
+        "Each character získejs 10 gold for každý numbered token they looted",
+        "Ztráta 5 gold",
         "All characters start the next scenario with {MUDDLE.fh} and {CURSE.fh}"
       ]
     ],
@@ -3795,8 +3796,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 2 collective {LUMBER}",
-      "Gain 1 morale"
+      "Získej 2 dřeva",
+      "Získej 1 morálky"
     ],
     "loot": {
       "coins": 10,
@@ -3825,8 +3826,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Collectively lose 5xC/2 loot tokens. Loot tokens are then traded in for loot cards",
-      "Add 181.2 to the calendar in one week"
+      "Collectively ztráta 5xC/2 loot tokens. Loot tokens are then traded in for loot cards",
+      "Přidej 181.2 do kalendáře za one týden"
     ],
     "loot": {
       "coins": 7,
@@ -3865,10 +3866,10 @@
     "choices": [],
     "rewards": [
       [
-        "Gain “Small Rat” (Item 235)"
+        "Získej “Small Rat” (Item 235)"
       ],
       [
-        "Gain “Roasted Fowl” (Item 79)"
+        "Získej “Roasted Fowl” (Item 79)"
       ]
     ],
     "loot": {
@@ -3906,7 +3907,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 10 experience each"
+      "Získej 10 zkušeností každý"
     ],
     "loot": {
       "coins": 9,
@@ -3945,8 +3946,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 morale",
-      "Gain 10 gold each"
+      "Získej 1 morálky",
+      "Získej 10 zlata každý"
     ],
     "loot": {
       "coins": 8,
@@ -3986,8 +3987,8 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 morale",
-      "Gain 5 experience each"
+      "Získej 1 morálky",
+      "Získej 5 zkušeností každý"
     ],
     "loot": {
       "coins": 14,
@@ -4027,7 +4028,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 5 collective {METAL}"
+      "Získej 5 kovu"
     ],
     "loot": {
       "coins": 10,
@@ -4060,7 +4061,7 @@
     "blocks_on": [],
     "choices": [],
     "rewards": [
-      "Gain 1 prosperity"
+      "Získej 1 prosperity"
     ],
     "loot": {
       "coins": 10,
