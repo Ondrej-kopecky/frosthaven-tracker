@@ -62,10 +62,10 @@ const selectedId = ref<number | null>(null)
 
 // FH map dimensions (portrait)
 const MAP_WIDTH = 2500
-const MAP_HEIGHT = 3179
+const MAP_HEIGHT = 3159
 
 // Sticker scale (adjust from reference)
-const STICKER_SCALE = 0.75
+const STICKER_SCALE = 0.7
 
 onMounted(async () => {
   if (!campaignStore.hasCampaign) {
@@ -207,7 +207,7 @@ function goToOutpost() {
         alt="Mapa Frosthavenu"
         class="absolute left-0 top-0 pointer-events-none select-none"
         draggable="false"
-        :style="{ width: '100%', height: '100%' }"
+        :style="{ width: '100%' }"
       />
 
       <!-- Scenario stickers -->
@@ -235,11 +235,11 @@ function goToOutpost() {
         :src="`/img/buildings/${b.id}-level-${b.level}.webp`"
         :alt="b.name"
         :title="b.name + ' (Level ' + b.level + ')'"
-        class="absolute cursor-pointer transition-transform duration-150 hover:scale-125"
+        class="absolute cursor-pointer transition-transform duration-150 hover:scale-110"
         :style="{
           left: b.x + '%',
           top: b.y + '%',
-          width: '3.2%',
+          transform: 'scale(' + STICKER_SCALE + ')',
           filter: 'drop-shadow(0 0 4px rgba(91,164,207,0.5))',
           zIndex: 15,
         }"
