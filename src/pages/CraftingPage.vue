@@ -16,201 +16,432 @@ onMounted(() => {
 
 const campaign = computed(() => campaignStore.currentCampaign)
 
-// Herb name translations
-const herbNames: Record<string, string> = {
-  arrowvine: 'Sipobyl',
-  rockroot: 'Skalokoren',
-  snowthistle: 'Snehobodlak',
-  axenut: 'Sekericnik',
-  corpsecap: 'Mrtvolnik',
-  flamefruit: 'Plamenoplod',
+// Alchemist building ID = 35
+const ALCHEMIST_ID = 35
+const alchemistLevel = computed(() => campaign.value?.buildingLevels?.[ALCHEMIST_ID] ?? 0)
+
+// Discovered recipes (item IDs that player has brewed/revealed)
+const discoveredRecipes = computed(() => new Set(campaign.value?.discoveredRecipes ?? []))
+
+function discoverRecipe(itemId: number) {
+  if (!campaign.value) return
+  if (!campaign.value.discoveredRecipes) campaign.value.discoveredRecipes = []
+  if (!campaign.value.discoveredRecipes.includes(itemId)) {
+    campaign.value.discoveredRecipes.push(itemId)
+    campaignStore.autoSave()
+  }
 }
 
-// Herb colors for table headers
-const herbColors: Record<string, string> = {
-  arrowvine: 'bg-green-900/50 text-green-300 border-green-700/40',
-  rockroot: 'bg-cyan-900/50 text-cyan-300 border-cyan-700/40',
-  snowthistle: 'bg-sky-900/50 text-sky-300 border-sky-700/40',
-  axenut: 'bg-lime-900/50 text-lime-300 border-lime-700/40',
-  corpsecap: 'bg-emerald-900/50 text-emerald-300 border-emerald-700/40',
-  flamefruit: 'bg-teal-900/50 text-teal-300 border-teal-700/40',
-  any: 'bg-purple-900/50 text-purple-300 border-purple-700/40',
+// Available charts based on alchemist level
+const availableCharts = computed(() => {
+  return alchemyData.filter(c => c.level <= alchemistLevel.value)
+})
+
+// Herb names & colors
+const herbs: Record<string, { name: string; color: string; bg: string; border: string }> = {
+  arrowvine:   { name: 'Šípobyl',      color: '#22c55e', bg: 'rgba(34,197,94,0.12)',  border: 'rgba(34,197,94,0.25)' },
+  axenut:      { name: 'Sekeřičník',   color: '#84cc16', bg: 'rgba(132,204,22,0.12)', border: 'rgba(132,204,22,0.25)' },
+  corpsecap:   { name: 'Mrtvolník',    color: '#a855f7', bg: 'rgba(168,85,247,0.12)', border: 'rgba(168,85,247,0.25)' },
+  flamefruit:  { name: 'Plamenoplod',  color: '#ef4444', bg: 'rgba(239,68,68,0.12)',  border: 'rgba(239,68,68,0.25)' },
+  rockroot:    { name: 'Skalokořen',   color: '#78716c', bg: 'rgba(120,113,108,0.12)',border: 'rgba(120,113,108,0.25)' },
+  snowthistle: { name: 'Sněhobodlák', color: '#06b6d4', bg: 'rgba(6,182,212,0.12)',  border: 'rgba(6,182,212,0.25)' },
+}
+
+type HerbKey = keyof typeof herbs
+const herbKeys: HerbKey[] = ['arrowvine', 'axenut', 'corpsecap', 'flamefruit', 'rockroot', 'snowthistle']
+
+function getHerbCount(key: HerbKey): number {
+  return campaign.value?.resources[key as keyof typeof campaign.value.resources] ?? 0
+}
+
+function herbName(key: string): string {
+  return herbs[key]?.name ?? key
+}
+
+function herbColor(key: string): string {
+  return herbs[key]?.color ?? '#94a3b8'
 }
 
 // Item lookup
 function getItemName(itemId: number): string {
   const item = (itemsData as { id: number; name: string }[]).find((i) => i.id === itemId)
-  return item?.name ?? `Predmet #${itemId}`
+  return item?.name ?? `Předmět #${itemId}`
 }
 
-// Resource display
-type HerbKey = 'arrowvine' | 'axenut' | 'corpsecap' | 'flamefruit' | 'rockroot' | 'snowthistle'
+// Selected item for detail
+const selectedItem = ref<{ id: number; name: string; herbs: string[] } | null>(null)
 
-const herbResources: { key: HerbKey; label: string; color: string }[] = [
-  { key: 'arrowvine', label: 'Sipobyl', color: 'bg-green-900/40 border-green-700/30 text-green-200' },
-  { key: 'axenut', label: 'Sekericnik', color: 'bg-lime-900/40 border-lime-700/30 text-lime-200' },
-  { key: 'corpsecap', label: 'Mrtvolnik', color: 'bg-emerald-900/40 border-emerald-700/30 text-emerald-200' },
-  { key: 'flamefruit', label: 'Plamenoplod', color: 'bg-teal-900/40 border-teal-700/30 text-teal-200' },
-  { key: 'rockroot', label: 'Skalokoren', color: 'bg-cyan-900/40 border-cyan-700/30 text-cyan-200' },
-  { key: 'snowthistle', label: 'Snehobodlak', color: 'bg-sky-900/40 border-sky-700/30 text-sky-200' },
-]
-
-function getHerbCount(key: HerbKey): number {
-  return campaign.value?.resources[key] ?? 0
+function openItem(itemId: number, rowHerb: string, colHerb: string) {
+  const herbList = [rowHerb, colHerb].filter(h => h && herbs[h])
+  selectedItem.value = { id: itemId, name: getItemName(itemId), herbs: herbList }
 }
 
-// Item detail tooltip
-const hoveredItem = ref<{ id: number; name: string } | null>(null)
-
-function showItemTooltip(itemId: number) {
-  hoveredItem.value = { id: itemId, name: getItemName(itemId) }
+function closeItem() {
+  selectedItem.value = null
 }
 
-function hideItemTooltip() {
-  hoveredItem.value = null
-}
+// Parse cell
+type CellInfo =
+  | { type: 'item'; id: number; name: string }
+  | { type: 'double'; herbKey: string }
+  | { type: 'any' }
+  | { type: 'empty' }
+  | { type: 'header'; herbKey: string }
 
-// Parse cell value — either a number (item ID), a recipe key, "any", or empty
-function getCellContent(cell: string | number, chart: typeof alchemyData[0]): { type: 'item'; id: number; name: string } | { type: 'recipe'; label: string; itemId: number } | { type: 'any' } | { type: 'empty' } {
+function parseCell(cell: string | number): CellInfo {
   if (cell === '' || cell === null || cell === undefined) return { type: 'empty' }
   if (cell === 'any') return { type: 'any' }
   if (typeof cell === 'number') return { type: 'item', id: cell, name: getItemName(cell) }
   if (typeof cell === 'string' && cell.startsWith(':')) {
-    const recipe = (chart as { recipes?: Record<string, { ingredients: string; item: number }> }).recipes?.[cell]
-    if (recipe) {
-      return { type: 'recipe', label: herbNames[cell.replace(/^:/, '').replace(/-2x$/, '')] ?? cell, itemId: recipe.item }
-    }
+    const herbKey = cell.replace(/^:/, '').replace(/-2x$/, '')
+    return { type: 'double', herbKey }
   }
+  if (typeof cell === 'string' && herbs[cell]) return { type: 'header', herbKey: cell }
   return { type: 'empty' }
 }
 
-// Chart title
-function getChartTitle(chart: typeof alchemyData[0], index: number): string {
-  if (chart.title) return `Uroven ${chart.level}: ${chart.title}`
-  return `Uroven ${chart.level} (tabulka ${index + 1})`
+function chartTitle(chart: typeof alchemyData[0], idx: number): string {
+  if (chart.title === '2 Herbs') return 'Kombinace 2 bylin'
+  if (chart.title === '3 Herbs') return 'Kombinace 3 bylin'
+  if (chart.title) return chart.title
+  return `Tabulka ${idx + 1}`
+}
+
+// Confirm dialog for discovering recipe
+const confirmDiscover = ref<{ id: number; name: string; rowHerb: string; colHerb: string } | null>(null)
+
+function askDiscover(itemId: number, rowHerb: string, colHerb: string) {
+  confirmDiscover.value = { id: itemId, name: getItemName(itemId), rowHerb, colHerb }
+}
+
+function doDiscover() {
+  if (!confirmDiscover.value) return
+  discoverRecipe(confirmDiscover.value.id)
+  openItem(confirmDiscover.value.id, confirmDiscover.value.rowHerb, confirmDiscover.value.colHerb)
+  confirmDiscover.value = null
 }
 </script>
 
 <template>
   <div v-if="!campaign" />
 
-  <div v-else>
+  <div v-else class="max-w-4xl mx-auto">
     <div class="fh-page-header">
-      <h1 class="font-display text-2xl font-bold text-fh-frost">Vyroba</h1>
+      <h1 class="font-display text-2xl font-bold text-fh-frost">Výroba</h1>
     </div>
 
-    <!-- Herb inventory -->
-    <div class="fh-divider mb-4">Zasoby bylin</div>
-    <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-6">
-      <div
-        v-for="herb in herbResources"
-        :key="herb.key"
-        class="rounded-xl border p-3 text-center"
-        :class="herb.color"
-      >
-        <div class="text-lg font-bold">{{ getHerbCount(herb.key) }}</div>
-        <div class="text-[10px] uppercase tracking-wider opacity-75">{{ herb.label }}</div>
+    <!-- Alchemist status -->
+    <div v-if="alchemistLevel === 0" class="fh-card p-5 mb-6 border-yellow-800/30">
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-lg bg-yellow-500/15 border border-yellow-500/25 flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold text-yellow-400 mb-1">Alchymista není postaven</h3>
+          <p class="text-xs text-gray-400">Pro výrobu lektvarů musíš nejdříve postavit budovu Alchymista v základně. Přejdi na stránku Základna a postav ji.</p>
+          <router-link to="/outpost" class="inline-block mt-2 text-xs text-fh-primary hover:text-fh-primary-light no-underline">
+            Přejít na Základnu &rarr;
+          </router-link>
+        </div>
       </div>
     </div>
 
-    <!-- Alchemy charts -->
-    <div class="fh-divider mb-4">Alchymisticke tabulky</div>
-
-    <div class="space-y-6">
-      <div
-        v-for="(chart, chartIndex) in alchemyData"
-        :key="chartIndex"
-        class="fh-card p-4 sm:p-5"
-      >
-        <h3 class="font-display text-sm font-bold text-fh-frost mb-4">
-          {{ getChartTitle(chart, chartIndex) }}
-        </h3>
-
-        <div class="overflow-x-auto -mx-2 px-2">
-          <table class="w-full text-xs border-collapse min-w-[400px]">
-            <thead>
-              <tr>
-                <th class="p-2 text-left text-gray-500 font-normal"></th>
-                <th
-                  v-for="(header, hIdx) in (chart.chart[0] as (string | number)[]).slice(0)"
-                  :key="hIdx"
-                  class="p-2 text-center font-semibold rounded-t-lg"
-                  :class="typeof header === 'string' && header ? (herbColors[header] ?? 'text-gray-400') : 'text-gray-600'"
-                >
-                  <template v-if="typeof header === 'string' && header">
-                    {{ herbNames[header] ?? header }}
-                  </template>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(row, rIdx) in chart.chart.slice(1)"
-                :key="rIdx"
-                class="border-t border-fh-border/50"
-              >
-                <!-- Row header (herb name) -->
-                <td
-                  class="p-2 font-semibold whitespace-nowrap"
-                  :class="typeof (row as (string | number)[])[0] === 'string' ? (herbColors[(row as (string | number)[])[0] as string] ?? 'text-gray-400') : 'text-gray-400'"
-                >
-                  {{ herbNames[(row as (string | number)[])[0] as string] ?? (row as (string | number)[])[0] }}
-                </td>
-
-                <!-- Data cells -->
-                <td
-                  v-for="(cell, cIdx) in (row as (string | number)[]).slice(1)"
-                  :key="cIdx"
-                  class="p-2 text-center"
-                >
-                  <template v-if="getCellContent(cell, chart).type === 'item'">
-                    <button
-                      class="inline-flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg bg-fh-primary/10 border border-fh-primary/20 hover:bg-fh-primary/20 hover:border-fh-primary/40 transition-all text-fh-primary-light cursor-pointer"
-                      @mouseenter="showItemTooltip((getCellContent(cell, chart) as { type: 'item'; id: number; name: string }).id)"
-                      @mouseleave="hideItemTooltip"
-                    >
-                      <span class="font-bold text-xs">#{{ (getCellContent(cell, chart) as { type: 'item'; id: number }).id }}</span>
-                      <span class="text-[9px] text-fh-primary-dim max-w-[5rem] truncate">
-                        {{ (getCellContent(cell, chart) as { type: 'item'; id: number; name: string }).name }}
-                      </span>
-                    </button>
-                  </template>
-                  <template v-else-if="getCellContent(cell, chart).type === 'recipe'">
-                    <span
-                      class="inline-block px-2 py-1 rounded-lg bg-yellow-500/10 border border-yellow-500/20 text-yellow-300 text-[10px]"
-                    >
-                      2x stejna
-                    </span>
-                  </template>
-                  <template v-else-if="getCellContent(cell, chart).type === 'any'">
-                    <span class="text-purple-400 text-[10px] font-medium">libovolna</span>
-                  </template>
-                  <template v-else>
-                    <span class="text-gray-700">-</span>
-                  </template>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+    <template v-else>
+      <!-- Alchemist level indicator -->
+      <div class="flex items-center gap-3 mb-4">
+        <div class="flex items-center gap-2 text-xs text-gray-400">
+          <svg class="w-4 h-4 text-fh-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 0 0-1.022-.547l-2.387-.477a6 6 0 0 0-3.86.517l-.318.158a6 6 0 0 1-3.86.517L6.05 15.21a2 2 0 0 0-1.806.547M8 4h8l-1 1v5.172a2 2 0 0 0 .586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 0 0 9 10.172V5L8 4z" />
+          </svg>
+          Alchymista úroveň {{ alchemistLevel }}
         </div>
+        <div class="flex gap-1">
+          <div
+            v-for="i in 3"
+            :key="i"
+            class="w-2 h-2 rounded-full"
+            :class="i <= alchemistLevel ? 'bg-fh-primary' : 'bg-white/10'"
+          />
+        </div>
+        <span class="text-[10px] text-gray-600">
+          {{ alchemistLevel >= 3 ? '2- i 3-bylinné lektvary' : '2-bylinné lektvary' }}
+        </span>
+      </div>
 
-        <!-- Recipe legend for level 1 -->
-        <div v-if="(chart as { recipes?: unknown }).recipes" class="mt-4 pt-3 border-t border-fh-border/30">
-          <div class="text-[10px] text-gray-500 uppercase tracking-wider mb-2">Dvojite byliny</div>
-          <div class="text-xs text-gray-400">
-            Kombinace dvou stejnych bylin vytvori Predmet #98 ({{ getItemName(98) }}).
+      <!-- Herb inventory -->
+      <div class="fh-card p-5 mb-6">
+        <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Zásoby bylin</h2>
+        <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
+          <div
+            v-for="key in herbKeys"
+            :key="key"
+            class="rounded-xl border p-3 text-center"
+            :style="{ background: herbs[key].bg, borderColor: herbs[key].border }"
+          >
+            <div class="text-xl font-bold" :style="{ color: herbs[key].color }">
+              {{ getHerbCount(key) }}
+            </div>
+            <div class="text-[10px] font-medium mt-0.5" :style="{ color: herbs[key].color + 'aa' }">
+              {{ herbs[key].name }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Tooltip overlay -->
-    <div
-      v-if="hoveredItem"
-      class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-xl bg-fh-card border border-fh-border shadow-2xl"
-    >
-      <span class="text-sm text-fh-frost font-medium">#{{ hoveredItem.id }}</span>
-      <span class="text-sm text-gray-400 ml-2">{{ hoveredItem.name }}</span>
-    </div>
+      <!-- Alchemy charts -->
+      <div class="space-y-6">
+        <div
+          v-for="(chart, chartIndex) in availableCharts"
+          :key="chartIndex"
+          class="fh-card p-4 sm:p-5"
+        >
+          <div class="flex items-center gap-3 mb-4">
+            <h3 class="font-display text-sm font-bold text-fh-frost">
+              {{ chartTitle(chart, chartIndex) }}
+            </h3>
+            <span class="text-[10px] text-gray-600 bg-white/[0.04] px-2 py-0.5 rounded-full border border-fh-border">
+              Úroveň {{ chart.level }}
+            </span>
+          </div>
+
+          <div class="overflow-x-auto -mx-2 px-2">
+            <table class="w-full text-xs border-collapse min-w-[420px]">
+              <thead>
+                <tr>
+                  <th
+                    v-for="(header, hIdx) in (chart.chart[0] as (string | number)[])"
+                    :key="hIdx"
+                    class="p-1.5 text-center"
+                  >
+                    <template v-if="parseCell(header).type === 'header'">
+                      <div
+                        class="flex flex-col items-center gap-0.5 px-1 py-1 rounded-lg"
+                        :style="{ background: herbs[(parseCell(header) as { type: 'header'; herbKey: string }).herbKey]?.bg }"
+                      >
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" :fill="herbColor((parseCell(header) as { type: 'header'; herbKey: string }).herbKey)">
+                          <circle cx="8" cy="8" r="6"/>
+                        </svg>
+                        <span class="text-[8px] font-semibold leading-none" :style="{ color: herbColor((parseCell(header) as { type: 'header'; herbKey: string }).herbKey) }">
+                          {{ herbName((parseCell(header) as { type: 'header'; herbKey: string }).herbKey).slice(0, 4) }}
+                        </span>
+                      </div>
+                    </template>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(row, rIdx) in chart.chart.slice(1)"
+                  :key="rIdx"
+                >
+                  <td
+                    v-for="(cell, cIdx) in (row as (string | number)[])"
+                    :key="cIdx"
+                    class="p-1"
+                  >
+                    <!-- Row header -->
+                    <template v-if="parseCell(cell).type === 'header'">
+                      <div
+                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg whitespace-nowrap"
+                        :style="{ background: herbs[(parseCell(cell) as { type: 'header'; herbKey: string }).herbKey]?.bg }"
+                      >
+                        <svg class="w-3 h-3 shrink-0" viewBox="0 0 16 16" :fill="herbColor((parseCell(cell) as { type: 'header'; herbKey: string }).herbKey)">
+                          <circle cx="8" cy="8" r="6"/>
+                        </svg>
+                        <span class="text-[10px] font-semibold" :style="{ color: herbColor((parseCell(cell) as { type: 'header'; herbKey: string }).herbKey) }">
+                          {{ herbName((parseCell(cell) as { type: 'header'; herbKey: string }).herbKey) }}
+                        </span>
+                      </div>
+                    </template>
+
+                    <!-- Item: discovered → show name -->
+                    <template v-else-if="parseCell(cell).type === 'item' && discoveredRecipes.has((parseCell(cell) as { id: number }).id)">
+                      <button
+                        class="w-full flex flex-col items-center gap-0.5 px-1.5 py-2 rounded-lg bg-fh-primary/8 border border-fh-primary/15 hover:bg-fh-primary/15 hover:border-fh-primary/30 transition-all cursor-pointer group"
+                        @click="openItem(
+                          (parseCell(cell) as { id: number }).id,
+                          (row as (string | number)[])[0] as string,
+                          (chart.chart[0] as (string | number)[])[cIdx] as string
+                        )"
+                      >
+                        <span class="font-bold text-[11px] text-fh-primary group-hover:text-fh-primary-light">
+                          #{{ (parseCell(cell) as { id: number }).id }}
+                        </span>
+                        <span class="text-[8px] text-gray-500 max-w-[4.5rem] truncate leading-none">
+                          {{ (parseCell(cell) as { id: number; name: string }).name }}
+                        </span>
+                      </button>
+                    </template>
+
+                    <!-- Item: NOT discovered → show ? -->
+                    <template v-else-if="parseCell(cell).type === 'item'">
+                      <button
+                        class="w-full flex flex-col items-center gap-0.5 px-1.5 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.06] hover:border-white/[0.15] transition-all cursor-pointer group"
+                        @click="askDiscover(
+                          (parseCell(cell) as { id: number }).id,
+                          (row as (string | number)[])[0] as string,
+                          (chart.chart[0] as (string | number)[])[cIdx] as string
+                        )"
+                      >
+                        <span class="text-lg text-gray-600 group-hover:text-gray-400 transition-colors">?</span>
+                      </button>
+                    </template>
+
+                    <!-- Double herb -->
+                    <template v-else-if="parseCell(cell).type === 'double'">
+                      <div
+                        class="flex items-center justify-center gap-1 px-1.5 py-2 rounded-lg border border-dashed"
+                        :style="{
+                          borderColor: herbs[(parseCell(cell) as { herbKey: string }).herbKey]?.border,
+                          background: herbs[(parseCell(cell) as { herbKey: string }).herbKey]?.bg,
+                        }"
+                      >
+                        <span class="text-[10px] font-medium" :style="{ color: herbs[(parseCell(cell) as { herbKey: string }).herbKey]?.color }">
+                          2&times;
+                        </span>
+                      </div>
+                    </template>
+
+                    <!-- Any herb -->
+                    <template v-else-if="parseCell(cell).type === 'any'">
+                      <div class="flex items-center justify-center px-1.5 py-2 rounded-lg bg-purple-500/8 border border-purple-500/15">
+                        <span class="text-[10px] text-purple-400 font-medium">jakákoli</span>
+                      </div>
+                    </template>
+
+                    <!-- Empty -->
+                    <template v-else>
+                      <div class="p-2 text-center text-gray-800">&mdash;</div>
+                    </template>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Legend -->
+          <div v-if="(chart as { recipes?: unknown }).recipes" class="mt-4 pt-3 border-t border-fh-border/30">
+            <p class="text-[11px] text-gray-500">
+              <span class="font-medium text-gray-400">2&times;</span> — kombinace dvou stejných bylin vytvoří {{ getItemName(98) }} (#98)
+            </p>
+          </div>
+        </div>
+
+        <!-- Locked charts hint -->
+        <div v-if="alchemistLevel < 3" class="fh-card p-4 border-dashed border-fh-border/50">
+          <div class="flex items-center gap-2 text-xs text-gray-500">
+            <svg class="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+            </svg>
+            Vylepši Alchymistu na úroveň 3 pro odemčení 3-bylinných kombinací
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- Item detail popup -->
+    <Teleport to="body">
+      <Transition name="popup">
+        <div
+          v-if="selectedItem"
+          class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[100] w-[min(340px,calc(100vw-2rem))]"
+          @click.stop
+        >
+          <div class="fh-card p-4 shadow-2xl border border-fh-primary/20">
+            <div class="flex items-start justify-between gap-3 mb-2">
+              <div>
+                <span class="font-display text-fh-primary text-lg font-bold">#{{ selectedItem.id }}</span>
+                <h3 class="text-sm font-semibold text-gray-200">{{ selectedItem.name }}</h3>
+              </div>
+              <button class="p-1 text-gray-600 hover:text-gray-300 transition-colors" @click="closeItem">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div v-if="selectedItem.herbs.length" class="flex items-center gap-2">
+              <span class="text-[10px] text-gray-500">Ingredience:</span>
+              <div class="flex gap-1">
+                <span
+                  v-for="h in selectedItem.herbs"
+                  :key="h"
+                  class="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full"
+                  :style="{ background: herbs[h]?.bg ?? 'rgba(255,255,255,0.05)', color: herbs[h]?.color ?? '#94a3b8' }"
+                >
+                  {{ herbName(h) }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
+
+    <!-- Discover confirmation dialog -->
+    <Teleport to="body">
+      <Transition name="modal">
+        <div
+          v-if="confirmDiscover"
+          class="fixed inset-0 z-50 flex items-center justify-center p-4"
+        >
+          <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="confirmDiscover = null" />
+          <div class="relative fh-card p-6 max-w-sm w-full shadow-2xl border border-fh-border">
+            <h3 class="font-display text-lg font-bold text-fh-frost mb-2">Uvařit lektvar?</h3>
+            <p class="text-sm text-gray-400 mb-4">
+              Chceš odhalit tento recept? Tím se ukáže jaký předmět tato kombinace bylin vytvoří.
+            </p>
+            <div class="flex items-center gap-2 mb-4">
+              <span
+                v-for="h in [confirmDiscover.rowHerb, confirmDiscover.colHerb].filter(k => herbs[k])"
+                :key="h"
+                class="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full"
+                :style="{ background: herbs[h]?.bg, color: herbs[h]?.color }"
+              >
+                {{ herbName(h) }}
+              </span>
+              <span class="text-gray-600">&rarr;</span>
+              <span class="text-gray-400 text-sm">???</span>
+            </div>
+            <div class="flex gap-2">
+              <button
+                class="flex-1 py-2.5 bg-gradient-to-r from-fh-primary-dim to-fh-primary text-white rounded-lg font-medium text-sm hover:shadow-[0_0_20px_rgba(91,164,207,0.25)] transition-all"
+                @click="doDiscover"
+              >
+                Odhalit recept
+              </button>
+              <button
+                class="px-4 py-2.5 bg-white/[0.04] text-gray-400 rounded-lg text-sm border border-fh-border hover:bg-white/[0.06] transition-colors"
+                @click="confirmDiscover = null"
+              >
+                Zrušit
+              </button>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>
+
+<style scoped>
+.popup-enter-active,
+.popup-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.popup-enter-from,
+.popup-leave-to {
+  opacity: 0;
+  transform: translate(-50%, 12px);
+}
+
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.2s ease;
+}
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+</style>

@@ -40,6 +40,7 @@ export interface CampaignState {
   scenarios: Record<string, ScenarioState>
   globalAchievements: Record<string, boolean>
   buildingLevels: Record<number, number>
+  discoveredRecipes?: number[]
   eventDecks?: Record<string, { available: number[]; removed: number[] }>
   characters: CharacterState[]
   archivedCharacters: CharacterState[]
