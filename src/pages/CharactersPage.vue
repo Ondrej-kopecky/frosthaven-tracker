@@ -546,15 +546,6 @@ function getPerks(classId: string): PerkDefinition[] {
   return characterStore.getDefinition(classId)?.perks ?? []
 }
 
-function getMaxHp(char: CharacterState): number {
-  const def = characterStore.getDefinition(char.classId)
-  if (!def) return 0
-  return def.maxHp[char.level - 1] ?? def.maxHp[def.maxHp.length - 1]
-}
-
-function getHandSize(classId: string): number {
-  return characterStore.getDefinition(classId)?.handSize ?? 0
-}
 
 function getItemName(itemId: string): string {
   const def = characterStore.getItemDef(itemId)
