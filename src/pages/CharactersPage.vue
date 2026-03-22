@@ -8,16 +8,46 @@
     <div class="fh-card p-5 mb-6">
       <h2 class="font-display text-sm uppercase tracking-widest text-fh-primary mb-4">Nová postava</h2>
       <div class="flex flex-col sm:flex-row gap-3">
-        <select v-model="newClassId" class="fh-input flex-1 min-w-0">
-          <option value="" disabled>Vyber třídu...</option>
-          <option
-            v-for="def in availableClasses"
-            :key="def.classId"
-            :value="def.classId"
+        <!-- Custom class picker with icons -->
+        <div class="relative flex-1 min-w-0" ref="dropdownRef">
+          <button
+            type="button"
+            class="fh-input w-full text-left flex items-center gap-2"
+            @click="showClassDropdown = !showClassDropdown"
           >
-            {{ def.name }}
-          </option>
-        </select>
+            <template v-if="newClassId">
+              <ClassIcon :class-id="newClassId" :size="20" :color="getClassColor(newClassId)" />
+              <span :style="{ color: getClassColor(newClassId) }">{{ getClassName(newClassId) }}</span>
+            </template>
+            <span v-else class="text-gray-500">Vyber třídu...</span>
+            <svg class="w-4 h-4 ml-auto text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div
+            v-if="showClassDropdown"
+            class="absolute z-50 mt-1 w-full rounded-lg border border-fh-border bg-fh-dark shadow-xl max-h-64 overflow-y-auto"
+          >
+            <button
+              v-for="def in availableClasses"
+              :key="def.classId"
+              type="button"
+              class="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-white/5 transition-colors text-left"
+              @click="newClassId = def.classId; showClassDropdown = false"
+            >
+              <div
+                class="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
+                :style="{
+                  background: `radial-gradient(circle, ${getClassColor(def.classId)}30, ${getClassColor(def.classId)}10)`,
+                  border: `1.5px solid ${getClassColor(def.classId)}55`,
+                }"
+              >
+                <ClassIcon :class-id="def.classId" :size="18" :color="getClassColor(def.classId)" />
+              </div>
+              <span class="text-sm" :style="{ color: getClassColor(def.classId) }">{{ def.name }}</span>
+            </button>
+          </div>
+        </div>
         <input
           v-model="newPlayerName"
           type="text"
@@ -44,46 +74,77 @@
       <p class="text-xs text-gray-600 mt-1">Vytvoř si první postavu pomocí formuláře výše</p>
     </div>
 
-    <div class="space-y-5">
+    <div class="space-y-4">
       <div
         v-for="char in characterStore.activeCharacters"
         :key="char.uuid"
         class="fh-card overflow-hidden"
       >
-        <!-- Card header with class color accent -->
+        <!-- Card header — Gloomhaven style with large class emblem -->
         <div
-          class="flex items-center gap-4 p-5 border-b border-fh-border"
+          class="flex items-center gap-5 p-5 cursor-pointer select-none"
           :style="{ borderLeft: `3px solid ${getClassColor(char.classId)}` }"
+          @click="toggleSection(char.uuid, 'detail')"
         >
+          <!-- Class emblem with level badge -->
+          <div class="relative shrink-0">
+            <div
+              class="w-16 h-16 rounded-full flex items-center justify-center"
+              :style="{
+                background: `radial-gradient(circle, ${getClassColor(char.classId)}30, ${getClassColor(char.classId)}10)`,
+                border: `2px solid ${getClassColor(char.classId)}66`,
+              }"
+            >
+              <ClassIcon :class-id="char.classId" :size="36" :color="getClassColor(char.classId)" />
+            </div>
+            <!-- Level badge -->
+            <div
+              class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
+              :style="{
+                background: getClassColor(char.classId),
+                color: '#0f0f1a',
+              }"
+            >
+              {{ char.level }}
+            </div>
+          </div>
+
+          <!-- Character info -->
           <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-2 flex-wrap">
-              <ClassIcon :class-id="char.classId" :size="28" :color="getClassColor(char.classId)" />
-              <span
-                class="font-display text-lg font-bold"
-                :style="{ color: getClassColor(char.classId) }"
-              >
-                {{ getClassName(char.classId) }}
-              </span>
-              <span class="text-gray-400 text-sm truncate">{{ char.playerName }}</span>
+            <div
+              class="font-display text-lg font-bold uppercase tracking-wide"
+              :style="{ color: getClassColor(char.classId) }"
+            >
+              {{ char.playerName }}
             </div>
-            <div class="flex items-center gap-3 mt-1 text-xs text-gray-500">
-              <span>HP {{ getMaxHp(char) }}</span>
-              <span>Ruka {{ getHandSize(char.classId) }}</span>
+            <div class="text-sm text-gray-400 mt-0.5">
+              {{ getClassName(char.classId) }}
             </div>
           </div>
-          <div
-            class="flex items-center justify-center w-10 h-10 rounded-full text-sm font-bold"
-            :style="{
-              background: `${getClassColor(char.classId)}22`,
-              color: getClassColor(char.classId),
-              border: `2px solid ${getClassColor(char.classId)}55`,
-            }"
+
+          <!-- XP + Gold -->
+          <div class="text-right shrink-0">
+            <div class="text-sm">
+              <span class="text-yellow-400">&#9734;</span>
+              <span class="text-fh-frost font-semibold ml-1">{{ char.xp }} ZK</span>
+            </div>
+            <div class="text-sm mt-1">
+              <span class="text-yellow-500">&#9737;</span>
+              <span class="text-gray-300 ml-1">{{ char.gold }} zl.</span>
+            </div>
+          </div>
+
+          <!-- Expand chevron -->
+          <svg
+            class="w-5 h-5 text-gray-500 transition-transform shrink-0"
+            :class="{ 'rotate-180': isSectionOpen(char.uuid, 'detail') }"
+            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
           >
-            {{ char.level }}
-          </div>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
         </div>
 
-        <div class="p-5 space-y-5">
+        <div v-if="isSectionOpen(char.uuid, 'detail')" class="p-5 space-y-5 border-t border-fh-border">
           <!-- Level + XP -->
           <div>
             <div class="flex items-center justify-between mb-2">
@@ -375,28 +436,33 @@
           :key="char.uuid"
           class="fh-card p-4 opacity-60"
         >
-          <div class="flex items-center gap-3">
-            <div
-              class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
-              :style="{
-                background: `${getClassColor(char.classId)}22`,
-                color: getClassColor(char.classId),
-              }"
-            >
-              {{ char.level }}
+          <div class="flex items-center gap-4">
+            <div class="relative shrink-0">
+              <div
+                class="w-12 h-12 rounded-full flex items-center justify-center"
+                :style="{
+                  background: `radial-gradient(circle, ${getClassColor(char.classId)}20, ${getClassColor(char.classId)}08)`,
+                  border: `2px solid ${getClassColor(char.classId)}44`,
+                }"
+              >
+                <ClassIcon :class-id="char.classId" :size="24" :color="getClassColor(char.classId)" />
+              </div>
+              <div
+                class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
+                :style="{ background: getClassColor(char.classId), color: '#0f0f1a' }"
+              >
+                {{ char.level }}
+              </div>
             </div>
-            <div class="flex-1 min-w-0 flex items-center gap-2">
-              <ClassIcon :class-id="char.classId" :size="20" :color="getClassColor(char.classId)" />
-              <span class="font-display text-sm" :style="{ color: getClassColor(char.classId) }">
-                {{ getClassName(char.classId) }}
+            <div class="flex-1 min-w-0">
+              <span class="font-display text-sm uppercase tracking-wide" :style="{ color: getClassColor(char.classId) }">
+                {{ char.playerName }}
               </span>
-              <span class="text-gray-500 text-sm ml-2">{{ char.playerName }}</span>
+              <div class="text-xs text-gray-500">{{ getClassName(char.classId) }}</div>
             </div>
-            <div class="text-xs text-gray-600">
-              {{ char.xp }} XP · {{ char.gold }} zl
-            </div>
-            <div v-if="char.retiredAt" class="text-xs text-gray-600">
-              {{ formatDate(char.retiredAt) }}
+            <div class="text-right text-xs text-gray-500">
+              <div>{{ char.xp }} ZK · {{ char.gold }} zl.</div>
+              <div v-if="char.retiredAt" class="mt-0.5">{{ formatDate(char.retiredAt) }}</div>
             </div>
           </div>
         </div>
@@ -406,7 +472,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive, onMounted } from 'vue'
+import { ref, computed, reactive, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCharacterStore } from '@/stores/characterStore'
 import { useCampaignStore } from '@/stores/campaignStore'
@@ -424,6 +490,7 @@ onMounted(() => {
   if (!campaignStore.hasCampaign) {
     router.replace('/kampan')
   }
+  document.addEventListener('click', onClickOutside)
 })
 
 // Class colors
@@ -438,6 +505,16 @@ const classColors: Record<string, string> = {
 // New character form
 const newClassId = ref('')
 const newPlayerName = ref('')
+const showClassDropdown = ref(false)
+const dropdownRef = ref<HTMLElement | null>(null)
+
+function onClickOutside(e: MouseEvent) {
+  if (dropdownRef.value && !dropdownRef.value.contains(e.target as Node)) {
+    showClassDropdown.value = false
+  }
+}
+
+onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
 
 // UI state
 const retireConfirm = ref<string | null>(null)
