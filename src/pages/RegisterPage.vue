@@ -36,7 +36,7 @@ async function handleRegister() {
     return
   }
   if (password.value.length < 6) {
-    error.value = 'Heslo musi mit alespon 6 znaku'
+    error.value = 'Heslo musí mít alespoň 6 znaků'
     return
   }
   error.value = null
@@ -93,7 +93,7 @@ async function handleResend() {
         {{ phase === 'register' ? 'Registrace' : 'Overeni emailu' }}
       </h1>
       <p class="text-sm text-gray-500 mt-2">
-        {{ phase === 'register' ? 'Vytvorte si ucet pro cloud sync' : 'Zadejte kod z emailu' }}
+        {{ phase === 'register' ? 'Vytvořte si účet pro cloud sync' : 'Zadejte kod z emailu' }}
       </p>
     </div>
 
@@ -130,7 +130,7 @@ async function handleResend() {
         />
       </div>
       <div>
-        <label class="text-[11px] text-gray-500 uppercase tracking-wider font-semibold mb-1.5 block">Potvrzeni hesla</label>
+        <label class="text-[11px] text-gray-500 uppercase tracking-wider font-semibold mb-1.5 block">Potvrzení hesla</label>
         <input
           v-model="confirmPassword"
           type="password"
@@ -155,14 +155,14 @@ async function handleResend() {
     <form v-else @submit.prevent="handleVerify" class="space-y-4">
       <div class="fh-card p-4 text-center">
         <p class="text-sm text-gray-400">
-          Odeslali jsme overovaci kod na
+          Odeslali jsme ověřovací kód na
           <span class="text-gray-200 font-medium">{{ email }}</span>
         </p>
-        <p class="text-[11px] text-gray-600 mt-1">Kod plati 15 minut</p>
+        <p class="text-[11px] text-gray-600 mt-1">Kód platí 15 minut</p>
       </div>
 
       <div>
-        <label class="text-[11px] text-gray-500 uppercase tracking-wider font-semibold mb-1.5 block">Overovaci kod</label>
+        <label class="text-[11px] text-gray-500 uppercase tracking-wider font-semibold mb-1.5 block">Ověřovací kód</label>
         <input
           :value="code"
           type="text"
@@ -190,16 +190,16 @@ async function handleResend() {
           class="text-xs text-gray-500 hover:text-fh-primary transition-colors"
           @click="handleResend"
         >
-          Odeslat kod znovu
+          Odeslat kód znovu
         </button>
-        <p v-if="resendSuccess" class="text-xs text-green-400 mt-1">Kod odeslan!</p>
+        <p v-if="resendSuccess" class="text-xs text-green-400 mt-1">Kód odeslán!</p>
       </div>
     </form>
 
     <p class="text-center text-sm text-gray-500 mt-6">
-      Mate ucet?
+      Máte účet?
       <router-link to="/prihlaseni" class="text-fh-primary hover:text-fh-primary-light transition-colors">
-        Prihlaste se
+        Přihlaste se
       </router-link>
     </p>
 

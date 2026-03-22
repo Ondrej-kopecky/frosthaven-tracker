@@ -18,18 +18,18 @@ type FilterTab = 'all' | 'campaign' | 'party' | 'achieved'
 const activeFilter = ref<FilterTab>('all')
 
 const tabs: { key: FilterTab; label: string }[] = [
-  { key: 'all', label: 'Vse' },
-  { key: 'campaign', label: 'Kampanove' },
-  { key: 'party', label: 'Skupinove' },
-  { key: 'achieved', label: 'Dosazeno' },
+  { key: 'all', label: 'Vše' },
+  { key: 'campaign', label: 'Kampaňové' },
+  { key: 'party', label: 'Skupinové' },
+  { key: 'achieved', label: 'Dosaženo' },
 ]
 
 // All definitions: show non-hidden + achieved hidden ones
-// When spoilers are on, only show achieved achievements
+// Spoiler mode: hide only non-manual, non-achieved hidden achievements
 const displayedDefinitions = computed(() => {
   return achievementStore.definitions.filter((a) => {
     if (a.hidden && !achievementStore.isAchieved(a.id)) return false
-    if (campaignStore.currentCampaign?.hideSpoilers && !achievementStore.isAchieved(a.id)) return false
+    if (campaignStore.currentCampaign?.hideSpoilers && !achievementStore.isAchieved(a.id) && !a.is_manual) return false
     return true
   })
 })
@@ -96,8 +96,8 @@ function typeBadgeClass(type: string): string {
 }
 
 function typeLabel(type: string): string {
-  if (type === 'Campaign') return 'Kampanovy'
-  return 'Skupinovy'
+  if (type === 'Campaign') return 'Kampaňový'
+  return 'Skupinový'
 }
 </script>
 
@@ -106,7 +106,7 @@ function typeLabel(type: string): string {
 
   <div v-else>
     <div class="fh-page-header">
-      <h1 class="font-display text-2xl font-bold text-fh-frost">Uspechy</h1>
+      <h1 class="font-display text-2xl font-bold text-fh-frost">Úspěchy</h1>
     </div>
 
     <!-- Progress -->
@@ -145,7 +145,7 @@ function typeLabel(type: string): string {
 
     <!-- Achievement list -->
     <div v-if="finalList.length === 0" class="fh-card p-8 text-center text-gray-500">
-      <p class="text-sm">Zadne uspechy k zobrazeni.</p>
+      <p class="text-sm">Žádné úspěchy k zobrazení.</p>
     </div>
 
     <div v-else class="space-y-2">
@@ -190,7 +190,7 @@ function typeLabel(type: string): string {
               v-if="achievement.is_manual"
               class="fh-badge text-[10px] bg-yellow-500/15 text-yellow-400 border border-yellow-500/25"
             >
-              manualni
+              manuální
             </span>
 
             <!-- Hidden badge (only shown for achieved hidden ones) -->
@@ -198,7 +198,7 @@ function typeLabel(type: string): string {
               v-if="achievement.hidden"
               class="fh-badge text-[10px] bg-gray-500/15 text-gray-400 border border-gray-500/25"
             >
-              skryty
+              skrytý
             </span>
           </div>
 
@@ -221,7 +221,7 @@ function typeLabel(type: string): string {
             class="mt-2"
           >
             <div class="text-[11px] text-gray-500 mb-1.5">
-              Uroven {{ getUpgradeLevel(achievement)?.current ?? 0 }} / {{ getUpgradeLevel(achievement)?.total ?? 0 }}
+              Úroveň {{ getUpgradeLevel(achievement)?.current ?? 0 }} / {{ getUpgradeLevel(achievement)?.total ?? 0 }}
             </div>
             <div class="flex gap-1">
               <div
@@ -229,7 +229,7 @@ function typeLabel(type: string): string {
                 :key="uid"
                 class="h-2 flex-1 rounded-full transition-all duration-300"
                 :class="achievementStore.isAchieved(uid) ? 'fh-progress-bar' : 'bg-gray-700/50'"
-                :title="'Uroven ' + (i + 1)"
+                :title="'Úroveň ' + (i + 1)"
               ></div>
             </div>
           </div>

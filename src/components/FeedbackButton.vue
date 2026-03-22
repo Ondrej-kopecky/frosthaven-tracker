@@ -130,7 +130,7 @@ async function handleSubmit() {
                 <textarea
                   v-model="message"
                   class="fh-input w-full min-h-[100px] resize-y"
-                  placeholder="Popiste problém nebo návrh..."
+                  placeholder="Popište problém nebo návrh..."
                   rows="4"
                 ></textarea>
               </div>

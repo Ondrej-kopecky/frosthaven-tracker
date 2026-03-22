@@ -183,7 +183,7 @@ function deleteCampaign() {
 
   <div v-else>
     <div class="fh-page-header">
-      <h1 class="font-display text-2xl font-bold text-fh-frost">Nastaveni</h1>
+      <h1 class="font-display text-2xl font-bold text-fh-frost">Nastavení</h1>
     </div>
 
     <!-- 1. Kampan -->
@@ -191,7 +191,7 @@ function deleteCampaign() {
     <div class="fh-card p-5 mb-6 space-y-4">
       <!-- Name -->
       <div>
-        <label class="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">Nazev kampane</label>
+        <label class="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">Název kampaně</label>
         <div v-if="!isEditingName" class="flex items-center gap-3">
           <span class="text-gray-200 font-medium">{{ campaign.name }}</span>
           <button
@@ -207,8 +207,8 @@ function deleteCampaign() {
             class="fh-input flex-1"
             @keyup.enter="saveName"
           />
-          <button class="fh-btn-primary text-sm px-3 py-2" @click="saveName">Ulozit</button>
-          <button class="text-gray-500 hover:text-gray-300 text-sm" @click="isEditingName = false">Zrusit</button>
+          <button class="fh-btn-primary text-sm px-3 py-2" @click="saveName">Uložit</button>
+          <button class="text-gray-500 hover:text-gray-300 text-sm" @click="isEditingName = false">Zrušit</button>
         </div>
       </div>
 
@@ -285,7 +285,7 @@ function deleteCampaign() {
     <div class="fh-card p-5 mb-6 space-y-4">
       <!-- Export -->
       <div>
-        <div class="text-sm text-gray-200 mb-2">Export kampane</div>
+        <div class="text-sm text-gray-200 mb-2">Export kampaně</div>
         <button class="fh-btn-secondary text-sm" @click="exportCampaign">
           <span class="flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -298,7 +298,7 @@ function deleteCampaign() {
 
       <!-- Import -->
       <div>
-        <div class="text-sm text-gray-200 mb-2">Import kampane</div>
+        <div class="text-sm text-gray-200 mb-2">Import kampaně</div>
         <label class="fh-btn-ghost text-sm cursor-pointer inline-flex items-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
@@ -307,7 +307,7 @@ function deleteCampaign() {
           <input type="file" accept=".json" class="hidden" @change="handleImport" />
         </label>
         <p v-if="importError" class="text-xs text-red-400 mt-2">{{ importError }}</p>
-        <p v-if="importSuccess" class="text-xs text-fh-completed mt-2">Kampan uspesne importovana!</p>
+        <p v-if="importSuccess" class="text-xs text-fh-completed mt-2">Kampaň úspěšně importována!</p>
       </div>
     </div>
 
@@ -360,41 +360,41 @@ function deleteCampaign() {
       </template>
       <template v-else>
         <div class="text-sm text-gray-400">
-          Pro synchronizaci kampane mezi zarizeni se
-          <router-link to="/prihlaseni" class="text-fh-primary hover:text-fh-primary-light no-underline">prihlaste</router-link>.
+          Pro synchronizaci kampaně mezi zařízeními se
+          <router-link to="/prihlaseni" class="text-fh-primary hover:text-fh-primary-light no-underline">přihlaste</router-link>.
         </div>
       </template>
     </div>
 
-    <!-- 5. Zmena hesla -->
+    <!-- 5. Změna hesla -->
     <template v-if="authStore.isLoggedIn">
-      <div class="fh-divider mb-4">Zmena hesla</div>
+      <div class="fh-divider mb-4">Změna hesla</div>
       <div class="fh-card p-5 mb-6 space-y-4">
         <div>
-          <label class="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">Aktualni heslo</label>
+          <label class="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">Aktuální heslo</label>
           <input
             v-model="cpCurrentPassword"
             type="password"
             class="fh-input w-full sm:w-80"
-            placeholder="Zadejte aktualni heslo"
+            placeholder="Zadejte aktuální heslo"
           />
         </div>
         <div>
-          <label class="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">Nove heslo</label>
+          <label class="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">Nové heslo</label>
           <input
             v-model="cpNewPassword"
             type="password"
             class="fh-input w-full sm:w-80"
-            placeholder="Minimalne 6 znaku"
+            placeholder="Minimálně 6 znaků"
           />
         </div>
         <div>
-          <label class="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">Potvrzeni noveho hesla</label>
+          <label class="block text-xs text-gray-500 uppercase tracking-wider mb-1.5">Potvrzení nového hesla</label>
           <input
             v-model="cpConfirmPassword"
             type="password"
             class="fh-input w-full sm:w-80"
-            placeholder="Zadejte nove heslo znovu"
+            placeholder="Zadejte nové heslo znovu"
             @keyup.enter="handleChangePassword"
           />
         </div>
@@ -404,11 +404,11 @@ function deleteCampaign() {
             :disabled="cpLoading"
             @click="handleChangePassword"
           >
-            {{ cpLoading ? 'Menim heslo...' : 'Zmenit heslo' }}
+            {{ cpLoading ? 'Měním heslo...' : 'Změnit heslo' }}
           </button>
         </div>
         <p v-if="cpError" class="text-xs text-red-400">{{ cpError }}</p>
-        <p v-if="cpSuccess" class="text-xs text-fh-completed">Heslo bylo uspesne zmeneno!</p>
+        <p v-if="cpSuccess" class="text-xs text-fh-completed">Heslo bylo úspěšně změněno!</p>
       </div>
     </template>
 
@@ -417,7 +417,7 @@ function deleteCampaign() {
     <div class="fh-card p-5 mb-6">
       <p class="text-sm text-gray-400 leading-relaxed">
         Frosthaven Tracker je open-source projekt. Pokud se vam libi a chcete podporit dalsi vyvoj,
-        budeme radi za jakoukoli formu podpory — sdileni, zpetnou vazbu, nebo prispevek.
+        budeme radi za jakoukoli formu podpory — sdílení, zpětnou vazbu, nebo příspěvek.
       </p>
     </div>
 
@@ -438,19 +438,19 @@ function deleteCampaign() {
           <span class="text-gray-300">localStorage</span>
         </div>
         <div class="flex justify-between">
-          <span class="text-gray-500">Data kampane</span>
+          <span class="text-gray-500">Data kampaně</span>
           <span class="text-gray-300">{{ campaignStore.campaigns.length }} kampan{{ campaignStore.campaigns.length === 1 ? '' : 'i' }}</span>
         </div>
       </div>
     </div>
 
-    <!-- 6. Nebezpecna zona -->
-    <div class="fh-divider mb-4 text-red-500/70">Nebezpecna zona</div>
+    <!-- 6. Nebezpečná zóna -->
+    <div class="fh-divider mb-4 text-red-500/70">Nebezpečná zóna</div>
     <div class="fh-card p-5 mb-6 border-red-500/20">
       <div class="flex items-center justify-between">
         <div>
-          <div class="text-sm text-gray-200">Smazat kampan</div>
-          <div class="text-xs text-gray-500">Trvale smaze kampan "{{ campaign.name }}" a vsechna jeji data.</div>
+          <div class="text-sm text-gray-200">Smazat kampaň</div>
+          <div class="text-xs text-gray-500">Trvale smaže kampaň "{{ campaign.name }}" a vsechna její data.</div>
         </div>
         <button
           v-if="!showDeleteConfirm"
@@ -463,7 +463,7 @@ function deleteCampaign() {
 
       <!-- Confirmation -->
       <div v-if="showDeleteConfirm" class="mt-4 p-4 rounded-lg bg-red-500/5 border border-red-500/20">
-        <p class="text-sm text-red-300 mb-3">Opravdu chces smazat kampan "{{ campaign.name }}"? Tuto akci nelze vzit zpet.</p>
+        <p class="text-sm text-red-300 mb-3">Opravdu chceš smazat kampaň "{{ campaign.name }}"? Tuto akci nelze vzít zpět.</p>
         <div class="flex gap-2">
           <button
             class="px-4 py-2 rounded-lg bg-red-500 text-white text-sm font-semibold hover:bg-red-600 transition-colors"
@@ -475,7 +475,7 @@ function deleteCampaign() {
             class="px-4 py-2 rounded-lg bg-white/5 text-gray-400 text-sm hover:bg-white/10 transition-colors"
             @click="showDeleteConfirm = false"
           >
-            Zrusit
+            Zrušit
           </button>
         </div>
       </div>

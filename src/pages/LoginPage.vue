@@ -40,8 +40,8 @@ async function handleLogin() {
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
         </svg>
       </div>
-      <h1 class="font-display text-2xl font-bold text-fh-primary tracking-wide">Prihlaseni</h1>
-      <p class="text-sm text-gray-500 mt-2">Prihlaste se pro synchronizaci kampani</p>
+      <h1 class="font-display text-2xl font-bold text-fh-primary tracking-wide">Přihlášení</h1>
+      <p class="text-sm text-gray-500 mt-2">Přihlaste se pro synchronizaci kampaní</p>
     </div>
 
     <form @submit.prevent="handleLogin" class="space-y-4">
@@ -73,7 +73,7 @@ async function handleLogin() {
         class="fh-btn-primary w-full"
         :disabled="authStore.isLoading"
       >
-        {{ authStore.isLoading ? 'Prihlasuji...' : 'Prihlasit se' }}
+        {{ authStore.isLoading ? 'Přihlašuji...' : 'Prihlasit se' }}
       </button>
     </form>
 
@@ -92,7 +92,7 @@ async function handleLogin() {
 
     <p class="text-center mt-4">
       <router-link to="/kampan" class="text-xs text-gray-600 hover:text-gray-400 transition-colors">
-        Pokracovat bez prihlaseni
+        Pokračovat bez přihlášení
       </router-link>
     </p>
   </div>
