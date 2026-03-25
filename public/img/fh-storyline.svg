@@ -11,33 +11,33 @@ text { fill: white; font-family: "Pirata One", "Nyala", sans-serif; font-size: 1
  </style>
  <g class="chapter intro" id="chapter1">
   <rect x="96" y="12" width="96" height="168" rx="10" ry="10" fill="#111" fill-opacity=".7" stroke="#e4dedd"/>
-  <text class="label" x="113" y="26">Intro</text>
+  <text class="label" x="144" y="174" font-size="10" fill-opacity=".85">Úvod</text>
  </g>
  <g class="chapter" id="chapter2">
   <path d="m22 192c-5.54 0-10 4.46-10 10v94l0.12164 195c3e-3 5.54 4.46 10 10 10h28c5.54 0 10.005-4.46 10-10l-0.12164-135v-40c0-5.54 4.46-10 10-10h26l8 2e-5h24c5.54 0 10-4.46 10-10v-94c0-5.54-4.46-10-10-10z" fill="#111" fill-opacity=".7" stroke="#7cc3d7"/>
-  <text class="label" x="110" y="288">Algox</text>
+  <text class="label" x="75" y="284" font-size="10" fill-opacity=".85">Algox</text>
  </g>
  <g class="chapter" id="chapter3">
   <rect x="204" y="12" width="198" height="168" rx="10" ry="10" fill="#111" fill-opacity=".7" stroke="#865888"/>
-  <text class="label" x="285" y="120">Lurkers</text>
+  <text class="label" x="303" y="174" font-size="10" fill-opacity=".85">Číhači</text>
  </g>
  <g class="chapter" id="chapter4">
   <path d="m160 192c-5.54 0-10 4.46-10 10v94c0 5.54 4.46 10 10 10h24l20-2e-5h14c5.54 0 10 4.46 10 10v175c0 5.54 4.46 10 10 10h28c5.54 0 10-4.46 10-10v-289c0-5.54-4.46-10-10-10z" fill="#111" fill-opacity=".7" stroke="#31446a"/>
-  <text class="label" x="174" y="288">Algox</text>
+  <text class="label" x="218" y="284" font-size="10" fill-opacity=".85">Algox</text>
  </g>
  <g class="chapter" id="chapter5">
   <rect x="96" y="318.5" width="96" height="182.5" rx="10" ry="10" fill="#111" fill-opacity=".7" stroke="#3b7194"/>
-  <text class="label" x="118" y="360">Algox</text>
+  <text class="label" x="144" y="495" font-size="10" fill-opacity=".85">Algox</text>
  </g>
  <g class="chapter" id="chapter6">
   <rect x="288" y="192" width="156" height="309" rx="10" ry="10" fill="#111" fill-opacity=".7" stroke="#409347"/>
-  <text class="label" x="410" y="454">Unfettered</text>
+  <text class="label" x="366" y="495" font-size="10" fill-opacity=".85">Nespoutaní</text>
  </g>
- <rect x="477" y="24" width="186" height="153" rx="10" ry="10" fill="#111" fill-opacity=".7" stroke="#b92e30"/><text class="label" x="523" y="160">Personal Quests</text>
- <rect x="501" y="192" width="165" height="63" rx="10" ry="10" fill="#111" fill-opacity=".7" stroke="#c8a559"/><text class="label" x="627" y="240">Puzzle Book</text>
- <rect x="540" y="270" width="126" height="135" rx="10" ry="10" fill="#111" fill-opacity=".7" stroke="#795d3f"/><text class="label" x="618" y="390">Random Scenarios</text>
- <rect x="12" y="513" width="384" height="126" rx="10" ry="10" fill="#111" fill-opacity=".7" stroke="#c86d33"/><text class="label" x="359" y="621">Job Postings</text>
- <rect x="462" y="420" width="204" height="219" rx="10" ry="10" fill="#111" fill-opacity=".7" stroke="#fde1bf"/><text class="label" x="639" y="624">Other</text>
+ <rect x="477" y="24" width="186" height="153" rx="10" ry="10" fill="#111" fill-opacity=".7" stroke="#b92e30"/><text class="label" x="570" y="168" font-size="10" fill-opacity=".85">Osobní úkoly</text>
+ <rect x="501" y="192" width="165" height="63" rx="10" ry="10" fill="#111" fill-opacity=".7" stroke="#c8a559"/><text class="label" x="583" y="248" font-size="10" fill-opacity=".85">Hádanky</text>
+ <rect x="540" y="270" width="126" height="135" rx="10" ry="10" fill="#111" fill-opacity=".7" stroke="#795d3f"/><text class="label" x="603" y="398" font-size="9" fill-opacity=".85">Náhodné scénáře</text>
+ <rect x="12" y="513" width="384" height="126" rx="10" ry="10" fill="#111" fill-opacity=".7" stroke="#c86d33"/><text class="label" x="204" y="632" font-size="10" fill-opacity=".85">Nástěnka úkolů</text>
+ <rect x="462" y="420" width="204" height="219" rx="10" ry="10" fill="#111" fill-opacity=".7" stroke="#fde1bf"/><text class="label" x="564" y="632" font-size="10" fill-opacity=".85">Ostatní</text>
  <g class="edge edge0" id="edge0-1"><path class="line" d="m144 48v15"/><path class="arrow" d="m144 62.517-2.5168-5.0336 2.5168 1.2584 2.5168-1.2584z"/></g>
  <g class="edge edge1" id="edge1-2"><path class="line" d="m144 87v24h-12"/><path class="arrow" d="m134.51 108.48-2.5168 2.5168 2.5168 2.5168 2.5168-2.5168z"/></g>
  <g class="edge edge1" id="edge1-3"><path class="line" d="m156 111h-12v-24"/><path class="arrow" d="m153.49 108.48 2.5168 2.5168-2.5168 2.5168-2.5168-2.5168z"/></g>

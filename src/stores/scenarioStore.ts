@@ -285,6 +285,38 @@ export const useScenarioStore = defineStore('scenario', () => {
     campaignStore.autoSave()
   }
 
+  /** Map: scenarioId → array of sibling choice IDs (excluding self) */
+  const choiceGroupMap = computed(() => {
+    const map = new Map<number, { parentId: number; siblings: number[] }>()
+    for (const def of scenarioDefinitions.value) {
+      if (def.choices && def.choices.length > 1) {
+        for (const cid of def.choices) {
+          map.set(cid, {
+            parentId: def.id,
+            siblings: def.choices.filter((x) => x !== cid),
+          })
+        }
+      }
+    }
+    return map
+  })
+
+  function isChoiceScenario(id: number): boolean {
+    return choiceGroupMap.value.has(id)
+  }
+
+  function getChoiceGroup(id: number): { parentId: number; siblings: number[]; total: number } | null {
+    const entry = choiceGroupMap.value.get(id)
+    if (!entry) return null
+    return { ...entry, total: entry.siblings.length + 1 }
+  }
+
+  /** Does a parent scenario have choices? */
+  function hasChoices(id: number): boolean {
+    const def = getDefinition(id)
+    return (def?.choices?.length ?? 0) > 1
+  }
+
   function getLinksFrom(id: number): ScenarioData[] {
     const def = getDefinition(id)
     if (!def) return []
@@ -323,6 +355,10 @@ export const useScenarioStore = defineStore('scenario', () => {
     setChoice,
     lootTreasure,
     setNotes,
+    choiceGroupMap,
+    isChoiceScenario,
+    getChoiceGroup,
+    hasChoices,
     getLinksFrom,
     getLinksTo,
   }

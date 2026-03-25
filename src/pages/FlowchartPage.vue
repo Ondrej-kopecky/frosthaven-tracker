@@ -102,13 +102,23 @@ function applyStates() {
         el.classList.add('incomplete')
         break
       case SCENARIO_STATUSES.BLOCKED:
+        if (campaignStore.currentCampaign?.hideSpoilers) {
+          el.style.display = 'none'
+          hideEdgesFor(id)
+          return
+        }
         el.classList.add('blocked')
         break
       case SCENARIO_STATUSES.REQUIRED:
         el.classList.add('required')
         break
       default:
-        // locked — show dimmed, not hidden
+        // locked — hide if spoiler mode, otherwise dim
+        if (campaignStore.currentCampaign?.hideSpoilers) {
+          el.style.display = 'none'
+          hideEdgesFor(id)
+          return
+        }
         el.classList.add('dimmed')
         break
     }
@@ -187,6 +197,52 @@ function onNodeClick(id: number) {
 
 function closeDetail() {
   flowchartStore.selectNode(null)
+}
+
+function linkedScenarioName(id: number): string {
+  const def = scenarioStore.getDefinition(id)
+  return def ? `#${id} ${def.name}` : `#${id}`
+}
+
+/* ── Choose dialog ── */
+const showChooseDialog = ref(false)
+const chooseScenarioId = ref<number | null>(null)
+const chosenOptionId = ref<number | null>(null)
+
+const chooseOptions = computed(() => {
+  if (!chooseScenarioId.value) return []
+  const def = scenarioStore.getDefinition(chooseScenarioId.value)
+  if (!def?.choices) return []
+  return def.choices.map((id) => ({
+    id,
+    name: linkedScenarioName(id),
+  }))
+})
+
+function handleComplete(scenarioId: number) {
+  const def = scenarioStore.getDefinition(scenarioId)
+  if (def?.choices && def.choices.length > 1) {
+    chooseScenarioId.value = scenarioId
+    chosenOptionId.value = null
+    showChooseDialog.value = true
+  } else {
+    scenarioStore.completeScenario(scenarioId)
+  }
+}
+
+function confirmChoice() {
+  if (!chooseScenarioId.value || !chosenOptionId.value) return
+  scenarioStore.completeScenario(chooseScenarioId.value)
+  scenarioStore.setChoice(chooseScenarioId.value, chosenOptionId.value)
+  showChooseDialog.value = false
+}
+
+function cancelChoice() {
+  showChooseDialog.value = false
+}
+
+function inputValue(e: Event): string {
+  return (e.target as HTMLTextAreaElement).value
 }
 
 // Re-apply states when data changes
@@ -313,86 +369,180 @@ const legendItems = [
           v-if="selectedScenario"
           class="absolute right-0 top-0 bottom-0 z-10 p-2 hidden lg:block w-80"
         >
-          <div class="fh-card p-4 h-full overflow-y-auto">
-            <div class="flex items-start justify-between mb-3">
+          <div class="fh-card h-full overflow-y-auto flex flex-col">
+            <!-- Header -->
+            <div class="p-4 pb-3 border-b border-fh-border shrink-0">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="flex items-center gap-2 mb-0.5">
+                    <span class="font-display font-bold text-lg" :style="{ color: statusColor(selectedScenario.computedStatus) }">#{{ selectedScenario.id }}</span>
+                    <span
+                      class="fh-badge text-[10px]"
+                      :style="{ backgroundColor: statusBg(selectedScenario.computedStatus), color: statusColor(selectedScenario.computedStatus), border: '1px solid ' + statusColor(selectedScenario.computedStatus) + '40' }"
+                    >
+                      {{ statusLabel(selectedScenario.computedStatus) }}
+                    </span>
+                  </div>
+                  <h3 class="font-display text-base font-semibold text-gray-200">{{ selectedScenario.name }}</h3>
+                  <div class="flex items-center gap-2 mt-1 flex-wrap">
+                    <span v-if="selectedScenario.coordinates?.name" class="text-xs text-gray-500">{{ selectedScenario.coordinates.name }}</span>
+                    <span v-if="selectedScenario.chapter_id" class="text-xs text-gray-500">Kap. {{ selectedScenario.chapter_id }}</span>
+                    <span v-if="selectedScenario.has_boss" class="text-[10px] text-red-400/70 bg-red-900/15 px-1.5 py-0.5 rounded border border-red-800/20">boss</span>
+                  </div>
+                </div>
+                <button class="text-gray-500 hover:text-gray-300 p-1" @click="closeDetail">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-3">
+              <!-- Prompt -->
+              <p v-if="selectedScenario.prompt" class="text-sm text-gray-400 italic leading-relaxed p-3 rounded-lg bg-white/[0.02] border-l-2 border-fh-primary/30">
+                {{ selectedScenario.prompt }}
+              </p>
+
+              <!-- Choices: parent scenario with branching -->
+              <div v-if="selectedScenario.choices?.length && selectedScenario.choices.length > 1">
+                <p class="text-xs font-semibold uppercase tracking-wider mb-1.5 flex items-center gap-1.5"
+                   :class="selectedScenario.computedStatus === SCENARIO_STATUSES.COMPLETED ? 'text-gray-500' : 'text-amber-400'">
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/></svg>
+                  {{ selectedScenario.computedStatus === SCENARIO_STATUSES.COMPLETED ? 'Volba scénáře' : 'Rozcestí — výběr 1 z ' + selectedScenario.choices.length }}
+                </p>
+                <p v-if="selectedScenario.computedStatus !== SCENARIO_STATUSES.COMPLETED" class="text-xs text-amber-400/70 mb-2">
+                  Po dokončení odemkneš pouze jeden:
+                </p>
+                <div class="flex flex-wrap gap-1.5">
+                  <button
+                    v-for="choiceId in selectedScenario.choices"
+                    :key="choiceId"
+                    class="text-xs px-2 py-0.5 rounded-md border transition-colors cursor-pointer"
+                    :class="selectedScenario.state.choice === choiceId
+                      ? 'bg-fh-primary/15 text-fh-primary border-fh-primary/30'
+                      : 'bg-amber-900/10 text-amber-300/80 border-amber-700/25 hover:bg-amber-900/20'"
+                    @click="onNodeClick(choiceId)"
+                  >
+                    {{ linkedScenarioName(choiceId) }}
+                  </button>
+                </div>
+              </div>
+
+              <!-- Exclusive siblings -->
+              <div v-if="scenarioStore.getChoiceGroup(selectedScenario.id)" class="bg-amber-900/10 rounded-lg p-2.5 border border-amber-700/20">
+                <p class="text-xs font-semibold text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-1">
+                  <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>
+                  Výběr 1 z {{ scenarioStore.getChoiceGroup(selectedScenario.id)!.total }}
+                </p>
+                <p class="text-[11px] text-amber-300/60 mb-1.5">Výlučný s:</p>
+                <div class="flex flex-wrap gap-1">
+                  <button
+                    v-for="sibId in scenarioStore.getChoiceGroup(selectedScenario.id)!.siblings"
+                    :key="sibId"
+                    class="text-[11px] bg-amber-900/15 text-amber-300/80 px-2 py-0.5 rounded border border-amber-700/25 hover:bg-amber-900/25 transition-colors cursor-pointer"
+                    @click="onNodeClick(sibId)"
+                  >
+                    #{{ sibId }} {{ scenarioStore.getDefinition(sibId)?.name }}
+                  </button>
+                </div>
+              </div>
+
+              <!-- Links -->
+              <div v-if="selectedScenario.links_to.length">
+                <p class="text-xs text-gray-500 font-medium mb-1.5">Odemyká:</p>
+                <div class="flex flex-wrap gap-1.5">
+                  <button
+                    v-for="linkId in selectedScenario.links_to"
+                    :key="linkId"
+                    class="px-2 py-0.5 text-xs rounded-md bg-fh-primary/10 text-fh-primary border border-fh-primary/20 hover:bg-fh-primary/20 transition-colors"
+                    @click="onNodeClick(linkId)"
+                  >
+                    #{{ linkId }} {{ scenarioStore.getDefinition(linkId)?.name }}
+                  </button>
+                </div>
+              </div>
+
+              <!-- Linked from -->
+              <div v-if="selectedScenario.linked_from.length">
+                <p class="text-xs text-gray-500 font-medium mb-1.5">Odemčen z:</p>
+                <div class="flex flex-wrap gap-1.5">
+                  <button
+                    v-for="linkId in selectedScenario.linked_from"
+                    :key="linkId"
+                    class="px-2 py-0.5 text-xs rounded-md bg-white/5 text-gray-400 border border-fh-border hover:bg-white/10 transition-colors"
+                    @click="onNodeClick(linkId)"
+                  >
+                    #{{ linkId }} {{ scenarioStore.getDefinition(linkId)?.name }}
+                  </button>
+                </div>
+              </div>
+
+              <!-- Achievements -->
+              <div v-if="selectedScenario.achievements_awarded?.length">
+                <p class="text-xs text-gray-500 font-medium mb-1.5">Udělené úspěchy:</p>
+                <div class="flex flex-wrap gap-1.5">
+                  <span
+                    v-for="ach in selectedScenario.achievements_awarded"
+                    :key="ach"
+                    class="px-2 py-0.5 text-[11px] rounded-full bg-green-900/15 text-green-400/80 border border-green-800/20"
+                  >
+                    {{ ach }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Notes -->
               <div>
-                <span class="font-display font-bold text-sm" :style="{ color: statusColor(selectedScenario.computedStatus) }">#{{ selectedScenario.id }}</span>
-                <h3 class="font-display text-lg font-semibold text-gray-200">{{ selectedScenario.name }}</h3>
-                <p v-if="selectedScenario.coordinates?.name" class="text-xs text-gray-500 mt-0.5">{{ selectedScenario.coordinates.name }}</p>
+                <p class="text-xs text-gray-500 font-medium mb-1.5">Poznámky:</p>
+                <textarea
+                  :value="selectedScenario.state.notes"
+                  placeholder="Poznámky ke scénáři..."
+                  rows="2"
+                  class="fh-input w-full text-xs resize-none"
+                  @input="scenarioStore.setNotes(selectedScenario?.id ?? 0, inputValue($event))"
+                ></textarea>
               </div>
-              <button class="text-gray-500 hover:text-gray-300 p-1" @click="closeDetail">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
             </div>
 
-            <!-- Status -->
-            <div class="mb-3">
-              <span
-                class="fh-badge"
-                :style="{ backgroundColor: statusBg(selectedScenario.computedStatus), color: statusColor(selectedScenario.computedStatus), border: '1px solid ' + statusColor(selectedScenario.computedStatus) + '40' }"
+            <!-- Actions -->
+            <div class="p-4 pt-3 border-t border-fh-border shrink-0 space-y-2">
+              <button
+                v-if="selectedScenario.computedStatus === SCENARIO_STATUSES.AVAILABLE || selectedScenario.computedStatus === SCENARIO_STATUSES.ATTEMPTED || selectedScenario.computedStatus === SCENARIO_STATUSES.REQUIRED"
+                class="w-full py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg font-medium hover:shadow-[0_0_15px_rgba(34,197,94,0.25)] transition-all text-sm"
+                @click="handleComplete(selectedScenario.id)"
               >
-                {{ statusLabel(selectedScenario.computedStatus) }}
-              </span>
+                Označit jako dokončené
+              </button>
+              <button
+                v-if="selectedScenario.computedStatus === SCENARIO_STATUSES.AVAILABLE || selectedScenario.computedStatus === SCENARIO_STATUSES.REQUIRED"
+                class="w-full py-1.5 bg-orange-600/15 text-orange-400 border border-orange-600/30 rounded-lg font-medium hover:bg-orange-600/25 transition-colors text-sm"
+                @click="scenarioStore.markAttempted(selectedScenario.id)"
+              >
+                Označit jako pokus
+              </button>
+              <button
+                v-if="selectedScenario.computedStatus === SCENARIO_STATUSES.LOCKED || selectedScenario.computedStatus === SCENARIO_STATUSES.BLOCKED"
+                class="w-full py-1.5 bg-fh-primary/10 text-fh-primary border border-fh-primary/20 rounded-lg font-medium hover:bg-fh-primary/20 transition-colors text-sm"
+                @click="scenarioStore.unlockScenario(selectedScenario.id)"
+              >
+                Odemknout scénář
+              </button>
+              <button
+                v-if="selectedScenario.computedStatus === SCENARIO_STATUSES.COMPLETED || selectedScenario.computedStatus === SCENARIO_STATUSES.ATTEMPTED"
+                class="w-full py-1.5 bg-white/[0.03] text-gray-500 rounded-lg text-xs hover:bg-white/[0.06] hover:text-gray-400 transition-colors border border-fh-border/40"
+                @click="scenarioStore.resetScenario(selectedScenario.id)"
+              >
+                Resetovat
+              </button>
+              <router-link
+                :to="`/scenare?open=${selectedScenario.id}`"
+                class="block text-center text-xs text-gray-500 hover:text-fh-primary no-underline py-1.5 transition-colors"
+              >
+                Zobrazit plný detail
+              </router-link>
             </div>
-
-            <!-- Prompt -->
-            <p v-if="selectedScenario.prompt" class="text-sm text-gray-400 italic leading-relaxed p-3 rounded-lg bg-white/[0.02] border-l-2 border-fh-primary/30 mb-3">
-              {{ selectedScenario.prompt }}
-            </p>
-
-            <!-- Links -->
-            <div v-if="selectedScenario.links_to.length" class="mb-3">
-              <p class="text-xs text-gray-500 font-medium mb-1.5">Odemyká:</p>
-              <div class="flex flex-wrap gap-1.5">
-                <button
-                  v-for="linkId in selectedScenario.links_to"
-                  :key="linkId"
-                  class="px-2 py-0.5 text-xs rounded-md bg-fh-primary/10 text-fh-primary border border-fh-primary/20 hover:bg-fh-primary/20 transition-colors"
-                  @click="onNodeClick(linkId)"
-                >
-                  #{{ linkId }}
-                </button>
-              </div>
-            </div>
-
-            <!-- Linked from -->
-            <div v-if="selectedScenario.linked_from.length" class="mb-3">
-              <p class="text-xs text-gray-500 font-medium mb-1.5">Odemčen z:</p>
-              <div class="flex flex-wrap gap-1.5">
-                <button
-                  v-for="linkId in selectedScenario.linked_from"
-                  :key="linkId"
-                  class="px-2 py-0.5 text-xs rounded-md bg-white/5 text-gray-400 border border-fh-border hover:bg-white/10 transition-colors"
-                  @click="onNodeClick(linkId)"
-                >
-                  #{{ linkId }}
-                </button>
-              </div>
-            </div>
-
-            <!-- Achievements -->
-            <div v-if="selectedScenario.achievements_awarded?.length" class="mb-3">
-              <p class="text-xs text-gray-500 font-medium mb-1.5">Uděluje úspěchy:</p>
-              <div class="flex flex-wrap gap-1.5">
-                <span
-                  v-for="ach in selectedScenario.achievements_awarded"
-                  :key="ach"
-                  class="px-2 py-0.5 text-[11px] rounded-full bg-green-900/15 text-green-400/80 border border-green-800/20"
-                >
-                  {{ ach }}
-                </span>
-              </div>
-            </div>
-
-            <!-- Go to scenarios page -->
-            <router-link
-              :to="`/scenare?open=${selectedScenario.id}`"
-              class="mt-4 block text-center text-xs text-fh-primary hover:text-fh-primary-light no-underline fh-btn-secondary py-2"
-            >
-              Otevřít ve Scénářích
-            </router-link>
           </div>
         </div>
       </transition>
@@ -410,38 +560,142 @@ const legendItems = [
             <div class="flex justify-center pt-3 pb-1 shrink-0" @click="closeDetail">
               <div class="w-10 h-1 rounded-full bg-white/20"></div>
             </div>
-            <div class="flex-1 overflow-y-auto p-4">
-              <div class="flex items-start justify-between mb-3">
+            <div class="flex-1 overflow-y-auto p-4 space-y-3">
+              <div class="flex items-start justify-between">
                 <div>
-                  <span class="font-display font-bold text-sm" :style="{ color: statusColor(selectedScenario.computedStatus) }">#{{ selectedScenario.id }}</span>
-                  <h3 class="font-display text-lg font-semibold text-gray-200">{{ selectedScenario.name }}</h3>
+                  <div class="flex items-center gap-2 mb-0.5">
+                    <span class="font-display font-bold text-lg" :style="{ color: statusColor(selectedScenario.computedStatus) }">#{{ selectedScenario.id }}</span>
+                    <span
+                      class="fh-badge text-[10px]"
+                      :style="{ backgroundColor: statusBg(selectedScenario.computedStatus), color: statusColor(selectedScenario.computedStatus), border: '1px solid ' + statusColor(selectedScenario.computedStatus) + '40' }"
+                    >
+                      {{ statusLabel(selectedScenario.computedStatus) }}
+                    </span>
+                  </div>
+                  <h3 class="font-display text-base font-semibold text-gray-200">{{ selectedScenario.name }}</h3>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span v-if="selectedScenario.coordinates?.name" class="text-xs text-gray-500">{{ selectedScenario.coordinates.name }}</span>
+                    <span v-if="selectedScenario.has_boss" class="text-[10px] text-red-400/70 bg-red-900/15 px-1.5 py-0.5 rounded border border-red-800/20">boss</span>
+                  </div>
                 </div>
-                <span
-                  class="fh-badge shrink-0"
-                  :style="{ backgroundColor: statusBg(selectedScenario.computedStatus), color: statusColor(selectedScenario.computedStatus), border: '1px solid ' + statusColor(selectedScenario.computedStatus) + '40' }"
-                >
-                  {{ statusLabel(selectedScenario.computedStatus) }}
-                </span>
               </div>
-              <p v-if="selectedScenario.prompt" class="text-sm text-gray-400 italic leading-relaxed p-3 rounded-lg bg-white/[0.02] border-l-2 border-fh-primary/30 mb-3">
+
+              <p v-if="selectedScenario.prompt" class="text-sm text-gray-400 italic leading-relaxed p-3 rounded-lg bg-white/[0.02] border-l-2 border-fh-primary/30">
                 {{ selectedScenario.prompt }}
               </p>
-              <router-link
-                :to="`/scenare?open=${selectedScenario.id}`"
-                class="block text-center text-sm text-fh-primary no-underline fh-btn-secondary py-2.5"
-                @click="closeDetail"
-              >
-                Otevřít ve Scénářích
-              </router-link>
+
+              <!-- Exclusive siblings -->
+              <div v-if="scenarioStore.getChoiceGroup(selectedScenario.id)" class="bg-amber-900/10 rounded-lg p-2.5 border border-amber-700/20">
+                <p class="text-xs font-semibold text-amber-400 mb-1">Výběr 1 z {{ scenarioStore.getChoiceGroup(selectedScenario.id)!.total }} — výlučný s:</p>
+                <div class="flex flex-wrap gap-1">
+                  <span
+                    v-for="sibId in scenarioStore.getChoiceGroup(selectedScenario.id)!.siblings"
+                    :key="sibId"
+                    class="text-[11px] text-amber-300/80 bg-amber-900/15 px-2 py-0.5 rounded border border-amber-700/25"
+                  >
+                    #{{ sibId }} {{ scenarioStore.getDefinition(sibId)?.name }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div class="space-y-2">
+                <button
+                  v-if="selectedScenario.computedStatus === SCENARIO_STATUSES.AVAILABLE || selectedScenario.computedStatus === SCENARIO_STATUSES.ATTEMPTED || selectedScenario.computedStatus === SCENARIO_STATUSES.REQUIRED"
+                  class="w-full py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg font-medium hover:shadow-[0_0_15px_rgba(34,197,94,0.25)] transition-all text-sm"
+                  @click="handleComplete(selectedScenario.id)"
+                >
+                  Označit jako dokončené
+                </button>
+                <button
+                  v-if="selectedScenario.computedStatus === SCENARIO_STATUSES.AVAILABLE || selectedScenario.computedStatus === SCENARIO_STATUSES.REQUIRED"
+                  class="w-full py-2 bg-orange-600/15 text-orange-400 border border-orange-600/30 rounded-lg font-medium hover:bg-orange-600/25 transition-colors text-sm"
+                  @click="scenarioStore.markAttempted(selectedScenario.id)"
+                >
+                  Označit jako pokus
+                </button>
+                <button
+                  v-if="selectedScenario.computedStatus === SCENARIO_STATUSES.LOCKED || selectedScenario.computedStatus === SCENARIO_STATUSES.BLOCKED"
+                  class="w-full py-2 bg-fh-primary/10 text-fh-primary border border-fh-primary/20 rounded-lg font-medium hover:bg-fh-primary/20 transition-colors text-sm"
+                  @click="scenarioStore.unlockScenario(selectedScenario.id)"
+                >
+                  Odemknout scénář
+                </button>
+                <button
+                  v-if="selectedScenario.computedStatus === SCENARIO_STATUSES.COMPLETED || selectedScenario.computedStatus === SCENARIO_STATUSES.ATTEMPTED"
+                  class="w-full py-1.5 bg-white/[0.03] text-gray-500 rounded-lg text-xs hover:bg-white/[0.06] transition-colors border border-fh-border/40"
+                  @click="scenarioStore.resetScenario(selectedScenario.id)"
+                >
+                  Resetovat
+                </button>
+                <router-link
+                  :to="`/scenare?open=${selectedScenario.id}`"
+                  class="block text-center text-xs text-gray-500 hover:text-fh-primary no-underline py-1.5 transition-colors"
+                  @click="closeDetail"
+                >
+                  Zobrazit plný detail
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
       </transition>
     </Teleport>
+
+    <!-- Choose scenario dialog -->
+    <Teleport to="body">
+      <Transition name="modal-choose">
+        <div
+          v-if="showChooseDialog"
+          class="fixed inset-0 z-[60] flex items-center justify-center p-4"
+        >
+          <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" @click="cancelChoice"></div>
+          <div class="relative w-full max-w-sm bg-fh-card border border-amber-700/30 rounded-2xl shadow-2xl overflow-hidden">
+            <div class="px-6 pt-5 pb-3 border-b border-amber-700/20">
+              <div class="flex items-center gap-2 mb-1">
+                <svg class="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/></svg>
+                <h3 class="text-base font-semibold text-gray-200">Vyber scénář k odemčení</h3>
+              </div>
+              <p class="text-xs text-amber-400/70">Ostatní budou uzamčeny.</p>
+            </div>
+            <div class="px-6 py-4 space-y-2">
+              <label
+                v-for="opt in chooseOptions"
+                :key="opt.id"
+                class="flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all"
+                :class="chosenOptionId === opt.id
+                  ? 'bg-fh-primary/10 border-fh-primary/30'
+                  : 'bg-white/[0.02] border-fh-border hover:bg-white/[0.04]'"
+              >
+                <input type="radio" name="fc-choose" :value="opt.id" v-model="chosenOptionId" class="w-4 h-4 accent-[#5ba4cf]">
+                <span class="text-sm text-gray-300">{{ opt.name }}</span>
+              </label>
+            </div>
+            <div class="px-6 py-4 border-t border-fh-border flex justify-end gap-2">
+              <button class="px-4 py-2 text-xs text-gray-400 hover:text-gray-300 transition-colors" @click="cancelChoice">Zrušit</button>
+              <button
+                class="px-4 py-2 text-xs font-medium rounded-lg transition-all"
+                :class="chosenOptionId ? 'bg-gradient-to-r from-green-600 to-green-700 text-white' : 'bg-white/5 text-gray-600 cursor-not-allowed'"
+                :disabled="!chosenOptionId"
+                @click="confirmChoice"
+              >Dokončit a odemknout</button>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>
 
 <style scoped>
+.modal-choose-enter-active,
+.modal-choose-leave-active {
+  transition: opacity 0.2s ease;
+}
+.modal-choose-enter-from,
+.modal-choose-leave-to {
+  opacity: 0;
+}
 .sheet-enter-active,
 .sheet-leave-active {
   transition: opacity 0.2s ease;
@@ -572,7 +826,7 @@ const legendItems = [
 
 /* Chapter label text */
 .storyline-container text.label {
-  fill: #4a5568;
+  fill: #9ca3af;
   font-size: 11px;
   letter-spacing: 1px;
 }
