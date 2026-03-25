@@ -9,6 +9,33 @@ const router = useRouter()
 const campaignStore = useCampaignStore()
 const scenarioStore = useScenarioStore()
 
+// Story texts
+import scenarioIntros from '@/data/scenario-intros-cz.json'
+import sectionTexts from '@/data/section-texts-cz.json'
+
+const introsMap = scenarioIntros as Record<string, string>
+const sectionsMap = sectionTexts as Record<string, string>
+
+function getIntro(id: number): string | null {
+  return introsMap[String(id)] ?? null
+}
+
+function getConclusion(id: number): string | null {
+  return sectionsMap[String(id)] ?? null
+}
+
+// Expanded state for story text
+const expandedIntros = ref<Set<number>>(new Set())
+const expandedConclusions = ref<Set<number>>(new Set())
+
+function toggleIntro(id: number) {
+  expandedIntros.value.has(id) ? expandedIntros.value.delete(id) : expandedIntros.value.add(id)
+}
+
+function toggleConclusion(id: number) {
+  expandedConclusions.value.has(id) ? expandedConclusions.value.delete(id) : expandedConclusions.value.add(id)
+}
+
 onMounted(async () => {
   if (!campaignStore.hasCampaign) {
     router.push('/kampan')
@@ -149,9 +176,35 @@ function eventLabel(type: string): string {
             </span>
           </div>
 
-          <p v-if="s.prompt" class="text-sm text-gray-400 italic leading-relaxed mt-3 p-3 rounded-lg bg-white/[0.02] border-l-2 border-fh-primary/30">
-            {{ s.prompt }}
-          </p>
+          <!-- Story intro (expandable) -->
+          <div v-if="getIntro(s.id)" class="mt-3">
+            <button
+              class="flex items-center gap-1.5 text-xs font-medium transition-colors"
+              :class="expandedIntros.has(s.id) ? 'text-fh-primary' : 'text-gray-500 hover:text-gray-300'"
+              @click="toggleIntro(s.id)"
+            >
+              <svg class="w-3 h-3 transition-transform" :class="expandedIntros.has(s.id) ? 'rotate-90' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+              Úvod scénáře
+            </button>
+            <div v-if="expandedIntros.has(s.id)" class="mt-2 p-3 rounded-lg bg-white/[0.02] border-l-2 border-fh-primary/20">
+              <p class="text-sm text-gray-400 italic leading-relaxed whitespace-pre-line">{{ getIntro(s.id) }}</p>
+            </div>
+          </div>
+
+          <!-- Story conclusion (expandable) -->
+          <div v-if="getConclusion(s.id)" class="mt-2">
+            <button
+              class="flex items-center gap-1.5 text-xs font-medium transition-colors"
+              :class="expandedConclusions.has(s.id) ? 'text-green-400' : 'text-gray-500 hover:text-gray-300'"
+              @click="toggleConclusion(s.id)"
+            >
+              <svg class="w-3 h-3 transition-transform" :class="expandedConclusions.has(s.id) ? 'rotate-90' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+              Závěr příběhu
+            </button>
+            <div v-if="expandedConclusions.has(s.id)" class="mt-2 p-3 rounded-lg bg-green-900/5 border-l-2 border-green-500/20">
+              <p class="text-sm text-gray-400 leading-relaxed whitespace-pre-line">{{ getConclusion(s.id) }}</p>
+            </div>
+          </div>
 
           <!-- Achievements awarded -->
           <div v-if="s.achievements_awarded?.length" class="flex flex-wrap gap-2 mt-3">

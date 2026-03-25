@@ -6,6 +6,9 @@ import type { ScenarioData } from '@/models/Scenario'
 import { useCampaignStore } from '@/stores/campaignStore'
 import { useScenarioStore } from '@/stores/scenarioStore'
 import { useAchievementStore } from '@/stores/achievementStore'
+import scenarioIntros from '@/data/scenario-intros-cz.json'
+
+const introsMap = scenarioIntros as Record<string, string>
 
 const router = useRouter()
 const route = useRoute()
@@ -497,9 +500,9 @@ function lootPreview(loot: ScenarioData['loot']): string {
 
             <!-- body (scrollable) -->
             <div class="flex-1 overflow-y-auto px-6 py-4 space-y-4 modal-scroll">
-              <!-- prompt / summary -->
-              <div v-if="selectedScenario.prompt" class="bg-white/[0.03] rounded-xl p-4 border border-white/[0.06]">
-                <p class="text-sm text-gray-300 leading-relaxed italic">{{ selectedScenario.prompt }}</p>
+              <!-- story intro text -->
+              <div v-if="introsMap[String(selectedScenario.id)]" class="bg-white/[0.03] rounded-xl p-4 border border-white/[0.06]">
+                <p class="text-sm text-gray-300 leading-relaxed italic whitespace-pre-line">{{ introsMap[String(selectedScenario.id)] }}</p>
               </div>
 
               <!-- completed date -->
