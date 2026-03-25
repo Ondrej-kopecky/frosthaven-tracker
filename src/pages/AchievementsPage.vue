@@ -3,15 +3,60 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCampaignStore } from '@/stores/campaignStore'
 import { useAchievementStore } from '@/stores/achievementStore'
+import { useScenarioStore } from '@/stores/scenarioStore'
 
 const router = useRouter()
 const campaignStore = useCampaignStore()
 const achievementStore = useAchievementStore()
+const scenarioStore = useScenarioStore()
 
-onMounted(() => {
+// Detail modal
+const selectedAchievement = ref<string | null>(null)
+
+const selectedDef = computed(() => {
+  if (!selectedAchievement.value) return null
+  return achievementStore.definitions.find(a => a.id === selectedAchievement.value) ?? null
+})
+
+// Build scenario linkage map
+const achievementScenarioMap = computed(() => {
+  const map: Record<string, { awarded: number[]; lost: number[] }> = {}
+  for (const s of scenarioStore.allScenarios) {
+    if (s.achievements_awarded) {
+      for (const a of s.achievements_awarded) {
+        if (!map[a]) map[a] = { awarded: [], lost: [] }
+        map[a].awarded.push(s.id)
+      }
+    }
+    if (s.achievements_lost) {
+      for (const a of s.achievements_lost) {
+        if (!map[a]) map[a] = { awarded: [], lost: [] }
+        map[a].lost.push(s.id)
+      }
+    }
+  }
+  return map
+})
+
+function scenarioName(id: number): string {
+  const def = scenarioStore.getDefinition(id)
+  return def ? `#${id} ${def.name}` : `#${id}`
+}
+
+function openDetail(id: string) {
+  selectedAchievement.value = id
+}
+
+function closeDetail() {
+  selectedAchievement.value = null
+}
+
+onMounted(async () => {
   if (!campaignStore.hasCampaign) {
     router.replace('/kampan')
+    return
   }
+  await scenarioStore.loadScenarioData()
 })
 
 type FilterTab = 'all' | 'campaign' | 'party' | 'achieved'
@@ -152,8 +197,9 @@ function typeLabel(type: string): string {
       <div
         v-for="achievement in finalList"
         :key="achievement.id"
-        class="fh-card p-4 flex items-start gap-4 transition-all duration-200"
+        class="fh-card p-4 flex items-start gap-4 transition-all duration-200 cursor-pointer hover:bg-white/[0.02]"
         :class="achievementStore.isAchieved(achievement.id) ? 'border-l-3 border-l-fh-completed' : 'border-l-3 border-l-transparent'"
+        @click="openDetail(achievement.id)"
       >
         <!-- Toggle checkbox -->
         <button
@@ -163,7 +209,7 @@ function typeLabel(type: string): string {
               ? 'bg-fh-completed/20 border-fh-completed text-fh-completed'
               : 'border-gray-600 hover:border-gray-400 text-transparent hover:text-gray-500'
           "
-          @click="achievementStore.toggle(achievement.id)"
+          @click.stop="achievementStore.toggle(achievement.id)"
         >
           <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
@@ -243,5 +289,148 @@ function typeLabel(type: string): string {
         </div>
       </div>
     </div>
+
+    <!-- Detail Modal -->
+    <Teleport to="body">
+      <Transition name="modal">
+        <div
+          v-if="selectedDef"
+          class="fixed inset-0 z-50 flex items-center justify-center p-4"
+          @click="closeDetail"
+        >
+          <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+          <div
+            class="relative w-full max-w-md bg-fh-card border rounded-2xl shadow-2xl overflow-hidden"
+            :class="achievementStore.isAchieved(selectedDef.id) ? 'border-fh-completed/30' : 'border-fh-border'"
+            @click.stop
+          >
+            <!-- Header -->
+            <div class="p-5 pb-3 border-b border-fh-border">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="flex items-center gap-2 mb-1">
+                    <h3 class="font-display text-lg font-semibold text-gray-200">{{ selectedDef.name }}</h3>
+                    <svg v-if="achievementStore.isAchieved(selectedDef.id)" class="w-5 h-5 text-fh-completed shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="fh-badge text-[10px]" :class="typeBadgeClass(selectedDef.type)">
+                      {{ typeLabel(selectedDef.type) }}
+                    </span>
+                    <span v-if="selectedDef.is_manual" class="fh-badge text-[10px] bg-yellow-500/15 text-yellow-400 border border-yellow-500/25">
+                      manuální
+                    </span>
+                    <span v-if="selectedDef.hidden" class="fh-badge text-[10px] bg-gray-500/15 text-gray-400 border border-gray-500/25">
+                      skrytý
+                    </span>
+                  </div>
+                </div>
+                <button class="text-gray-500 hover:text-gray-300 p-1" @click="closeDetail">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="p-5 space-y-4">
+              <!-- Status -->
+              <div class="flex items-center gap-3">
+                <button
+                  class="w-8 h-8 rounded-lg border-2 flex items-center justify-center transition-all"
+                  :class="achievementStore.isAchieved(selectedDef.id)
+                    ? 'bg-fh-completed/20 border-fh-completed text-fh-completed'
+                    : 'border-gray-600 hover:border-gray-400 text-gray-600 hover:text-gray-400'"
+                  @click="achievementStore.toggle(selectedDef.id)"
+                >
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+                <span class="text-sm" :class="achievementStore.isAchieved(selectedDef.id) ? 'text-fh-completed font-semibold' : 'text-gray-400'">
+                  {{ achievementStore.isAchieved(selectedDef.id) ? 'Dosaženo' : 'Nedosaženo' }}
+                </span>
+              </div>
+
+              <!-- Upgrade chain -->
+              <div v-if="selectedDef.upgrades?.length">
+                <p class="text-xs text-gray-500 font-medium mb-2">Úrovně vylepšení:</p>
+                <div class="space-y-1.5">
+                  <div
+                    v-for="(uid, i) in [selectedDef.id, ...selectedDef.upgrades]"
+                    :key="uid"
+                    class="flex items-center gap-2"
+                  >
+                    <div
+                      class="w-4 h-4 rounded-full border-2 flex items-center justify-center text-[8px] font-bold"
+                      :class="achievementStore.isAchieved(uid)
+                        ? 'border-fh-completed bg-fh-completed/20 text-fh-completed'
+                        : 'border-gray-600 text-gray-600'"
+                    >
+                      {{ i + 1 }}
+                    </div>
+                    <span class="text-sm" :class="achievementStore.isAchieved(uid) ? 'text-gray-300' : 'text-gray-600'">
+                      {{ achievementStore.definitions.find(a => a.id === uid)?.name ?? uid }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Group -->
+              <div v-if="selectedDef.group">
+                <p class="text-xs text-gray-500 font-medium mb-1.5">Součást skupiny:</p>
+                <div class="flex flex-wrap gap-1.5">
+                  <span
+                    v-for="member in getGroupMembers(selectedDef.group)"
+                    :key="member.id"
+                    class="text-xs px-2 py-0.5 rounded-md border cursor-pointer transition-colors"
+                    :class="member.id === selectedDef.id
+                      ? 'bg-fh-primary/15 text-fh-primary border-fh-primary/30'
+                      : achievementStore.isAchieved(member.id)
+                        ? 'bg-fh-completed/10 text-fh-completed border-fh-completed/20'
+                        : 'bg-white/[0.03] text-gray-400 border-fh-border hover:bg-white/[0.06]'"
+                    @click="openDetail(member.id)"
+                  >
+                    {{ member.name }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Awarded by scenarios -->
+              <div v-if="achievementScenarioMap[selectedDef.name]?.awarded?.length">
+                <p class="text-xs text-gray-500 font-medium mb-1.5">Získáno ze scénářů:</p>
+                <div class="flex flex-wrap gap-1.5">
+                  <button
+                    v-for="sid in achievementScenarioMap[selectedDef.name].awarded"
+                    :key="sid"
+                    class="text-xs px-2 py-0.5 rounded-md bg-green-900/10 text-green-400/80 border border-green-800/20 hover:bg-green-900/20 transition-colors"
+                    @click="closeDetail(); router.push({ path: '/scenare', query: { open: String(sid) } })"
+                  >
+                    {{ scenarioName(sid) }}
+                  </button>
+                </div>
+              </div>
+
+              <!-- Lost by scenarios -->
+              <div v-if="achievementScenarioMap[selectedDef.name]?.lost?.length">
+                <p class="text-xs text-gray-500 font-medium mb-1.5">Ztraceno v scénářích:</p>
+                <div class="flex flex-wrap gap-1.5">
+                  <button
+                    v-for="sid in achievementScenarioMap[selectedDef.name].lost"
+                    :key="sid"
+                    class="text-xs px-2 py-0.5 rounded-md bg-red-900/10 text-red-400/80 border border-red-800/20 hover:bg-red-900/20 transition-colors"
+                    @click="closeDetail(); router.push({ path: '/scenare', query: { open: String(sid) } })"
+                  >
+                    {{ scenarioName(sid) }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>
