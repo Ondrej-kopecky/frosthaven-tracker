@@ -2,339 +2,1317 @@
   {
     "classId": "df",
     "name": "Tulák",
-    "maxHp": [10, 12, 14, 16, 18, 20, 22, 24, 26],
+    "maxHp": [
+      10,
+      12,
+      14,
+      16,
+      18,
+      20,
+      22,
+      24,
+      26
+    ],
     "handSize": 12,
     "isStarting": true,
     "perks": [
-      { "id": "df_1", "description": "Nahraď jednu -1 kartu jednou +1 kartou", "maxCount": 1 },
-      { "id": "df_2", "description": "Nahraď jednu -2 kartu jednou +0 kartou", "maxCount": 1 },
-      { "id": "df_3", "description": "Nahraď jednu +1 kartu dvěma +0 kartami „Posuň jeden svůj žeton o slot zpět“", "maxCount": 1 },
-      { "id": "df_4", "description": "Nahraď dvě +0 karty dvěma kartami ↻ průraznost 3", "maxCount": 1 },
-      { "id": "df_5", "description": "Nahraď dvě +0 karty dvěma kartami ↻ odstrčení 2", "maxCount": 1 },
-      { "id": "df_6", "description": "Přidej jednu +3 kartu", "maxCount": 1 },
-      { "id": "df_7", "description": "Přidej jednu +2 znehybnění kartu", "maxCount": 1 },
-      { "id": "df_8", "description": "Přidej dvě karty ↻ léčení 1, sebe", "maxCount": 1 },
-      { "id": "df_9", "description": "Ignoruj efekty scénáře a přidej jednu +1 kartu", "maxCount": 1 },
-      { "id": "df_10", "description": "Ignoruj -1 efekty předmětů a přidej jednu +1 kartu", "maxCount": 1 },
-      { "id": "df_11", "description": "Při dlouhém odpočinku můžeš posunout jeden svůj žeton o slot zpět", "maxCount": 1 },
-      { "id": "df_12", "description": "Můžeš vzít jeden další jednoruční předmět do každého scénáře", "maxCount": 1 },
-      { "id": "df_13", "description": "Na konci scénáře můžeš odhodit až dva lupy (ne Náhodný předmět) a táhnout stejný počet nových", "maxCount": 1 }
+      {
+        "id": "df_1",
+        "description": "Nahraď jednu -1 kartu jednou +1 kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "df_2",
+        "description": "Nahraď jednu -2 kartu jednou +0 kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "df_3",
+        "description": "Nahraď jednu +1 kartu dvěma +0 kartami „Posuň jeden svůj žeton o slot zpět“",
+        "maxCount": 1
+      },
+      {
+        "id": "df_4",
+        "description": "Nahraď dvě +0 karty dvěma kartami ↻ průraznost 3",
+        "maxCount": 1
+      },
+      {
+        "id": "df_5",
+        "description": "Nahraď dvě +0 karty dvěma kartami ↻ odstrčení 2",
+        "maxCount": 1
+      },
+      {
+        "id": "df_6",
+        "description": "Přidej jednu +3 kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "df_7",
+        "description": "Přidej jednu +2 znehybnění kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "df_8",
+        "description": "Přidej dvě karty ↻ léčení 1, sebe",
+        "maxCount": 1
+      },
+      {
+        "id": "df_9",
+        "description": "Ignoruj efekty scénáře a přidej jednu +1 kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "df_10",
+        "description": "Ignoruj -1 efekty předmětů a přidej jednu +1 kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "df_11",
+        "description": "Při dlouhém odpočinku můžeš posunout jeden svůj žeton o slot zpět",
+        "maxCount": 1
+      },
+      {
+        "id": "df_12",
+        "description": "Můžeš vzít jeden další jednoruční předmět do každého scénáře",
+        "maxCount": 1
+      },
+      {
+        "id": "df_13",
+        "description": "Na konci scénáře můžeš odhodit až dva lupy (ne Náhodný předmět) a táhnout stejný počet nových",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Dokonči scénář se svými žetony na posledních slotech čtyř trvalých schopností.",
+      "Nikdy neproveď pohyb ani útok s hodnotou menší než 4 a proveď alespoň jeden pohyb nebo útok každé kolo."
     ]
   },
   {
     "classId": "bb",
     "name": "Mžikočepel",
-    "maxHp": [6, 7, 8, 9, 10, 11, 12, 13, 14],
+    "maxHp": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
     "handSize": 10,
     "isStarting": true,
     "perks": [
-      { "id": "bb_1", "description": "Odeber jednu -2 kartu", "maxCount": 1 },
-      { "id": "bb_2", "description": "Nahraď jednu -1 kartu jednou +1 kartou", "maxCount": 1 },
-      { "id": "bb_3", "description": "Nahraď jednu -1 kartu jednou +0 krvácení kartou", "maxCount": 1 },
-      { "id": "bb_4", "description": "Nahraď jednu +0 kartu jednou +1 znehybnění kartou", "maxCount": 1 },
-      { "id": "bb_5", "description": "Nahraď jednu +0 kartu jednou kartou ↻ „Polož tuto kartu do aktivní oblasti. Při dalším útoku ji odhoď a přidej +2 útoku“", "maxCount": 1 },
-      { "id": "bb_6", "description": "Nahraď dvě +1 karty dvěma +2 kartami", "maxCount": 1 },
-      { "id": "bb_7", "description": "Přidej jednu -1 kartu „Získej 1 čas“", "maxCount": 1 },
-      { "id": "bb_8", "description": "Přidej jednu +2 kartu ↻ regenerace, sebe", "maxCount": 1 },
-      { "id": "bb_9", "description": "Při krátkém odpočinku můžeš utratit jeden nevyčerpaný předmět bez efektu a obnovit jiný vyčerpaný předmět", "maxCount": 1 },
-      { "id": "bb_10", "description": "Na začátku prvního tahu každého scénáře můžeš provést pohyb 3", "maxCount": 1 },
-      { "id": "bb_11", "description": "Kdykoli bys získal znehybnění, zabraň tomuto stavu", "maxCount": 1 }
+      {
+        "id": "bb_1",
+        "description": "Odeber jednu -2 kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "bb_2",
+        "description": "Nahraď jednu -1 kartu jednou +1 kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "bb_3",
+        "description": "Nahraď jednu -1 kartu jednou +0 krvácení kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "bb_4",
+        "description": "Nahraď jednu +0 kartu jednou +1 znehybnění kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "bb_5",
+        "description": "Nahraď jednu +0 kartu jednou kartou ↻ „Polož tuto kartu do aktivní oblasti. Při dalším útoku ji odhoď a přidej +2 útoku“",
+        "maxCount": 1
+      },
+      {
+        "id": "bb_6",
+        "description": "Nahraď dvě +1 karty dvěma +2 kartami",
+        "maxCount": 1
+      },
+      {
+        "id": "bb_7",
+        "description": "Přidej jednu -1 kartu „Získej 1 čas“",
+        "maxCount": 1
+      },
+      {
+        "id": "bb_8",
+        "description": "Přidej jednu +2 kartu ↻ regenerace, sebe",
+        "maxCount": 1
+      },
+      {
+        "id": "bb_9",
+        "description": "Při krátkém odpočinku můžeš utratit jeden nevyčerpaný předmět bez efektu a obnovit jiný vyčerpaný předmět",
+        "maxCount": 1
+      },
+      {
+        "id": "bb_10",
+        "description": "Na začátku prvního tahu každého scénáře můžeš provést pohyb 3",
+        "maxCount": 1
+      },
+      {
+        "id": "bb_11",
+        "description": "Kdykoli bys získal znehybnění, zabraň tomuto stavu",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Zvol rychlé tempo sedm kol za sebou.",
+      "Nikdy nebuď cílem útoku."
     ]
   },
   {
     "classId": "bn",
     "name": "Kopiník s korouhví",
-    "maxHp": [10, 12, 14, 16, 18, 20, 22, 24, 26],
+    "maxHp": [
+      10,
+      12,
+      14,
+      16,
+      18,
+      20,
+      22,
+      24,
+      26
+    ],
     "handSize": 10,
     "isStarting": true,
     "perks": [
-      { "id": "bn_1", "description": "Nahraď jednu -1 kartu jednou kartou ↻ obrana 1", "maxCount": 1 },
-      { "id": "bn_2", "description": "Nahraď jednu +0 kartu jednou +1 kartou „Přidej +1 útoku za každého spojence sousedícího s cílem“", "maxCount": 1 },
-      { "id": "bn_3", "description": "Přidej jednu +1 odzbrojení kartu", "maxCount": 1 },
-      { "id": "bn_4", "description": "Přidej jednu +2 odstrčení 1 kartu", "maxCount": 1 },
-      { "id": "bn_5", "description": "Přidej dvě +1 karty ↻", "maxCount": 1 },
-      { "id": "bn_6", "description": "Přidej dvě karty ↻ léčení 1, sebe", "maxCount": 1 },
-      { "id": "bn_7", "description": "Ignoruj -1 efekty předmětů a odeber jednu -1 kartu", "maxCount": 1 },
-      { "id": "bn_8", "description": "Na konci každého dlouhého odpočinku poskytni jednomu spojenci v dosahu 3: pohyb 2", "maxCount": 1 },
-      { "id": "bn_9", "description": "Kdykoli otevřeš dveře pohybovou akcí, přidej +3 pohybu", "maxCount": 1 },
-      { "id": "bn_10", "description": "Jednou za scénář, během svého tahu, získej obranu 2 na celé kolo", "maxCount": 1 }
+      {
+        "id": "bn_1",
+        "description": "Nahraď jednu -1 kartu jednou kartou ↻ obrana 1",
+        "maxCount": 1
+      },
+      {
+        "id": "bn_2",
+        "description": "Nahraď jednu +0 kartu jednou +1 kartou „Přidej +1 útoku za každého spojence sousedícího s cílem“",
+        "maxCount": 1
+      },
+      {
+        "id": "bn_3",
+        "description": "Přidej jednu +1 odzbrojení kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "bn_4",
+        "description": "Přidej jednu +2 odstrčení 1 kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "bn_5",
+        "description": "Přidej dvě +1 karty ↻",
+        "maxCount": 1
+      },
+      {
+        "id": "bn_6",
+        "description": "Přidej dvě karty ↻ léčení 1, sebe",
+        "maxCount": 1
+      },
+      {
+        "id": "bn_7",
+        "description": "Ignoruj -1 efekty předmětů a odeber jednu -1 kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "bn_8",
+        "description": "Na konci každého dlouhého odpočinku poskytni jednomu spojenci v dosahu 3: pohyb 2",
+        "maxCount": 1
+      },
+      {
+        "id": "bn_9",
+        "description": "Kdykoli otevřeš dveře pohybovou akcí, přidej +3 pohybu",
+        "maxCount": 1
+      },
+      {
+        "id": "bn_10",
+        "description": "Jednou za scénář, během svého tahu, získej obranu 2 na celé kolo",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Zaútoč na alespoň tři nepřátele každým ze tří různých plošných útoků.",
+      "Přivolej prapor v prvním tahu, udržuj ho naživu a do vzdálenosti 3 od sebe po celý scénář."
     ]
   },
   {
     "classId": "dw",
     "name": "Smrtichodec",
-    "maxHp": [6, 7, 8, 9, 10, 11, 12, 13, 14],
+    "maxHp": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
     "handSize": 11,
     "isStarting": true,
     "perks": [
-      { "id": "dw_1", "description": "Odeber dvě -1 karty", "maxCount": 1 },
-      { "id": "dw_2", "description": "Nahraď jednu -2 kartu jednou +0 kartou", "maxCount": 1 },
-      { "id": "dw_3", "description": "Nahraď jednu -1 kartu jednou +1 kartou", "maxCount": 1 },
-      { "id": "dw_4", "description": "Nahraď jednu +0 kartu jednou +1 prokletí kartou", "maxCount": 1 },
-      { "id": "dw_5", "description": "Přidej jednu +2 temnota kartu", "maxCount": 1 },
-      { "id": "dw_6", "description": "Přidej jednu kartu ↻ odzbrojení a jednu kartu ↻ zmatení", "maxCount": 1 },
-      { "id": "dw_7", "description": "Přidej dvě karty ↻ léčení 1, cíl 1 spojenec", "maxCount": 1 },
-      { "id": "dw_8", "description": "Ignoruj efekty scénáře", "maxCount": 1 },
-      { "id": "dw_9", "description": "Při dlouhém odpočinku můžeš přesunout jeden stín až o tři hexy", "maxCount": 1 },
-      { "id": "dw_10", "description": "Při krátkém odpočinku můžeš spotřebovat temnotu a provést zmatení, prokletí, dosah 2 jako bys stál na hexu se stínem", "maxCount": 1 },
-      { "id": "dw_11", "description": "Dokud stojíš na hexu se stínem, všechny útoky na tebe mají nevýhodu", "maxCount": 1 }
+      {
+        "id": "dw_1",
+        "description": "Odeber dvě -1 karty",
+        "maxCount": 1
+      },
+      {
+        "id": "dw_2",
+        "description": "Nahraď jednu -2 kartu jednou +0 kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "dw_3",
+        "description": "Nahraď jednu -1 kartu jednou +1 kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "dw_4",
+        "description": "Nahraď jednu +0 kartu jednou +1 prokletí kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "dw_5",
+        "description": "Přidej jednu +2 temnota kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "dw_6",
+        "description": "Přidej jednu kartu ↻ odzbrojení a jednu kartu ↻ zmatení",
+        "maxCount": 1
+      },
+      {
+        "id": "dw_7",
+        "description": "Přidej dvě karty ↻ léčení 1, cíl 1 spojenec",
+        "maxCount": 1
+      },
+      {
+        "id": "dw_8",
+        "description": "Ignoruj efekty scénáře",
+        "maxCount": 1
+      },
+      {
+        "id": "dw_9",
+        "description": "Při dlouhém odpočinku můžeš přesunout jeden stín až o tři hexy",
+        "maxCount": 1
+      },
+      {
+        "id": "dw_10",
+        "description": "Při krátkém odpočinku můžeš spotřebovat temnotu a provést zmatení, prokletí, dosah 2 jako bys stál na hexu se stínem",
+        "maxCount": 1
+      },
+      {
+        "id": "dw_11",
+        "description": "Dokud stojíš na hexu se stínem, všechny útoky na tebe mají nevýhodu",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Odstraň sedm stínů v jednom kole.",
+      "Polož nebo odstraň alespoň jeden stín každé kolo."
     ]
   },
   {
     "classId": "bo",
     "name": "Kostětvůrce",
-    "maxHp": [6, 7, 8, 9, 10, 11, 12, 13, 14],
+    "maxHp": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
     "handSize": 12,
     "isStarting": true,
     "perks": [
-      { "id": "bo_1", "description": "Nahraď jednu -1 kartu jednou +0 prokletí kartou", "maxCount": 1 },
-      { "id": "bo_2", "description": "Nahraď jednu -1 kartu jednou +0 otrava kartou", "maxCount": 1 },
-      { "id": "bo_3", "description": "Nahraď jednu -2 kartu jednou +0 kartou", "maxCount": 1 },
-      { "id": "bo_4", "description": "Nahraď jednu +0 kartu jednou +1 kartou „Zabij útočícího přivolance a místo toho přidej +4“", "maxCount": 1 },
-      { "id": "bo_5", "description": "Přidej tři karty ↻ léčení 1, cíl přivolanec", "maxCount": 1 },
-      { "id": "bo_6", "description": "Přidej jednu +2 země nebo temnota kartu", "maxCount": 1 },
-      { "id": "bo_7", "description": "Ignoruj efekty scénáře a přidej dvě +1 karty", "maxCount": 1 },
-      { "id": "bo_8", "description": "Bezprostředně před každým odpočinkem můžeš zabít jednoho svého přivolance a provést požehnání, sebe", "maxCount": 1 },
-      { "id": "bo_9", "description": "Jednou za scénář, když by libovolný spojenec padl kvůli zranění, můžeš utrpět 2 zranění a snížit jeho životy na 1 místo toho", "maxCount": 1 },
-      { "id": "bo_10", "description": "Na začátku každého scénáře můžeš zahrát kartu úrovně 1 z ruky a provést její přivolávací akci", "maxCount": 1 }
+      {
+        "id": "bo_1",
+        "description": "Nahraď jednu -1 kartu jednou +0 prokletí kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "bo_2",
+        "description": "Nahraď jednu -1 kartu jednou +0 otrava kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "bo_3",
+        "description": "Nahraď jednu -2 kartu jednou +0 kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "bo_4",
+        "description": "Nahraď jednu +0 kartu jednou +1 kartou „Zabij útočícího přivolance a místo toho přidej +4“",
+        "maxCount": 1
+      },
+      {
+        "id": "bo_5",
+        "description": "Přidej tři karty ↻ léčení 1, cíl přivolanec",
+        "maxCount": 1
+      },
+      {
+        "id": "bo_6",
+        "description": "Přidej jednu +2 země nebo temnota kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "bo_7",
+        "description": "Ignoruj efekty scénáře a přidej dvě +1 karty",
+        "maxCount": 1
+      },
+      {
+        "id": "bo_8",
+        "description": "Bezprostředně před každým odpočinkem můžeš zabít jednoho svého přivolance a provést požehnání, sebe",
+        "maxCount": 1
+      },
+      {
+        "id": "bo_9",
+        "description": "Jednou za scénář, když by libovolný spojenec padl kvůli zranění, můžeš utrpět 2 zranění a snížit jeho životy na 1 místo toho",
+        "maxCount": 1
+      },
+      {
+        "id": "bo_10",
+        "description": "Na začátku každého scénáře můžeš zahrát kartu úrovně 1 z ruky a provést její přivolávací akci",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Zabij alespoň patnáct svých přivolání.",
+      "Přivolej bytost v prvním tahu, nech ji zabít alespoň šest nepřátel a udržuj ji naživu po celý scénář."
     ]
   },
   {
     "classId": "ge",
     "name": "Zdvojník",
-    "maxHp": [8, 9, 11, 12, 14, 15, 17, 18, 20],
+    "maxHp": [
+      8,
+      9,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      20
+    ],
     "handSize": 14,
     "isStarting": true,
     "perks": [
-      { "id": "ge_1", "description": "Nahraď jednu -2 kartu jednou +0 kartou", "maxCount": 1 },
-      { "id": "ge_2", "description": "Nahraď jednu -1 kartu jednou +0 kartou „Libovolný živel: libovolný živel“", "maxCount": 1 },
-      { "id": "ge_3", "description": "Nahraď jednu +0 kartu jednou +1 otrava kartou", "maxCount": 1 },
-      { "id": "ge_4", "description": "Nahraď jednu +0 kartu jednou +1 krvácení kartou", "maxCount": 1 },
-      { "id": "ge_5", "description": "Nahraď dvě +0 karty dvěma kartami ↻ průraznost 3", "maxCount": 1 },
-      { "id": "ge_6", "description": "Přidej dvě +1 odstrčení 3 karty", "maxCount": 1 },
-      { "id": "ge_7", "description": "Přidej jednu 2× kartu „Křehkost, sebe“", "maxCount": 1 },
-      { "id": "ge_8", "description": "Přidej jednu +1 kartu ↻ regenerace, sebe", "maxCount": 1 },
-      { "id": "ge_9", "description": "Ignoruj efekty scénáře", "maxCount": 1 },
-      { "id": "ge_10", "description": "Při krátkém odpočinku můžeš odebrat jeden negativní stav jednomu spojenci v dosahu 3", "maxCount": 1 },
-      { "id": "ge_11", "description": "Jednou za scénář, když bys sám sobě přiřadil negativní stav, zabraň tomu", "maxCount": 1 },
-      { "id": "ge_12", "description": "Kdykoli provedeš akci se symbolem ztráty, můžeš odhodit jednu kartu a obnovit jednu kartu z odhazovacího balíčku stejné nebo nižší úrovně", "maxCount": 1 }
+      {
+        "id": "ge_1",
+        "description": "Nahraď jednu -2 kartu jednou +0 kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "ge_2",
+        "description": "Nahraď jednu -1 kartu jednou +0 kartou „Libovolný živel: libovolný živel“",
+        "maxCount": 1
+      },
+      {
+        "id": "ge_3",
+        "description": "Nahraď jednu +0 kartu jednou +1 otrava kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "ge_4",
+        "description": "Nahraď jednu +0 kartu jednou +1 krvácení kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "ge_5",
+        "description": "Nahraď dvě +0 karty dvěma kartami ↻ průraznost 3",
+        "maxCount": 1
+      },
+      {
+        "id": "ge_6",
+        "description": "Přidej dvě +1 odstrčení 3 karty",
+        "maxCount": 1
+      },
+      {
+        "id": "ge_7",
+        "description": "Přidej jednu 2× kartu „Křehkost, sebe“",
+        "maxCount": 1
+      },
+      {
+        "id": "ge_8",
+        "description": "Přidej jednu +1 kartu ↻ regenerace, sebe",
+        "maxCount": 1
+      },
+      {
+        "id": "ge_9",
+        "description": "Ignoruj efekty scénáře",
+        "maxCount": 1
+      },
+      {
+        "id": "ge_10",
+        "description": "Při krátkém odpočinku můžeš odebrat jeden negativní stav jednomu spojenci v dosahu 3",
+        "maxCount": 1
+      },
+      {
+        "id": "ge_11",
+        "description": "Jednou za scénář, když bys sám sobě přiřadil negativní stav, zabraň tomu",
+        "maxCount": 1
+      },
+      {
+        "id": "ge_12",
+        "description": "Kdykoli provedeš akci se symbolem ztráty, můžeš odhodit jednu kartu a obnovit jednu kartu z odhazovacího balíčku stejné nebo nižší úrovně",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Přepni formu každé kolo.",
+      "Ztrácej alespoň jednu kartu schopnosti každé kolo."
     ]
   },
   {
     "classId": "if",
     "name": "Infuzér",
-    "maxHp": [6, 7, 8, 9, 10, 11, 12, 13, 14],
+    "maxHp": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
     "handSize": 12,
     "isStarting": false,
     "perks": [
-      { "id": "if_1", "description": "Nahraď jednu -2 kartu jednou -1 kartou a jednou -1 vítr/země/temnota kartou", "maxCount": 1 },
-      { "id": "if_2", "description": "Nahraď jednu -1 kartu jednou +0 vítr nebo země kartou", "maxCount": 1 },
-      { "id": "if_3", "description": "Nahraď jednu -1 kartu jednou +0 vítr nebo temnota kartou", "maxCount": 1 },
-      { "id": "if_4", "description": "Nahraď jednu -1 kartu jednou +0 země nebo temnota kartou", "maxCount": 1 },
-      { "id": "if_5", "description": "Nahraď jednu +0 kartu jednou +2 kartou", "maxCount": 1 },
-      { "id": "if_6", "description": "Nahraď jednu +0 kartu třemi kartami ↻ „Posuň jeden slábnoucí živel na silný“", "maxCount": 1 },
-      { "id": "if_7", "description": "Přidej dvě karty ↻ „+1 útoku za každý pár aktivních infuzí“", "maxCount": 1 },
-      { "id": "if_8", "description": "Ignoruj efekty scénáře", "maxCount": 1 },
-      { "id": "if_9", "description": "Ignoruj -1 efekty předmětů. Když padneš, ponech si všechny aktivní bonusy ve hře, přivolanci jednají na iniciativě 99 každé kolo", "maxCount": 1 },
-      { "id": "if_10", "description": "Při krátkém odpočinku můžeš spotřebovat libovolný živel a obnovit jeden vyčerpaný jednoruční nebo obouruční předmět", "maxCount": 1 },
-      { "id": "if_11", "description": "Jednou za scénář, při určování iniciativy poté co jsou odhaleny všechny karty schopností, vytvoř libovolný živel", "maxCount": 1 }
+      {
+        "id": "if_1",
+        "description": "Nahraď jednu -2 kartu jednou -1 kartou a jednou -1 vítr/země/temnota kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "if_2",
+        "description": "Nahraď jednu -1 kartu jednou +0 vítr nebo země kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "if_3",
+        "description": "Nahraď jednu -1 kartu jednou +0 vítr nebo temnota kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "if_4",
+        "description": "Nahraď jednu -1 kartu jednou +0 země nebo temnota kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "if_5",
+        "description": "Nahraď jednu +0 kartu jednou +2 kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "if_6",
+        "description": "Nahraď jednu +0 kartu třemi kartami ↻ „Posuň jeden slábnoucí živel na silný“",
+        "maxCount": 1
+      },
+      {
+        "id": "if_7",
+        "description": "Přidej dvě karty ↻ „+1 útoku za každý pár aktivních infuzí“",
+        "maxCount": 1
+      },
+      {
+        "id": "if_8",
+        "description": "Ignoruj efekty scénáře",
+        "maxCount": 1
+      },
+      {
+        "id": "if_9",
+        "description": "Ignoruj -1 efekty předmětů. Když padneš, ponech si všechny aktivní bonusy ve hře, přivolanci jednají na iniciativě 99 každé kolo",
+        "maxCount": 1
+      },
+      {
+        "id": "if_10",
+        "description": "Při krátkém odpočinku můžeš spotřebovat libovolný živel a obnovit jeden vyčerpaný jednoruční nebo obouruční předmět",
+        "maxCount": 1
+      },
+      {
+        "id": "if_11",
+        "description": "Jednou za scénář, při určování iniciativy poté co jsou odhaleny všechny karty schopností, vytvoř libovolný živel",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Měj pět aktivních infuzních bonusů.",
+      "Zabij alespoň čtyři nepřátele, ale nikdy neútoč."
     ]
   },
   {
     "classId": "py",
     "name": "Pyroklast",
-    "maxHp": [8, 9, 11, 12, 14, 15, 17, 18, 20],
+    "maxHp": [
+      8,
+      9,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      20
+    ],
     "handSize": 11,
     "isStarting": false,
     "perks": [
-      { "id": "py_1", "description": "Odeber dvě -1 karty", "maxCount": 1 },
-      { "id": "py_2", "description": "Odeber jednu -2 kartu", "maxCount": 1 },
-      { "id": "py_3", "description": "Nahraď jednu +0 kartu jednou +1 krvácení kartou", "maxCount": 1 },
-      { "id": "py_4", "description": "Nahraď jednu -1 kartu jednou +0 kartou „Vytvoř jedno pole nebezpečného terénu na prázdném hexu sousedícím s cílem“", "maxCount": 1 },
-      { "id": "py_5", "description": "Nahraď dvě +0 karty dvěma kartami ↻ odstrčení 2", "maxCount": 1 },
-      { "id": "py_6", "description": "Nahraď dvě +1 karty dvěma +2 kartami", "maxCount": 1 },
-      { "id": "py_7", "description": "Přidej dvě +1 oheň nebo země karty", "maxCount": 1 },
-      { "id": "py_8", "description": "Přidej dvě +1 karty ↻ zmatení", "maxCount": 1 },
-      { "id": "py_9", "description": "Ignoruj efekty scénáře", "maxCount": 1 },
-      { "id": "py_10", "description": "Při dlouhém odpočinku můžeš zničit jednu sousední překážku a získat odolnost", "maxCount": 1 },
-      { "id": "py_11", "description": "Při krátkém odpočinku můžeš spotřebovat oheň a provést krvácení, cíl 1 nepřítel stojící na nebo sousedící s nebezpečným terénem", "maxCount": 1 },
-      { "id": "py_12", "description": "Tebe a tvé spojence neovlivňuje nebezpečný terén, který jsi vytvořil", "maxCount": 1 }
+      {
+        "id": "py_1",
+        "description": "Odeber dvě -1 karty",
+        "maxCount": 1
+      },
+      {
+        "id": "py_2",
+        "description": "Odeber jednu -2 kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "py_3",
+        "description": "Nahraď jednu +0 kartu jednou +1 krvácení kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "py_4",
+        "description": "Nahraď jednu -1 kartu jednou +0 kartou „Vytvoř jedno pole nebezpečného terénu na prázdném hexu sousedícím s cílem“",
+        "maxCount": 1
+      },
+      {
+        "id": "py_5",
+        "description": "Nahraď dvě +0 karty dvěma kartami ↻ odstrčení 2",
+        "maxCount": 1
+      },
+      {
+        "id": "py_6",
+        "description": "Nahraď dvě +1 karty dvěma +2 kartami",
+        "maxCount": 1
+      },
+      {
+        "id": "py_7",
+        "description": "Přidej dvě +1 oheň nebo země karty",
+        "maxCount": 1
+      },
+      {
+        "id": "py_8",
+        "description": "Přidej dvě +1 karty ↻ zmatení",
+        "maxCount": 1
+      },
+      {
+        "id": "py_9",
+        "description": "Ignoruj efekty scénáře",
+        "maxCount": 1
+      },
+      {
+        "id": "py_10",
+        "description": "Při dlouhém odpočinku můžeš zničit jednu sousední překážku a získat odolnost",
+        "maxCount": 1
+      },
+      {
+        "id": "py_11",
+        "description": "Při krátkém odpočinku můžeš spotřebovat oheň a provést krvácení, cíl 1 nepřítel stojící na nebo sousedící s nebezpečným terénem",
+        "maxCount": 1
+      },
+      {
+        "id": "py_12",
+        "description": "Tebe a tvé spojence neovlivňuje nebezpečný terén, který jsi vytvořil",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Vytvoř nebo znič alespoň jednu překážku nebo nebezpečný terén každé kolo.",
+      "Přesuň nepřátele přes šest různých polí nebezpečného terénu, který jsi vytvořil, v jednom tahu."
     ]
   },
   {
     "classId": "sh",
     "name": "Tříštípíseň",
-    "maxHp": [6, 7, 8, 9, 10, 11, 12, 13, 14],
+    "maxHp": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
     "handSize": 11,
     "isStarting": false,
     "perks": [
-      { "id": "sh_1", "description": "Odeber čtyři +0 karty", "maxCount": 1 },
-      { "id": "sh_2", "description": "Nahraď dvě -1 karty dvěma +0 kartami „Odhal vrchní kartu balíčku schopností cílového monstra“", "maxCount": 1 },
-      { "id": "sh_3", "description": "Nahraď jednu -2 kartu jednou -1 omráčení kartou", "maxCount": 1 },
-      { "id": "sh_4", "description": "Nahraď jednu +0 kartu jednou +0 křehkost kartou", "maxCount": 1 },
-      { "id": "sh_5", "description": "Nahraď dvě +1 karty dvěma +2 vítr nebo světlo kartami", "maxCount": 1 },
-      { "id": "sh_6", "description": "Přidej jednu kartu ↻ léčení 2, požehnání, cíl 1 spojenec", "maxCount": 1 },
-      { "id": "sh_7", "description": "Přidej jednu +1 kartu „Získej 1 rezonanci“", "maxCount": 1 },
-      { "id": "sh_8", "description": "Ignoruj efekty scénáře", "maxCount": 1 },
-      { "id": "sh_9", "description": "Při krátkém odpočinku můžeš spotřebovat vítr a provést posílení, dosah 3 a spotřebovat světlo a provést požehnání, dosah 3", "maxCount": 1 },
-      { "id": "sh_10", "description": "Na začátku každého scénáře můžeš získat křehkost a získat 2 rezonance", "maxCount": 1 },
-      { "id": "sh_11", "description": "Kdykoli je odhalena nová místnost, můžeš odhalit vrchní kartu balíčku útočných modifikátorů monster i všech spojenců", "maxCount": 1 }
+      {
+        "id": "sh_1",
+        "description": "Odeber čtyři +0 karty",
+        "maxCount": 1
+      },
+      {
+        "id": "sh_2",
+        "description": "Nahraď dvě -1 karty dvěma +0 kartami „Odhal vrchní kartu balíčku schopností cílového monstra“",
+        "maxCount": 1
+      },
+      {
+        "id": "sh_3",
+        "description": "Nahraď jednu -2 kartu jednou -1 omráčení kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "sh_4",
+        "description": "Nahraď jednu +0 kartu jednou +0 křehkost kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "sh_5",
+        "description": "Nahraď dvě +1 karty dvěma +2 vítr nebo světlo kartami",
+        "maxCount": 1
+      },
+      {
+        "id": "sh_6",
+        "description": "Přidej jednu kartu ↻ léčení 2, požehnání, cíl 1 spojenec",
+        "maxCount": 1
+      },
+      {
+        "id": "sh_7",
+        "description": "Přidej jednu +1 kartu „Získej 1 rezonanci“",
+        "maxCount": 1
+      },
+      {
+        "id": "sh_8",
+        "description": "Ignoruj efekty scénáře",
+        "maxCount": 1
+      },
+      {
+        "id": "sh_9",
+        "description": "Při krátkém odpočinku můžeš spotřebovat vítr a provést posílení, dosah 3 a spotřebovat světlo a provést požehnání, dosah 3",
+        "maxCount": 1
+      },
+      {
+        "id": "sh_10",
+        "description": "Na začátku každého scénáře můžeš získat křehkost a získat 2 rezonance",
+        "maxCount": 1
+      },
+      {
+        "id": "sh_11",
+        "description": "Kdykoli je odhalena nová místnost, můžeš odhalit vrchní kartu balíčku útočných modifikátorů monster i všech spojenců",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Vždy měj 0 rezonance těsně předtím, než na konci svého tahu získáš rezonanci.",
+      "Utrácej 5 rezonancí na každé z pěti různých vlnových schopností."
     ]
   },
   {
     "classId": "ta",
     "name": "Pastičkář",
-    "maxHp": [8, 9, 11, 12, 14, 15, 17, 18, 20],
+    "maxHp": [
+      8,
+      9,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      20
+    ],
     "handSize": 12,
     "isStarting": false,
     "perks": [
-      { "id": "ta_1", "description": "Odeber jednu -2 kartu", "maxCount": 1 },
-      { "id": "ta_2", "description": "Nahraď jednu -1 kartu jednou +0 kartou „Vytvoř jednu past léčení 2 na prázdném hexu sousedícím s cílem“", "maxCount": 1 },
-      { "id": "ta_3", "description": "Nahraď jednu -1 kartu jednou +0 kartou „Vytvoř jednu past zranění 1 na prázdném hexu sousedícím s cílem“", "maxCount": 1 },
-      { "id": "ta_4", "description": "Nahraď dvě +0 karty dvěma +0 kartami „Přidej zranění 2 nebo léčení 2 jedné pasti v dosahu 2“", "maxCount": 1 },
-      { "id": "ta_5", "description": "Nahraď dvě +1 karty dvěma +2 znehybnění kartami", "maxCount": 1 },
-      { "id": "ta_6", "description": "Přidej dvě karty ↻ „Přidej odstrčení 2 nebo přitažení 2“", "maxCount": 1 },
-      { "id": "ta_7", "description": "Ignoruj efekty scénáře", "maxCount": 1 },
-      { "id": "ta_8", "description": "Při dlouhém odpočinku můžeš vytvořit jednu past zranění 1 na sousedním prázdném hexu", "maxCount": 1 },
-      { "id": "ta_9", "description": "Kdykoli vstoupíš na hex s pastí, můžeš se rozhodnout ji neaktivovat", "maxCount": 1 },
-      { "id": "ta_10", "description": "Na začátku každého scénáře můžeš vytvořit jednu past zranění 2 na sousedním prázdném hexu", "maxCount": 1 }
+      {
+        "id": "ta_1",
+        "description": "Odeber jednu -2 kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "ta_2",
+        "description": "Nahraď jednu -1 kartu jednou +0 kartou „Vytvoř jednu past léčení 2 na prázdném hexu sousedícím s cílem“",
+        "maxCount": 1
+      },
+      {
+        "id": "ta_3",
+        "description": "Nahraď jednu -1 kartu jednou +0 kartou „Vytvoř jednu past zranění 1 na prázdném hexu sousedícím s cílem“",
+        "maxCount": 1
+      },
+      {
+        "id": "ta_4",
+        "description": "Nahraď dvě +0 karty dvěma +0 kartami „Přidej zranění 2 nebo léčení 2 jedné pasti v dosahu 2“",
+        "maxCount": 1
+      },
+      {
+        "id": "ta_5",
+        "description": "Nahraď dvě +1 karty dvěma +2 znehybnění kartami",
+        "maxCount": 1
+      },
+      {
+        "id": "ta_6",
+        "description": "Přidej dvě karty ↻ „Přidej odstrčení 2 nebo přitažení 2“",
+        "maxCount": 1
+      },
+      {
+        "id": "ta_7",
+        "description": "Ignoruj efekty scénáře",
+        "maxCount": 1
+      },
+      {
+        "id": "ta_8",
+        "description": "Při dlouhém odpočinku můžeš vytvořit jednu past zranění 1 na sousedním prázdném hexu",
+        "maxCount": 1
+      },
+      {
+        "id": "ta_9",
+        "description": "Kdykoli vstoupíš na hex s pastí, můžeš se rozhodnout ji neaktivovat",
+        "maxCount": 1
+      },
+      {
+        "id": "ta_10",
+        "description": "Na začátku každého scénáře můžeš vytvořit jednu past zranění 2 na sousedním prázdném hexu",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Měj na mapě jednu léčivou past s hodnotou alespoň 20.",
+      "Přesuň nepřátele přes sedm nebo více pastí jednou schopností."
     ]
   },
   {
     "classId": "pc",
     "name": "Bolestivod",
-    "maxHp": [8, 9, 11, 12, 14, 15, 17, 18, 20],
+    "maxHp": [
+      8,
+      9,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      20
+    ],
     "handSize": 11,
     "isStarting": false,
     "perks": [
-      { "id": "pc_1", "description": "Odeber dvě -1 karty", "maxCount": 1 },
-      { "id": "pc_2", "description": "Nahraď jednu -2 kartu jednou +2 prokletí prokletí kartou", "maxCount": 1 },
-      { "id": "pc_3", "description": "Nahraď jednu -1 kartu jednou +0 odzbrojení kartou", "maxCount": 1 },
-      { "id": "pc_4", "description": "Nahraď jednu +0 kartu jednou +1 oheň nebo vítr kartou", "maxCount": 1 },
-      { "id": "pc_5", "description": "Nahraď jednu +0 kartu jednou +2 kartou", "maxCount": 1 },
-      { "id": "pc_6", "description": "Nahraď tři +1 karty třemi +1 prokletí kartami", "maxCount": 1 },
-      { "id": "pc_7", "description": "Přidej tři karty ↻ léčení 1, sebe", "maxCount": 1 },
-      { "id": "pc_8", "description": "Přidej jednu +0 kartu „Přidej +1 útoku za každý negativní stav, který máš“", "maxCount": 1 },
-      { "id": "pc_9", "description": "Ignoruj efekty scénáře a přidej dvě +1 karty", "maxCount": 1 },
-      { "id": "pc_10", "description": "V každém kole, ve kterém máš dlouhý odpočinek, můžeš ignorovat všechny své negativní stavy. Pokud tak učiníš, nelze je v tom kole odebrat", "maxCount": 1 },
-      { "id": "pc_11", "description": "Když padneš, nejprve proveď prokletí, cíl všichni, dosah 3", "maxCount": 1 },
-      { "id": "pc_12", "description": "Zvyš svůj maximální počet životů o 5", "maxCount": 1 }
+      {
+        "id": "pc_1",
+        "description": "Odeber dvě -1 karty",
+        "maxCount": 1
+      },
+      {
+        "id": "pc_2",
+        "description": "Nahraď jednu -2 kartu jednou +2 prokletí prokletí kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "pc_3",
+        "description": "Nahraď jednu -1 kartu jednou +0 odzbrojení kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "pc_4",
+        "description": "Nahraď jednu +0 kartu jednou +1 oheň nebo vítr kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "pc_5",
+        "description": "Nahraď jednu +0 kartu jednou +2 kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "pc_6",
+        "description": "Nahraď tři +1 karty třemi +1 prokletí kartami",
+        "maxCount": 1
+      },
+      {
+        "id": "pc_7",
+        "description": "Přidej tři karty ↻ léčení 1, sebe",
+        "maxCount": 1
+      },
+      {
+        "id": "pc_8",
+        "description": "Přidej jednu +0 kartu „Přidej +1 útoku za každý negativní stav, který máš“",
+        "maxCount": 1
+      },
+      {
+        "id": "pc_9",
+        "description": "Ignoruj efekty scénáře a přidej dvě +1 karty",
+        "maxCount": 1
+      },
+      {
+        "id": "pc_10",
+        "description": "V každém kole, ve kterém máš dlouhý odpočinek, můžeš ignorovat všechny své negativní stavy. Pokud tak učiníš, nelze je v tom kole odebrat",
+        "maxCount": 1
+      },
+      {
+        "id": "pc_11",
+        "description": "Když padneš, nejprve proveď prokletí, cíl všichni, dosah 3",
+        "maxCount": 1
+      },
+      {
+        "id": "pc_12",
+        "description": "Zvyš svůj maximální počet životů o 5",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Způsob ostatním figurkám celkem alespoň 40 zranění v jednom kole.",
+      "Začni tah s krvácením, křehkostí, kletbou, otravou, znehybněním, odzbrojením, omráčením a zmatením."
     ]
   },
   {
     "classId": "sd",
     "name": "Sněhotančírka",
-    "maxHp": [6, 7, 8, 9, 10, 11, 12, 13, 14],
+    "maxHp": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
     "handSize": 11,
     "isStarting": false,
     "perks": [
-      { "id": "sd_1", "description": "Nahraď jednu -1 kartu jednou +0 kartou „Léčení 1, cíl 1 spojenec“", "maxCount": 1 },
-      { "id": "sd_2", "description": "Nahraď jednu -1 kartu jednou +0 znehybnění kartou", "maxCount": 1 },
-      { "id": "sd_3", "description": "Přidej dvě +1 led nebo vítr karty", "maxCount": 1 },
-      { "id": "sd_4", "description": "Nahraď dvě +0 karty dvěma kartami ↻ „Pokud tato akce donutí cíl se pohnout, utrpí zranění 1“", "maxCount": 1 },
-      { "id": "sd_5", "description": "Nahraď jednu +0 kartu jednou +1 kartou „Posílení, cíl 1 spojenec“", "maxCount": 1 },
-      { "id": "sd_6", "description": "Přidej jednu kartu ↻ léčení 1, odolnost, cíl 1 spojenec", "maxCount": 1 },
-      { "id": "sd_7", "description": "Při dlouhém odpočinku můžeš vytvořit led nebo vítr", "maxCount": 1 },
-      { "id": "sd_8", "description": "Při krátkém odpočinku můžeš spotřebovat led a provést regeneraci, dosah 3 a spotřebovat vítr a provést odolnost, dosah 3", "maxCount": 1 },
-      { "id": "sd_9", "description": "Na začátku každého scénáře všichni nepřátelé získají zmatení. Kdykoli je odhalena nová místnost, všichni nepřátelé v ní získají zmatení", "maxCount": 1 }
+      {
+        "id": "sd_1",
+        "description": "Nahraď jednu -1 kartu jednou +0 kartou „Léčení 1, cíl 1 spojenec“",
+        "maxCount": 1
+      },
+      {
+        "id": "sd_2",
+        "description": "Nahraď jednu -1 kartu jednou +0 znehybnění kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "sd_3",
+        "description": "Přidej dvě +1 led nebo vítr karty",
+        "maxCount": 1
+      },
+      {
+        "id": "sd_4",
+        "description": "Nahraď dvě +0 karty dvěma kartami ↻ „Pokud tato akce donutí cíl se pohnout, utrpí zranění 1“",
+        "maxCount": 1
+      },
+      {
+        "id": "sd_5",
+        "description": "Nahraď jednu +0 kartu jednou +1 kartou „Posílení, cíl 1 spojenec“",
+        "maxCount": 1
+      },
+      {
+        "id": "sd_6",
+        "description": "Přidej jednu kartu ↻ léčení 1, odolnost, cíl 1 spojenec",
+        "maxCount": 1
+      },
+      {
+        "id": "sd_7",
+        "description": "Při dlouhém odpočinku můžeš vytvořit led nebo vítr",
+        "maxCount": 1
+      },
+      {
+        "id": "sd_8",
+        "description": "Při krátkém odpočinku můžeš spotřebovat led a provést regeneraci, dosah 3 a spotřebovat vítr a provést odolnost, dosah 3",
+        "maxCount": 1
+      },
+      {
+        "id": "sd_9",
+        "description": "Na začátku každého scénáře všichni nepřátelé získají zmatení. Kdykoli je odhalena nová místnost, všichni nepřátelé v ní získají zmatení",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Způsob pohyb alespoň jednomu spojenci nebo nepříteli každé kolo.",
+      "Zajisti, aby první spojenec, který utrpí zranění každé kolo, měl těsně před tím alespoň jeden stav, který jsi aplikoval."
     ]
   },
   {
     "classId": "ff",
     "name": "Mrazivá pěst",
-    "maxHp": [10, 12, 14, 16, 18, 20, 22, 24, 26],
+    "maxHp": [
+      10,
+      12,
+      14,
+      16,
+      18,
+      20,
+      22,
+      24,
+      26
+    ],
     "handSize": 10,
     "isStarting": false,
     "perks": [
-      { "id": "ff_1", "description": "Nahraď jednu -1 kartu jednou +0 odzbrojení kartou", "maxCount": 1 },
-      { "id": "ff_2", "description": "Nahraď jednu -1 kartu jednou +1 kartou", "maxCount": 1 },
-      { "id": "ff_3", "description": "Nahraď jednu -2 kartu jednou +0 kartou", "maxCount": 1 },
-      { "id": "ff_4", "description": "Nahraď jednu +0 kartu jednou +1 kartou ↻ obrana 1", "maxCount": 1 },
-      { "id": "ff_5", "description": "Nahraď jednu +0 kartu jednou +1 led nebo země kartou", "maxCount": 1 },
-      { "id": "ff_6", "description": "Nahraď jednu +0 kartu jednou +2 kartou „Vytvoř jedno pole ledového terénu na prázdném hexu sousedícím s cílem“", "maxCount": 1 },
-      { "id": "ff_7", "description": "Přidej jednu +3 kartu", "maxCount": 1 },
-      { "id": "ff_8", "description": "Přidej dvě karty ↻ léčení 1, sebe", "maxCount": 1 },
-      { "id": "ff_9", "description": "Ignoruj -1 efekty předmětů, a kdykoli vstoupíš na ledový terén pohybovou akcí, můžeš ignorovat efekt a přidat +1 pohybu", "maxCount": 1 },
-      { "id": "ff_10", "description": "Kdykoli se léčíš při dlouhém odpočinku, můžeš spotřebovat led nebo zemi a přidat +2 léčení", "maxCount": 1 },
-      { "id": "ff_11", "description": "Jednou za scénář, když bys utrpěl zranění, můžeš ho negovat", "maxCount": 1 }
+      {
+        "id": "ff_1",
+        "description": "Nahraď jednu -1 kartu jednou +0 odzbrojení kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "ff_2",
+        "description": "Nahraď jednu -1 kartu jednou +1 kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "ff_3",
+        "description": "Nahraď jednu -2 kartu jednou +0 kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "ff_4",
+        "description": "Nahraď jednu +0 kartu jednou +1 kartou ↻ obrana 1",
+        "maxCount": 1
+      },
+      {
+        "id": "ff_5",
+        "description": "Nahraď jednu +0 kartu jednou +1 led nebo země kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "ff_6",
+        "description": "Nahraď jednu +0 kartu jednou +2 kartou „Vytvoř jedno pole ledového terénu na prázdném hexu sousedícím s cílem“",
+        "maxCount": 1
+      },
+      {
+        "id": "ff_7",
+        "description": "Přidej jednu +3 kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "ff_8",
+        "description": "Přidej dvě karty ↻ léčení 1, sebe",
+        "maxCount": 1
+      },
+      {
+        "id": "ff_9",
+        "description": "Ignoruj -1 efekty předmětů, a kdykoli vstoupíš na ledový terén pohybovou akcí, můžeš ignorovat efekt a přidat +1 pohybu",
+        "maxCount": 1
+      },
+      {
+        "id": "ff_10",
+        "description": "Kdykoli se léčíš při dlouhém odpočinku, můžeš spotřebovat led nebo zemi a přidat +2 léčení",
+        "maxCount": 1
+      },
+      {
+        "id": "ff_11",
+        "description": "Jednou za scénář, když bys utrpěl zranění, můžeš ho negovat",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Obnov alespoň jednu kartu z odhazovacího balíčku každé kolo.",
+      "Vstup na alespoň deset různých polí jedním pohybem, pak způsob jednomu nepříteli alespoň 10 zranění jedním útokem ve stejném tahu."
     ]
   },
   {
     "classId": "hv",
     "name": "ÚL",
-    "maxHp": [6, 7, 8, 9, 10, 11, 12, 13, 14],
+    "maxHp": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
     "handSize": 12,
     "isStarting": false,
     "perks": [
-      { "id": "hv_1", "description": "Odeber jednu -2 kartu a jednu +1 kartu", "maxCount": 1 },
-      { "id": "hv_2", "description": "Nahraď jednu -1 kartu jednou +0 kartou „Po této útočné akci poskytni jednomu svému přivolanci: pohyb 2“", "maxCount": 1 },
-      { "id": "hv_3", "description": "Nahraď jednu +0 kartu jednou +1 kartou „Po této útočné akci proveď přenos“", "maxCount": 1 },
-      { "id": "hv_4", "description": "Přidej jednu +1 kartu „Léčení 1, sebe“", "maxCount": 1 },
-      { "id": "hv_5", "description": "Přidej jednu +2 zmatení kartu", "maxCount": 1 },
-      { "id": "hv_6", "description": "Přidej dvě karty ↻ otrava", "maxCount": 1 },
-      { "id": "hv_7", "description": "Přidej dvě karty ↻ krvácení", "maxCount": 1 },
-      { "id": "hv_8", "description": "Při dlouhém odpočinku si můžeš zvolit libovolnou iniciativu (po odhalení všech karet schopností) a rozhoduješ, jak tví přivolanci provedou své akce v daném kole", "maxCount": 1 },
-      { "id": "hv_9", "description": "Na konci každého krátkého odpočinku můžeš provést přenos", "maxCount": 1 },
-      { "id": "hv_10", "description": "Kdykoli bys získal krvácení, zabraň tomuto stavu", "maxCount": 1 }
+      {
+        "id": "hv_1",
+        "description": "Odeber jednu -2 kartu a jednu +1 kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "hv_2",
+        "description": "Nahraď jednu -1 kartu jednou +0 kartou „Po této útočné akci poskytni jednomu svému přivolanci: pohyb 2“",
+        "maxCount": 1
+      },
+      {
+        "id": "hv_3",
+        "description": "Nahraď jednu +0 kartu jednou +1 kartou „Po této útočné akci proveď přenos“",
+        "maxCount": 1
+      },
+      {
+        "id": "hv_4",
+        "description": "Přidej jednu +1 kartu „Léčení 1, sebe“",
+        "maxCount": 1
+      },
+      {
+        "id": "hv_5",
+        "description": "Přidej jednu +2 zmatení kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "hv_6",
+        "description": "Přidej dvě karty ↻ otrava",
+        "maxCount": 1
+      },
+      {
+        "id": "hv_7",
+        "description": "Přidej dvě karty ↻ krvácení",
+        "maxCount": 1
+      },
+      {
+        "id": "hv_8",
+        "description": "Při dlouhém odpočinku si můžeš zvolit libovolnou iniciativu (po odhalení všech karet schopností) a rozhoduješ, jak tví přivolanci provedou své akce v daném kole",
+        "maxCount": 1
+      },
+      {
+        "id": "hv_9",
+        "description": "Na konci každého krátkého odpočinku můžeš provést přenos",
+        "maxCount": 1
+      },
+      {
+        "id": "hv_10",
+        "description": "Kdykoli bys získal krvácení, zabraň tomuto stavu",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Proveď transfer každé kolo.",
+      "Proveď transfer do čtyř různých přivolání v jednom kole."
     ]
   },
   {
     "classId": "me",
     "name": "Kovová mozaika",
-    "maxHp": [8, 9, 11, 12, 14, 15, 17, 18, 20],
+    "maxHp": [
+      8,
+      9,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      20
+    ],
     "handSize": 11,
     "isStarting": false,
     "perks": [
-      { "id": "me_1", "description": "Nahraď jednu -1 kartu jednou +0 kartou „Tlak nahoru nebo dolů“", "maxCount": 1 },
-      { "id": "me_2", "description": "Nahraď jednu -1 kartu jednou kartou ↻ obrana 1", "maxCount": 1 },
-      { "id": "me_3", "description": "Nahraď jednu +0 kartu jednou +0 kartou „Cíl a všichni nepřátelé sousedící s ním utrpí zranění 1“", "maxCount": 1 },
-      { "id": "me_4", "description": "Nahraď dvě +0 karty jednou kartou ↻ průraznost 3 a jednou kartou ↻ odplata 2", "maxCount": 1 },
-      { "id": "me_5", "description": "Přidej jednu +1 kartu „Léčení 2, sebe“", "maxCount": 1 },
-      { "id": "me_6", "description": "Přidej jednu +3 kartu", "maxCount": 1 },
-      { "id": "me_7", "description": "Ignoruj -1 efekty předmětů a přidej dvě +1 karty", "maxCount": 1 },
-      { "id": "me_8", "description": "Při dlouhém odpočinku můžeš posunout tlak nahoru nebo dolů", "maxCount": 1 },
-      { "id": "me_9", "description": "Kdykoli bys získal otravu, můžeš utrpět 1 zranění a zabránit tomuto stavu", "maxCount": 1 },
-      { "id": "me_10", "description": "Jednou za scénář, když bys padl, místo toho získej křehkost a neviditelnost, odlož všechny karty, obnov čtyři ztracené karty a poté je odhoď", "maxCount": 1 }
+      {
+        "id": "me_1",
+        "description": "Nahraď jednu -1 kartu jednou +0 kartou „Tlak nahoru nebo dolů“",
+        "maxCount": 1
+      },
+      {
+        "id": "me_2",
+        "description": "Nahraď jednu -1 kartu jednou kartou ↻ obrana 1",
+        "maxCount": 1
+      },
+      {
+        "id": "me_3",
+        "description": "Nahraď jednu +0 kartu jednou +0 kartou „Cíl a všichni nepřátelé sousedící s ním utrpí zranění 1“",
+        "maxCount": 1
+      },
+      {
+        "id": "me_4",
+        "description": "Nahraď dvě +0 karty jednou kartou ↻ průraznost 3 a jednou kartou ↻ odplata 2",
+        "maxCount": 1
+      },
+      {
+        "id": "me_5",
+        "description": "Přidej jednu +1 kartu „Léčení 2, sebe“",
+        "maxCount": 1
+      },
+      {
+        "id": "me_6",
+        "description": "Přidej jednu +3 kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "me_7",
+        "description": "Ignoruj -1 efekty předmětů a přidej dvě +1 karty",
+        "maxCount": 1
+      },
+      {
+        "id": "me_8",
+        "description": "Při dlouhém odpočinku můžeš posunout tlak nahoru nebo dolů",
+        "maxCount": 1
+      },
+      {
+        "id": "me_9",
+        "description": "Kdykoli bys získal otravu, můžeš utrpět 1 zranění a zabránit tomuto stavu",
+        "maxCount": 1
+      },
+      {
+        "id": "me_10",
+        "description": "Jednou za scénář, když bys padl, místo toho získej křehkost a neviditelnost, odlož všechny karty, obnov čtyři ztracené karty a poté je odhoď",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Nikdy neútoč.",
+      "Po čtyři po sobě jdoucí kola posuň ukazatel tlaku o tři úrovně od počáteční pozice (z minima na maximum nebo naopak)."
     ]
   },
   {
     "classId": "dt",
     "name": "Hlubinný přízrak",
-    "maxHp": [8, 9, 11, 12, 14, 15, 17, 18, 20],
+    "maxHp": [
+      8,
+      9,
+      11,
+      12,
+      14,
+      15,
+      17,
+      18,
+      20
+    ],
     "handSize": 10,
     "isStarting": false,
     "perks": [
-      { "id": "dt_1", "description": "Odeber dvě -1 karty", "maxCount": 1 },
-      { "id": "dt_2", "description": "Nahraď jednu -1 kartu jednou +0 odzbrojení kartou", "maxCount": 1 },
-      { "id": "dt_3", "description": "Nahraď jednu -2 kartu jednou +1 omráčení kartou", "maxCount": 1 },
-      { "id": "dt_4", "description": "Nahraď jednu +0 kartu jednou +0 kartou „Neviditelnost, sebe“", "maxCount": 1 },
-      { "id": "dt_5", "description": "Nahraď dvě +0 karty dvěma kartami ↻ průraznost 3", "maxCount": 1 },
-      { "id": "dt_6", "description": "Nahraď dvě +1 karty dvěma +2 kartami", "maxCount": 1 },
-      { "id": "dt_7", "description": "Nahraď tři +1 karty třemi +1 prokletí kartami", "maxCount": 1 },
-      { "id": "dt_8", "description": "Přidej dvě +1 karty „Získej 1 trofej“", "maxCount": 1 },
-      { "id": "dt_9", "description": "Ignoruj efekty scénáře a odeber dvě +0 karty", "maxCount": 1 },
-      { "id": "dt_10", "description": "Při dlouhém odpočinku můžeš sebrat lup z jednoho sousedního hexu. Pokud získáš žetony lupu, získej 1 trofej", "maxCount": 1 },
-      { "id": "dt_11", "description": "Na začátku každého scénáře získej 2 trofeje", "maxCount": 1 },
-      { "id": "dt_12", "description": "Dokud máš neviditelnost, máš výhodu na všechny své útoky", "maxCount": 1 }
+      {
+        "id": "dt_1",
+        "description": "Odeber dvě -1 karty",
+        "maxCount": 1
+      },
+      {
+        "id": "dt_2",
+        "description": "Nahraď jednu -1 kartu jednou +0 odzbrojení kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "dt_3",
+        "description": "Nahraď jednu -2 kartu jednou +1 omráčení kartou",
+        "maxCount": 1
+      },
+      {
+        "id": "dt_4",
+        "description": "Nahraď jednu +0 kartu jednou +0 kartou „Neviditelnost, sebe“",
+        "maxCount": 1
+      },
+      {
+        "id": "dt_5",
+        "description": "Nahraď dvě +0 karty dvěma kartami ↻ průraznost 3",
+        "maxCount": 1
+      },
+      {
+        "id": "dt_6",
+        "description": "Nahraď dvě +1 karty dvěma +2 kartami",
+        "maxCount": 1
+      },
+      {
+        "id": "dt_7",
+        "description": "Nahraď tři +1 karty třemi +1 prokletí kartami",
+        "maxCount": 1
+      },
+      {
+        "id": "dt_8",
+        "description": "Přidej dvě +1 karty „Získej 1 trofej“",
+        "maxCount": 1
+      },
+      {
+        "id": "dt_9",
+        "description": "Ignoruj efekty scénáře a odeber dvě +0 karty",
+        "maxCount": 1
+      },
+      {
+        "id": "dt_10",
+        "description": "Při dlouhém odpočinku můžeš sebrat lup z jednoho sousedního hexu. Pokud získáš žetony lupu, získej 1 trofej",
+        "maxCount": 1
+      },
+      {
+        "id": "dt_11",
+        "description": "Na začátku každého scénáře získej 2 trofeje",
+        "maxCount": 1
+      },
+      {
+        "id": "dt_12",
+        "description": "Dokud máš neviditelnost, máš výhodu na všechny své útoky",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Proveď všechny své útoky se zvýhodněním.",
+      "Naplň temnotu každé kolo."
     ]
   },
   {
     "classId": "cr",
     "name": "Drtivý příliv",
-    "maxHp": [10, 12, 14, 16, 18, 20, 22, 24, 26],
+    "maxHp": [
+      10,
+      12,
+      14,
+      16,
+      18,
+      20,
+      22,
+      24,
+      26
+    ],
     "handSize": 11,
     "isStarting": false,
     "perks": [
-      { "id": "cr_1", "description": "Nahraď jednu -1 kartu dvěma kartami ↻ průraznost 3", "maxCount": 1 },
-      { "id": "cr_2", "description": "Nahraď jednu -1 kartu jednou +0 kartou „+1 cíl“", "maxCount": 1 },
-      { "id": "cr_3", "description": "Nahraď jednu +0 kartu jednou +1 kartou ↻ obrana 1", "maxCount": 1 },
-      { "id": "cr_4", "description": "Přidej dvě +1 karty „Pokud jsi v tomto kole provedl akci přílivu, +2 místo toho“", "maxCount": 1 },
-      { "id": "cr_5", "description": "Přidej jednu +2 zmatení kartu", "maxCount": 1 },
-      { "id": "cr_6", "description": "Přidej jednu +1 odzbrojení kartu", "maxCount": 1 },
-      { "id": "cr_7", "description": "Přidej dvě karty ↻ léčení 1, sebe", "maxCount": 1 },
-      { "id": "cr_8", "description": "Ignoruj -1 efekty předmětů, a kdykoli bys získal oslabení, zabraň tomuto stavu", "maxCount": 1 },
-      { "id": "cr_9", "description": "Kdykoli vyhlásíš dlouhý odpočinek při výběru karet, získej obranu 1 na celé kolo", "maxCount": 1 },
-      { "id": "cr_10", "description": "Výhoda na všechny útoky prováděné, když stojíš na vodním hexu nebo cílíš na nepřátele na vodním hexu", "maxCount": 1 }
+      {
+        "id": "cr_1",
+        "description": "Nahraď jednu -1 kartu dvěma kartami ↻ průraznost 3",
+        "maxCount": 1
+      },
+      {
+        "id": "cr_2",
+        "description": "Nahraď jednu -1 kartu jednou +0 kartou „+1 cíl“",
+        "maxCount": 1
+      },
+      {
+        "id": "cr_3",
+        "description": "Nahraď jednu +0 kartu jednou +1 kartou ↻ obrana 1",
+        "maxCount": 1
+      },
+      {
+        "id": "cr_4",
+        "description": "Přidej dvě +1 karty „Pokud jsi v tomto kole provedl akci přílivu, +2 místo toho“",
+        "maxCount": 1
+      },
+      {
+        "id": "cr_5",
+        "description": "Přidej jednu +2 zmatení kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "cr_6",
+        "description": "Přidej jednu +1 odzbrojení kartu",
+        "maxCount": 1
+      },
+      {
+        "id": "cr_7",
+        "description": "Přidej dvě karty ↻ léčení 1, sebe",
+        "maxCount": 1
+      },
+      {
+        "id": "cr_8",
+        "description": "Ignoruj -1 efekty předmětů, a kdykoli bys získal oslabení, zabraň tomuto stavu",
+        "maxCount": 1
+      },
+      {
+        "id": "cr_9",
+        "description": "Kdykoli vyhlásíš dlouhý odpočinek při výběru karet, získej obranu 1 na celé kolo",
+        "maxCount": 1
+      },
+      {
+        "id": "cr_10",
+        "description": "Výhoda na všechny útoky prováděné, když stojíš na vodním hexu nebo cílíš na nepřátele na vodním hexu",
+        "maxCount": 1
+      }
+    ],
+    "masteries": [
+      "Nikdy neutrp zranění z útoků a buď cílem alespoň pěti útoků.",
+      "Na začátku každého svého odpočinku měj více aktivních přílivů než karet v odhazovacím balíčku."
     ]
   }
 ]

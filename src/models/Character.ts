@@ -10,6 +10,7 @@ export interface CharacterDefinition {
   maxHp: number[]
   handSize: number
   perks: PerkDefinition[]
+  masteries?: string[]
   isStarting: boolean
 }
 
@@ -24,6 +25,7 @@ export interface CharacterState {
   perksSelected: Record<string, number>
   items: string[]
   checks: number
+  masteriesCompleted?: boolean[]
   isRetired: boolean
   retiredAt?: string
   createdAt: string

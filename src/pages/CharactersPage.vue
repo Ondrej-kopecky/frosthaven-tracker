@@ -273,6 +273,60 @@
             </div>
           </div>
 
+          <!-- Masteries -->
+          <div v-if="getMasteries(char.classId).length">
+            <button
+              class="flex items-center gap-2 text-sm text-gray-400 hover:text-fh-frost transition-colors mb-3"
+              @click="toggleSection(char.uuid, 'masteries')"
+            >
+              <svg
+                class="w-4 h-4 transition-transform"
+                :class="{ 'rotate-90': isSectionOpen(char.uuid, 'masteries') }"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+              Mistrovství ({{ masteryCount(char) }}/{{ getMasteries(char.classId).length }})
+            </button>
+            <div v-if="isSectionOpen(char.uuid, 'masteries')" class="space-y-2 pl-2">
+              <div
+                v-for="(mastery, idx) in getMasteries(char.classId)"
+                :key="idx"
+                class="flex items-start gap-2 group"
+              >
+                <button
+                  class="w-5 h-5 rounded border transition-all shrink-0 mt-0.5"
+                  :class="
+                    isMasteryCompleted(char, idx)
+                      ? 'bg-yellow-500 border-yellow-500 text-fh-dark'
+                      : 'border-gray-600 hover:border-yellow-600'
+                  "
+                  @click="toggleMastery(char.uuid, idx)"
+                >
+                  <svg
+                    v-if="isMasteryCompleted(char, idx)"
+                    class="w-full h-full p-0.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    viewBox="0 0 24 24"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </button>
+                <span
+                  class="text-sm transition-colors"
+                  :class="isMasteryCompleted(char, idx) ? 'text-yellow-400/80 line-through' : 'text-gray-300 group-hover:text-gray-100'"
+                >
+                  {{ mastery }}
+                </span>
+              </div>
+            </div>
+          </div>
+
           <!-- Inventory -->
           <div>
             <button
@@ -568,6 +622,33 @@ function perkCount(char: CharacterState): number {
 function perkTotal(char: CharacterState): number {
   const perks = getPerks(char.classId)
   return perks.reduce((sum, p) => sum + p.maxCount, 0)
+}
+
+function getMasteries(classId: string): string[] {
+  return characterStore.getDefinition(classId)?.masteries ?? []
+}
+
+function isMasteryCompleted(char: CharacterState, idx: number): boolean {
+  return char.masteriesCompleted?.[idx] ?? false
+}
+
+function masteryCount(char: CharacterState): number {
+  return (char.masteriesCompleted ?? []).filter(Boolean).length
+}
+
+function toggleMastery(uuid: string, idx: number) {
+  const char = characterStore.activeCharacters.find(c => c.uuid === uuid)
+    ?? characterStore.archivedCharacters.find(c => c.uuid === uuid)
+  if (!char) return
+  if (!char.masteriesCompleted) {
+    char.masteriesCompleted = []
+  }
+  // Ensure array is big enough
+  while (char.masteriesCompleted.length <= idx) {
+    char.masteriesCompleted.push(false)
+  }
+  char.masteriesCompleted[idx] = !char.masteriesCompleted[idx]
+  campaignStore.autoSave()
 }
 
 function formatDate(iso: string): string {
