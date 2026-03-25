@@ -42,6 +42,8 @@ export interface CampaignState {
   buildingLevels: Record<number, number>
   discoveredRecipes?: number[]
   eventDecks?: Record<string, { available: number[]; removed: number[] }>
+  totalDefense: number
+  calendarWeek: number
   characters: CharacterState[]
   archivedCharacters: CharacterState[]
   party: PartyState
@@ -72,6 +74,8 @@ export function createDefaultCampaign(id: string, name: string): CampaignState {
       arrowvine: 0, axenut: 0, corpsecap: 0,
       flamefruit: 0, rockroot: 0, snowthistle: 0,
     },
+    totalDefense: 0,
+    calendarWeek: 1,
     scenarios: {},
     globalAchievements: {},
     buildingLevels: {},
