@@ -24,4 +24,5 @@ export interface ScenarioData {
   prompt?: string
   required_by?: ScenarioCondition[]
   achievements_awarded?: string[]
+  achievements_lost?: string[]
 }
