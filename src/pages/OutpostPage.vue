@@ -137,6 +137,26 @@ function getCurrentLevelData(building: BuildingDef): BuildingLevel | null {
   return building.levels.find((l) => l.level === level) ?? null
 }
 
+interface UpgradeCost {
+  prosperity: number
+  lumber: number
+  metal: number
+  hide: number
+  gold: number
+}
+
+function getNextUpgradeCost(building: BuildingDef): UpgradeCost | null {
+  const currentLevel = getBuildingLevel(building.id)
+  if (currentLevel >= building.maxLevel) return null
+  const nextLvl = building.levels.find((l) => l.level === currentLevel + 1)
+  return (nextLvl as any)?.upgradeCost ?? null
+}
+
+function hasEnough(resource: string, needed: number): boolean {
+  const val = campaign.value?.resources[resource as keyof typeof campaign.value.resources] ?? 0
+  return val >= needed
+}
+
 const expandedBuildingId = ref<number | null>(null)
 function toggleBuilding(id: number) {
   expandedBuildingId.value = expandedBuildingId.value === id ? null : id
@@ -288,6 +308,37 @@ const builtCount = computed(() => buildings.filter((b) => getBuildingLevel(b.id)
             >+</button>
           </div>
 
+          <!-- Next upgrade cost -->
+          <div v-if="getNextUpgradeCost(building)" class="bg-white/[0.02] rounded-lg p-3 border border-fh-border/30">
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mb-2">Cena vylepšení na level {{ getBuildingLevel(building.id) + 1 }}</div>
+            <div class="flex flex-wrap gap-2">
+              <span v-if="getNextUpgradeCost(building)!.prosperity" class="inline-flex items-center gap-1 text-xs text-yellow-400 bg-yellow-900/15 px-2 py-0.5 rounded border border-yellow-700/20">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2l2.5 5.5L18 8.5l-4 4 1 5.5L10 15.5 4.5 18l1-5.5-4-4 5.5-1z"/></svg>
+                {{ getNextUpgradeCost(building)!.prosperity }}
+              </span>
+              <span v-if="getNextUpgradeCost(building)!.lumber" class="inline-flex items-center gap-1 text-xs text-amber-300 bg-amber-900/15 px-2 py-0.5 rounded border border-amber-700/20"
+                :class="hasEnough('lumber', getNextUpgradeCost(building)!.lumber) ? '' : 'ring-1 ring-red-500/40'"
+              >
+                {{ getNextUpgradeCost(building)!.lumber }} dřevo
+              </span>
+              <span v-if="getNextUpgradeCost(building)!.metal" class="inline-flex items-center gap-1 text-xs text-slate-300 bg-slate-700/25 px-2 py-0.5 rounded border border-slate-500/20"
+                :class="hasEnough('metal', getNextUpgradeCost(building)!.metal) ? '' : 'ring-1 ring-red-500/40'"
+              >
+                {{ getNextUpgradeCost(building)!.metal }} kov
+              </span>
+              <span v-if="getNextUpgradeCost(building)!.hide" class="inline-flex items-center gap-1 text-xs text-orange-300 bg-orange-900/15 px-2 py-0.5 rounded border border-orange-700/20"
+                :class="hasEnough('hide', getNextUpgradeCost(building)!.hide) ? '' : 'ring-1 ring-red-500/40'"
+              >
+                {{ getNextUpgradeCost(building)!.hide }} kůže
+              </span>
+              <span v-if="getNextUpgradeCost(building)!.gold" class="inline-flex items-center gap-1 text-xs text-yellow-200 bg-yellow-900/15 px-2 py-0.5 rounded border border-yellow-600/20"
+                :class="hasEnough('gold', getNextUpgradeCost(building)!.gold) ? '' : 'ring-1 ring-red-500/40'"
+              >
+                {{ getNextUpgradeCost(building)!.gold }} zl.
+              </span>
+            </div>
+          </div>
+
           <!-- Current level info -->
           <template v-if="getCurrentLevelData(building)">
             <div class="space-y-2 text-sm">
@@ -328,12 +379,20 @@ const builtCount = computed(() => buildings.filter((b) => getBuildingLevel(b.id)
                 :class="lvl.level === getBuildingLevel(building.id) ? 'bg-fh-primary/5' : ''"
               >
                 <span class="font-display font-bold w-4 text-right shrink-0" :class="lvl.level <= getBuildingLevel(building.id) ? 'text-fh-primary' : 'text-gray-700'">{{ lvl.level }}</span>
-                <span class="text-gray-500">
-                  <template v-if="lvl.operations">{{ lvl.operations }}</template>
-                  <template v-else-if="lvl.downtime">{{ lvl.downtime }}</template>
-                  <template v-else-if="lvl.passive">{{ lvl.passive }}</template>
-                  <template v-if="lvl.rewards"> — {{ lvl.rewards }}</template>
-                </span>
+                <div class="flex-1 min-w-0">
+                  <span class="text-gray-500">
+                    <template v-if="lvl.operations">{{ lvl.operations }}</template>
+                    <template v-else-if="lvl.downtime">{{ lvl.downtime }}</template>
+                    <template v-else-if="lvl.passive">{{ lvl.passive }}</template>
+                    <template v-if="lvl.rewards"> — {{ lvl.rewards }}</template>
+                  </span>
+                  <div v-if="(lvl as any).upgradeCost" class="flex gap-1 mt-0.5 flex-wrap">
+                    <span v-if="(lvl as any).upgradeCost.lumber" class="text-[9px] text-amber-400/70">{{ (lvl as any).upgradeCost.lumber }}D</span>
+                    <span v-if="(lvl as any).upgradeCost.metal" class="text-[9px] text-slate-400/70">{{ (lvl as any).upgradeCost.metal }}K</span>
+                    <span v-if="(lvl as any).upgradeCost.hide" class="text-[9px] text-orange-400/70">{{ (lvl as any).upgradeCost.hide }}Kž</span>
+                    <span v-if="(lvl as any).upgradeCost.gold" class="text-[9px] text-yellow-400/70">{{ (lvl as any).upgradeCost.gold }}zl</span>
+                  </div>
+                </div>
               </div>
             </div>
           </details>

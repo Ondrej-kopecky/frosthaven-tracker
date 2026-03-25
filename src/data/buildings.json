@@ -1,120 +1,1089 @@
 [
-  { "id": 5, "name": "Důlní tábor", "maxLevel": 4, "levels": [
-    { "level": 1, "operations": "Kolektivně nakupte až 1 kov za 2 zlata", "rewards": "+1 prosperita" },
-    { "level": 2, "operations": "Kolektivně nakupte až 2 kovy za 2 zlata za kus", "rewards": "+1 prosperita" },
-    { "level": 3, "operations": "Kolektivně nakupte až 3 kovy za 2 zlata za kus", "rewards": "+1 prosperita" },
-    { "level": 4, "operations": "Kolektivně nakupte až 4 kovy za 2 zlata za kus", "rewards": "+1 prosperita" }
-  ]},
-  { "id": 12, "name": "Lovecká chata", "maxLevel": 4, "levels": [
-    { "level": 1, "operations": "Kolektivně nakupte až 1 kůži za 2 zlata", "rewards": "+1 prosperita" },
-    { "level": 2, "operations": "Kolektivně nakupte až 2 kůže za 2 zlata za kus", "rewards": "+1 prosperita" },
-    { "level": 3, "operations": "Kolektivně nakupte až 3 kůže za 2 zlata za kus", "rewards": "+1 prosperita" },
-    { "level": 4, "operations": "Kolektivně nakupte až 4 kůže za 2 zlata za kus", "rewards": "+1 prosperita" }
-  ]},
-  { "id": 17, "name": "Dřevorubecký tábor", "maxLevel": 4, "levels": [
-    { "level": 1, "operations": "Kolektivně nakupte až 1 dřevo za 2 zlata", "rewards": "+1 prosperita" },
-    { "level": 2, "operations": "Kolektivně nakupte až 2 dřeva za 2 zlata za kus", "rewards": "+1 prosperita" },
-    { "level": 3, "operations": "Kolektivně nakupte až 3 dřeva za 2 zlata za kus", "rewards": "+1 prosperita" },
-    { "level": 4, "operations": "Kolektivně nakupte až 4 dřeva za 2 zlata za kus", "rewards": "+1 prosperita" }
-  ]},
-  { "id": 21, "name": "Hostinec", "maxLevel": 3, "levels": [
-    { "level": 1, "operations": "Kolektivně nakupte 1 materiálovou surovinu za 2 zlata", "rewards": "+1 prosperita" },
-    { "level": 2, "operations": "Kolektivně nakupte až 2 různé materiálové suroviny za 2 zlata za kus", "rewards": "+1 prosperita" },
-    { "level": 3, "operations": "Kolektivně nakupte až 3 různé materiálové suroviny za 2 zlata za kus", "rewards": "+1 prosperita" }
-  ]},
-  { "id": 24, "name": "Zahrada", "maxLevel": 4, "levels": [
-    { "level": 1, "operations": "Zasaďte byliny NEBO Získejte 1 bylinu z každého zasazeného záhonu", "rewards": "+1 prosperita" },
-    { "level": 2, "operations": "Zasaďte byliny NEBO Získejte 1 bylinu z každého zasazeného záhonu", "rewards": "+1 prosperita, +1 záhon" },
-    { "level": 3, "operations": "Získejte 1 bylinu z každého záhonu, pak zasaďte byliny", "rewards": "+1 prosperita" },
-    { "level": 4, "operations": "Získejte 1 bylinu z každého záhonu, pak zasaďte byliny", "rewards": "+1 prosperita, +1 záhon" }
-  ]},
-  { "id": 34, "name": "Řemeslník", "maxLevel": 9, "levels": [
-    { "level": 1, "downtime": "Výroba předmětů", "wrecked": "Ztráta 1 kůže", "rewards": "Předměty 001–010" },
-    { "level": 2, "downtime": "Výroba předmětů", "wrecked": "Ztráta 1 kůže", "rewards": "+1 prosperita, předměty 011–015" },
-    { "level": 3, "downtime": "Výroba předmětů", "wrecked": "Ztráta 1 kůže", "rewards": "+1 prosperita, předměty 016–020" },
-    { "level": 4, "downtime": "Výroba předmětů", "wrecked": "Ztráta 2 kůží", "rewards": "+1 prosperita, předměty 021–025" },
-    { "level": 5, "downtime": "Výroba předmětů", "wrecked": "Ztráta 2 kůží", "rewards": "+1 prosperita, předměty 026–030" },
-    { "level": 6, "downtime": "Výroba předmětů", "wrecked": "Ztráta 2 kůží", "rewards": "+1 prosperita, předměty 031–035" },
-    { "level": 7, "downtime": "Výroba předmětů", "wrecked": "Ztráta 3 kůží", "rewards": "+1 prosperita, předměty 036–040" },
-    { "level": 8, "downtime": "Výroba předmětů", "wrecked": "Ztráta 3 kůží", "rewards": "+1 prosperita, předměty 041–045" },
-    { "level": 9, "downtime": "Výroba předmětů", "wrecked": "Ztráta 3 kůží", "rewards": "+1 prosperita, předměty 046–050" }
-  ]},
-  { "id": 35, "name": "Alchymista", "maxLevel": 3, "levels": [
-    { "level": 1, "downtime": "Vaření 2-bylinných lektvarů", "wrecked": "Postavy nemohou používat lektvary" },
-    { "level": 2, "downtime": "Vaření a destilace 2-bylinných lektvarů", "wrecked": "Postavy nemohou používat lektvary", "rewards": "+1 prosperita" },
-    { "level": 3, "downtime": "Vaření a destilace 2- a 3-bylinných lektvarů", "wrecked": "Postavy nemohou používat lektvary", "rewards": "+1 prosperita" }
-  ]},
-  { "id": 37, "name": "Obchodní stanice", "maxLevel": 4, "levels": [
-    { "level": 1, "downtime": "Kup až 1 předmět", "wrecked": "Ztráta 5 zlata", "rewards": "+1 prosperita" },
-    { "level": 2, "downtime": "Kup až 2 předměty", "wrecked": "Ztráta 10 zlata", "rewards": "+1 prosperita" },
-    { "level": 3, "downtime": "Kup až 3 předměty", "wrecked": "Ztráta 15 zlata", "rewards": "+1 prosperita" },
-    { "level": 4, "downtime": "Kup až 4 předměty", "wrecked": "Ztráta 20 zlata", "rewards": "+1 prosperita" }
-  ]},
-  { "id": 39, "name": "Klenotník", "maxLevel": 3, "levels": [
-    { "level": 1, "wrecked": "Poškození libovolné budovy", "rewards": "+1 prosperita" },
-    { "level": 2, "wrecked": "Poškození libovolné budovy", "rewards": "+1 prosperita, předměty 160–163" },
-    { "level": 3, "wrecked": "Poškození libovolné budovy", "rewards": "+1 prosperita, předměty 164–167" }
-  ]},
-  { "id": 42, "name": "Chrám Velkého dubu", "maxLevel": 4, "levels": [
-    { "level": 1, "operations": "Zaplatit 5 zlata za 2× Požehnání na začátku scénáře", "wrecked": "Každá postava začíná s Kletbou", "rewards": "+1 prosperita" },
-    { "level": 2, "operations": "Zaplatit 5 zlata za 2× Požehnání na začátku scénáře", "wrecked": "Každá postava začíná s Kletbou", "rewards": "+3 prosperita" },
-    { "level": 3, "operations": "Zaplatit 5 zlata za 2× Požehnání na začátku scénáře", "wrecked": "Každá postava začíná s Kletbou", "rewards": "+5 prosperita" },
-    { "level": 4, "operations": "Zaplatit 5 zlata za 2× Požehnání na začátku scénáře", "wrecked": "Každá postava začíná s Kletbou" }
-  ]},
-  { "id": 44, "name": "Vylepšovatel", "maxLevel": 4, "levels": [
-    { "level": 1, "downtime": "Nákup vylepšení", "wrecked": "Každá postava začíná s Odzbrojením", "rewards": "+1 prosperita" },
-    { "level": 2, "downtime": "Nákup vylepšení", "wrecked": "Každá postava začíná s Odzbrojením", "passive": "Snížení nákladů na vylepšení o 10 zlata", "rewards": "+1 prosperita" },
-    { "level": 3, "downtime": "Nákup vylepšení", "wrecked": "Každá postava začíná s Odzbrojením", "passive": "Snížení nákladů o 10 zl. a penalizace za level o 10 zl.", "rewards": "+1 prosperita" },
-    { "level": 4, "downtime": "Nákup vylepšení", "wrecked": "Každá postava začíná s Odzbrojením", "passive": "Snížení nákladů o 10 zl., levelů o 10 zl., opakování o 25 zl.", "rewards": "+1 prosperita" }
-  ]},
-  { "id": 65, "name": "Sklad kovů", "maxLevel": 2, "levels": [
-    { "level": 1, "operations": "Prodejte až 1 kov za 5 zlata", "rewards": "+1 prosperita" },
-    { "level": 2, "operations": "Prodejte až 2 kovy za 5 zlata za kus", "rewards": "+2 prosperita" }
-  ]},
-  { "id": 67, "name": "Sklad dřeva", "maxLevel": 2, "levels": [
-    { "level": 1, "operations": "Prodejte až 1 dřevo za 5 zlata", "rewards": "+1 prosperita" },
-    { "level": 2, "operations": "Prodejte až 2 dřeva za 5 zlata za kus", "rewards": "+2 prosperita" }
-  ]},
-  { "id": 72, "name": "Sklad kůží", "maxLevel": 2, "levels": [
-    { "level": 1, "operations": "Prodejte až 1 kůži za 5 zlata", "rewards": "+1 prosperita" },
-    { "level": 2, "operations": "Prodejte až 2 kůže za 5 zlata za kus", "rewards": "+2 prosperita" }
-  ]},
-  { "id": 74, "name": "Taverna", "maxLevel": 3, "levels": [
-    { "level": 1, "wrecked": "Ztráta 1 morálky", "rewards": "+1 prosperita" },
-    { "level": 2, "wrecked": "Ztráta 1 morálky", "rewards": "+1 prosperita" },
-    { "level": 3, "wrecked": "Ztráta 1 morálky", "rewards": "+1 prosperita" }
-  ]},
-  { "id": 81, "name": "Síň zábavy", "maxLevel": 2, "levels": [
-    { "level": 1, "wrecked": "Ztráta 1 morálky", "passive": "Výzvy — po dokončení balíčku čtěte sekci 187.1", "rewards": "+1 prosperita" },
-    { "level": 2, "wrecked": "Ztráta 1 morálky", "passive": "Přístup k Tholovým přízním", "rewards": "+1 prosperita" }
-  ]},
-  { "id": 83, "name": "Knihovna", "maxLevel": 3, "levels": [
-    { "level": 1, "wrecked": "Ztráta 1 inspirace", "rewards": "+1 prosperita" },
-    { "level": 2, "wrecked": "Ztráta 1 inspirace", "rewards": "+1 prosperita" },
-    { "level": 3, "wrecked": "Ztráta 1 inspirace", "rewards": "+1 prosperita" }
-  ]},
-  { "id": 84, "name": "Dílna", "maxLevel": 1, "levels": [
-    { "level": 1, "wrecked": "Ztráta 1 dřeva", "passive": "Vylepšení lze stavět v libovolném pořadí", "rewards": "+1 prosperita" }
-  ]},
-  { "id": 85, "name": "Tesař", "maxLevel": 2, "levels": [
-    { "level": 1, "wrecked": "Ztráta 1 suroviny", "passive": "Snížení stavebních nákladů o 1 materiál", "rewards": "+1 prosperita" },
-    { "level": 2, "wrecked": "Ztráta 1 suroviny", "passive": "Snížení nákladů o 1 materiál a extra nákladů o 1 morálku", "rewards": "+1 prosperita" }
-  ]},
-  { "id": 88, "name": "Stáje", "maxLevel": 4, "levels": [
-    { "level": 1, "wrecked": "Postavy nemohou používat mazlíčky", "passive": "1 mazlíček do scénáře, kapacita: 4", "rewards": "+1 prosperita" },
-    { "level": 2, "wrecked": "Postavy nemohou používat mazlíčky", "passive": "1 mazlíček do scénáře, kapacita: 8", "rewards": "+1 prosperita" },
-    { "level": 3, "wrecked": "Postavy nemohou používat mazlíčky", "passive": "2 mazlíčci do scénáře, kapacita: 8", "rewards": "+1 prosperita" },
-    { "level": 4, "wrecked": "Postavy nemohou používat mazlíčky", "passive": "2 mazlíčci do scénáře, kapacita: 12", "rewards": "+1 prosperita" }
-  ]},
-  { "id": 90, "name": "Radnice", "maxLevel": 3, "levels": [
-    { "level": 1, "wrecked": "Nelze plnit výzvy", "passive": "Lízni 1 výzvu, ponech až 1", "rewards": "+1 prosperita" },
-    { "level": 2, "wrecked": "Nelze plnit výzvy", "passive": "Lízni 2 výzvy, ponech až 1", "rewards": "+1 prosperita" },
-    { "level": 3, "wrecked": "Nelze plnit výzvy", "passive": "Lízni 3 výzvy, ponech až 2", "rewards": "+1 prosperita" }
-  ]},
-  { "id": 98, "name": "Kasárna", "maxLevel": 4, "levels": [
-    { "level": 1, "operations": "Vycvičte až 1 vojáka za 3 zlata a 1 surovinu", "wrecked": "Nevýhoda na útočné eventy, nelze použít vojáky", "passive": "Kapacita: 4", "rewards": "+1 prosperita" },
-    { "level": 2, "operations": "Vycvičte až 1 vojáka za 3 zlata a 1 surovinu", "wrecked": "Nevýhoda na útočné eventy", "passive": "Kapacita: 6", "rewards": "+1 prosperita, +2 vojáci" },
-    { "level": 3, "operations": "Vycvičte až 2 vojáky za 3 zlata a 1 surovinu za každého", "wrecked": "Nevýhoda na útočné eventy", "passive": "Kapacita: 8", "rewards": "+1 prosperita, +2 vojáci" },
-    { "level": 4, "operations": "Vycvičte až 2 vojáky za 3 zlata a 1 surovinu za každého", "wrecked": "Nevýhoda na útočné eventy", "passive": "Kapacita: 10", "rewards": "+1 prosperita, +2 vojáci" }
-  ]}
+  {
+    "id": 5,
+    "name": "Důlní tábor",
+    "maxLevel": 4,
+    "levels": [
+      {
+        "level": 1,
+        "operations": "Kolektivně nakupte až 1 kov za 2 zlata",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 0,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "operations": "Kolektivně nakupte až 2 kovy za 2 zlata za kus",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 3,
+          "metal": 1,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 3,
+        "operations": "Kolektivně nakupte až 3 kovy za 2 zlata za kus",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 4,
+          "metal": 2,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 4,
+        "operations": "Kolektivně nakupte až 4 kovy za 2 zlata za kus",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 5,
+          "metal": 3,
+          "hide": 0,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Lovecká chata",
+    "maxLevel": 4,
+    "levels": [
+      {
+        "level": 1,
+        "operations": "Kolektivně nakupte až 1 kůži za 2 zlata",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 0,
+          "metal": 0,
+          "hide": 2,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "operations": "Kolektivně nakupte až 2 kůže za 2 zlata za kus",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 0,
+          "metal": 0,
+          "hide": 3,
+          "gold": 0
+        }
+      },
+      {
+        "level": 3,
+        "operations": "Kolektivně nakupte až 3 kůže za 2 zlata za kus",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 0,
+          "metal": 1,
+          "hide": 4,
+          "gold": 0
+        }
+      },
+      {
+        "level": 4,
+        "operations": "Kolektivně nakupte až 4 kůže za 2 zlata za kus",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 0,
+          "metal": 2,
+          "hide": 5,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Dřevorubecký tábor",
+    "maxLevel": 4,
+    "levels": [
+      {
+        "level": 1,
+        "operations": "Kolektivně nakupte až 1 dřevo za 2 zlata",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 0,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "operations": "Kolektivně nakupte až 2 dřeva za 2 zlata za kus",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 3,
+          "metal": 0,
+          "hide": 1,
+          "gold": 0
+        }
+      },
+      {
+        "level": 3,
+        "operations": "Kolektivně nakupte až 3 dřeva za 2 zlata za kus",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 4,
+          "metal": 1,
+          "hide": 1,
+          "gold": 0
+        }
+      },
+      {
+        "level": 4,
+        "operations": "Kolektivně nakupte až 4 dřeva za 2 zlata za kus",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 5,
+          "metal": 2,
+          "hide": 1,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Hostinec",
+    "maxLevel": 3,
+    "levels": [
+      {
+        "level": 1,
+        "operations": "Kolektivně nakupte 1 materiálovou surovinu za 2 zlata",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 1,
+          "hide": 1,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "operations": "Kolektivně nakupte až 2 různé materiálové suroviny za 2 zlata za kus",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 3,
+          "metal": 2,
+          "hide": 1,
+          "gold": 0
+        }
+      },
+      {
+        "level": 3,
+        "operations": "Kolektivně nakupte až 3 různé materiálové suroviny za 2 zlata za kus",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 4,
+          "metal": 2,
+          "hide": 2,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Zahrada",
+    "maxLevel": 4,
+    "levels": [
+      {
+        "level": 1,
+        "operations": "Zasaďte byliny NEBO Získejte 1 bylinu z každého zasazeného záhonu",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 1,
+          "metal": 0,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "operations": "Zasaďte byliny NEBO Získejte 1 bylinu z každého zasazeného záhonu",
+        "rewards": "+1 prosperita, +1 záhon",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 0,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 3,
+        "operations": "Získejte 1 bylinu z každého záhonu, pak zasaďte byliny",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 3,
+          "metal": 0,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 4,
+        "operations": "Získejte 1 bylinu z každého záhonu, pak zasaďte byliny",
+        "rewards": "+1 prosperita, +1 záhon",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 4,
+          "metal": 0,
+          "hide": 0,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "name": "Řemeslník",
+    "maxLevel": 9,
+    "levels": [
+      {
+        "level": 1,
+        "downtime": "Výroba předmětů",
+        "wrecked": "Ztráta 1 kůže",
+        "rewards": "Předměty 001–010",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 2,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "downtime": "Výroba předmětů",
+        "wrecked": "Ztráta 1 kůže",
+        "rewards": "+1 prosperita, předměty 011–015",
+        "upgradeCost": {
+          "prosperity": 0,
+          "lumber": 1,
+          "metal": 1,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 3,
+        "downtime": "Výroba předmětů",
+        "wrecked": "Ztráta 1 kůže",
+        "rewards": "+1 prosperita, předměty 016–020",
+        "upgradeCost": {
+          "prosperity": 0,
+          "lumber": 1,
+          "metal": 1,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 4,
+        "downtime": "Výroba předmětů",
+        "wrecked": "Ztráta 2 kůží",
+        "rewards": "+1 prosperita, předměty 021–025",
+        "upgradeCost": {
+          "prosperity": 0,
+          "lumber": 2,
+          "metal": 1,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 5,
+        "downtime": "Výroba předmětů",
+        "wrecked": "Ztráta 2 kůží",
+        "rewards": "+1 prosperita, předměty 026–030",
+        "upgradeCost": {
+          "prosperity": 0,
+          "lumber": 2,
+          "metal": 1,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 6,
+        "downtime": "Výroba předmětů",
+        "wrecked": "Ztráta 2 kůží",
+        "rewards": "+1 prosperita, předměty 031–035",
+        "upgradeCost": {
+          "prosperity": 0,
+          "lumber": 2,
+          "metal": 2,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 7,
+        "downtime": "Výroba předmětů",
+        "wrecked": "Ztráta 3 kůží",
+        "rewards": "+1 prosperita, předměty 036–040",
+        "upgradeCost": {
+          "prosperity": 0,
+          "lumber": 2,
+          "metal": 2,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 8,
+        "downtime": "Výroba předmětů",
+        "wrecked": "Ztráta 3 kůží",
+        "rewards": "+1 prosperita, předměty 041–045",
+        "upgradeCost": {
+          "prosperity": 0,
+          "lumber": 3,
+          "metal": 2,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 9,
+        "downtime": "Výroba předmětů",
+        "wrecked": "Ztráta 3 kůží",
+        "rewards": "+1 prosperita, předměty 046–050",
+        "upgradeCost": {
+          "prosperity": 0,
+          "lumber": 3,
+          "metal": 3,
+          "hide": 0,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "name": "Alchymista",
+    "maxLevel": 3,
+    "levels": [
+      {
+        "level": 1,
+        "downtime": "Vaření 2-bylinných lektvarů",
+        "wrecked": "Postavy nemohou používat lektvary",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 1,
+          "metal": 1,
+          "hide": 1,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "downtime": "Vaření a destilace 2-bylinných lektvarů",
+        "wrecked": "Postavy nemohou používat lektvary",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 1,
+          "hide": 1,
+          "gold": 0
+        }
+      },
+      {
+        "level": 3,
+        "downtime": "Vaření a destilace 2- a 3-bylinných lektvarů",
+        "wrecked": "Postavy nemohou používat lektvary",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 2,
+          "hide": 2,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "name": "Obchodní stanice",
+    "maxLevel": 4,
+    "levels": [
+      {
+        "level": 1,
+        "downtime": "Kup až 1 předmět",
+        "wrecked": "Ztráta 5 zlata",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 1,
+          "metal": 1,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "downtime": "Kup až 2 předměty",
+        "wrecked": "Ztráta 10 zlata",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 1,
+          "hide": 1,
+          "gold": 0
+        }
+      },
+      {
+        "level": 3,
+        "downtime": "Kup až 3 předměty",
+        "wrecked": "Ztráta 15 zlata",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 2,
+          "hide": 1,
+          "gold": 0
+        }
+      },
+      {
+        "level": 4,
+        "downtime": "Kup až 4 předměty",
+        "wrecked": "Ztráta 20 zlata",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 3,
+          "metal": 2,
+          "hide": 2,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "name": "Klenotník",
+    "maxLevel": 3,
+    "levels": [
+      {
+        "level": 1,
+        "wrecked": "Poškození libovolné budovy",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 0,
+          "metal": 2,
+          "hide": 0,
+          "gold": 5
+        }
+      },
+      {
+        "level": 2,
+        "wrecked": "Poškození libovolné budovy",
+        "rewards": "+1 prosperita, předměty 160–163",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 0,
+          "metal": 3,
+          "hide": 0,
+          "gold": 5
+        }
+      },
+      {
+        "level": 3,
+        "wrecked": "Poškození libovolné budovy",
+        "rewards": "+1 prosperita, předměty 164–167",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 0,
+          "metal": 4,
+          "hide": 0,
+          "gold": 10
+        }
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "name": "Chrám Velkého dubu",
+    "maxLevel": 4,
+    "levels": [
+      {
+        "level": 1,
+        "operations": "Zaplatit 5 zlata za 2× Požehnání na začátku scénáře",
+        "wrecked": "Každá postava začíná s Kletbou",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 3,
+          "metal": 0,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "operations": "Zaplatit 5 zlata za 2× Požehnání na začátku scénáře",
+        "wrecked": "Každá postava začíná s Kletbou",
+        "rewards": "+3 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 4,
+          "metal": 1,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 3,
+        "operations": "Zaplatit 5 zlata za 2× Požehnání na začátku scénáře",
+        "wrecked": "Každá postava začíná s Kletbou",
+        "rewards": "+5 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 5,
+          "metal": 1,
+          "hide": 1,
+          "gold": 0
+        }
+      },
+      {
+        "level": 4,
+        "operations": "Zaplatit 5 zlata za 2× Požehnání na začátku scénáře",
+        "wrecked": "Každá postava začíná s Kletbou",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 6,
+          "metal": 2,
+          "hide": 1,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "name": "Vylepšovatel",
+    "maxLevel": 4,
+    "levels": [
+      {
+        "level": 1,
+        "downtime": "Nákup vylepšení",
+        "wrecked": "Každá postava začíná s Odzbrojením",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 1,
+          "metal": 2,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "downtime": "Nákup vylepšení",
+        "wrecked": "Každá postava začíná s Odzbrojením",
+        "passive": "Snížení nákladů na vylepšení o 10 zlata",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 1,
+          "metal": 3,
+          "hide": 1,
+          "gold": 0
+        }
+      },
+      {
+        "level": 3,
+        "downtime": "Nákup vylepšení",
+        "wrecked": "Každá postava začíná s Odzbrojením",
+        "passive": "Snížení nákladů o 10 zl. a penalizace za level o 10 zl.",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 4,
+          "hide": 1,
+          "gold": 0
+        }
+      },
+      {
+        "level": 4,
+        "downtime": "Nákup vylepšení",
+        "wrecked": "Každá postava začíná s Odzbrojením",
+        "passive": "Snížení nákladů o 10 zl., levelů o 10 zl., opakování o 25 zl.",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 5,
+          "hide": 2,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 65,
+    "name": "Sklad kovů",
+    "maxLevel": 2,
+    "levels": [
+      {
+        "level": 1,
+        "operations": "Prodejte až 1 kov za 5 zlata",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 0,
+          "metal": 2,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "operations": "Prodejte až 2 kovy za 5 zlata za kus",
+        "rewards": "+2 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 0,
+          "metal": 4,
+          "hide": 0,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 67,
+    "name": "Sklad dřeva",
+    "maxLevel": 2,
+    "levels": [
+      {
+        "level": 1,
+        "operations": "Prodejte až 1 dřevo za 5 zlata",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 0,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "operations": "Prodejte až 2 dřeva za 5 zlata za kus",
+        "rewards": "+2 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 4,
+          "metal": 0,
+          "hide": 0,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 72,
+    "name": "Sklad kůží",
+    "maxLevel": 2,
+    "levels": [
+      {
+        "level": 1,
+        "operations": "Prodejte až 1 kůži za 5 zlata",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 0,
+          "metal": 0,
+          "hide": 2,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "operations": "Prodejte až 2 kůže za 5 zlata za kus",
+        "rewards": "+2 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 0,
+          "metal": 0,
+          "hide": 4,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 74,
+    "name": "Taverna",
+    "maxLevel": 3,
+    "levels": [
+      {
+        "level": 1,
+        "wrecked": "Ztráta 1 morálky",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 0,
+          "hide": 1,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "wrecked": "Ztráta 1 morálky",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 3,
+          "metal": 1,
+          "hide": 1,
+          "gold": 0
+        }
+      },
+      {
+        "level": 3,
+        "wrecked": "Ztráta 1 morálky",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 4,
+          "metal": 1,
+          "hide": 2,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 81,
+    "name": "Síň zábavy",
+    "maxLevel": 2,
+    "levels": [
+      {
+        "level": 1,
+        "wrecked": "Ztráta 1 morálky",
+        "passive": "Výzvy — po dokončení balíčku čtěte sekci 187.1",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 1,
+          "metal": 1,
+          "hide": 0,
+          "gold": 5
+        }
+      },
+      {
+        "level": 2,
+        "wrecked": "Ztráta 1 morálky",
+        "passive": "Přístup k Tholovým přízním",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 1,
+          "hide": 0,
+          "gold": 5
+        }
+      }
+    ]
+  },
+  {
+    "id": 83,
+    "name": "Knihovna",
+    "maxLevel": 3,
+    "levels": [
+      {
+        "level": 1,
+        "wrecked": "Ztráta 1 inspirace",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 1,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "wrecked": "Ztráta 1 inspirace",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 3,
+          "metal": 2,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 3,
+        "wrecked": "Ztráta 1 inspirace",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 4,
+          "metal": 3,
+          "hide": 0,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 84,
+    "name": "Dílna",
+    "maxLevel": 1,
+    "levels": [
+      {
+        "level": 1,
+        "wrecked": "Ztráta 1 dřeva",
+        "passive": "Vylepšení lze stavět v libovolném pořadí",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 2,
+          "hide": 1,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 85,
+    "name": "Tesař",
+    "maxLevel": 2,
+    "levels": [
+      {
+        "level": 1,
+        "wrecked": "Ztráta 1 suroviny",
+        "passive": "Snížení stavebních nákladů o 1 materiál",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 3,
+          "metal": 0,
+          "hide": 0,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "wrecked": "Ztráta 1 suroviny",
+        "passive": "Snížení nákladů o 1 materiál a extra nákladů o 1 morálku",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 5,
+          "metal": 1,
+          "hide": 0,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 88,
+    "name": "Stáje",
+    "maxLevel": 4,
+    "levels": [
+      {
+        "level": 1,
+        "wrecked": "Postavy nemohou používat mazlíčky",
+        "passive": "1 mazlíček do scénáře, kapacita: 4",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 3,
+          "metal": 0,
+          "hide": 1,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "wrecked": "Postavy nemohou používat mazlíčky",
+        "passive": "1 mazlíček do scénáře, kapacita: 8",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 4,
+          "metal": 0,
+          "hide": 2,
+          "gold": 0
+        }
+      },
+      {
+        "level": 3,
+        "wrecked": "Postavy nemohou používat mazlíčky",
+        "passive": "2 mazlíčci do scénáře, kapacita: 8",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 5,
+          "metal": 1,
+          "hide": 2,
+          "gold": 0
+        }
+      },
+      {
+        "level": 4,
+        "wrecked": "Postavy nemohou používat mazlíčky",
+        "passive": "2 mazlíčci do scénáře, kapacita: 12",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 6,
+          "metal": 1,
+          "hide": 3,
+          "gold": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": 90,
+    "name": "Radnice",
+    "maxLevel": 3,
+    "levels": [
+      {
+        "level": 1,
+        "wrecked": "Nelze plnit výzvy",
+        "passive": "Lízni 1 výzvu, ponech až 1",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 1,
+          "hide": 0,
+          "gold": 5
+        }
+      },
+      {
+        "level": 2,
+        "wrecked": "Nelze plnit výzvy",
+        "passive": "Lízni 2 výzvy, ponech až 1",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 3,
+          "metal": 2,
+          "hide": 0,
+          "gold": 5
+        }
+      },
+      {
+        "level": 3,
+        "wrecked": "Nelze plnit výzvy",
+        "passive": "Lízni 3 výzvy, ponech až 2",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 4,
+          "metal": 3,
+          "hide": 0,
+          "gold": 10
+        }
+      }
+    ]
+  },
+  {
+    "id": 98,
+    "name": "Kasárna",
+    "maxLevel": 4,
+    "levels": [
+      {
+        "level": 1,
+        "operations": "Vycvičte až 1 vojáka za 3 zlata a 1 surovinu",
+        "wrecked": "Nevýhoda na útočné eventy, nelze použít vojáky",
+        "passive": "Kapacita: 4",
+        "rewards": "+1 prosperita",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 1,
+          "metal": 2,
+          "hide": 1,
+          "gold": 0
+        }
+      },
+      {
+        "level": 2,
+        "operations": "Vycvičte až 1 vojáka za 3 zlata a 1 surovinu",
+        "wrecked": "Nevýhoda na útočné eventy",
+        "passive": "Kapacita: 6",
+        "rewards": "+1 prosperita, +2 vojáci",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 3,
+          "hide": 1,
+          "gold": 0
+        }
+      },
+      {
+        "level": 3,
+        "operations": "Vycvičte až 2 vojáky za 3 zlata a 1 surovinu za každého",
+        "wrecked": "Nevýhoda na útočné eventy",
+        "passive": "Kapacita: 8",
+        "rewards": "+1 prosperita, +2 vojáci",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 2,
+          "metal": 4,
+          "hide": 2,
+          "gold": 0
+        }
+      },
+      {
+        "level": 4,
+        "operations": "Vycvičte až 2 vojáky za 3 zlata a 1 surovinu za každého",
+        "wrecked": "Nevýhoda na útočné eventy",
+        "passive": "Kapacita: 10",
+        "rewards": "+1 prosperita, +2 vojáci",
+        "upgradeCost": {
+          "prosperity": 1,
+          "lumber": 3,
+          "metal": 5,
+          "hide": 2,
+          "gold": 0
+        }
+      }
+    ]
+  }
 ]
