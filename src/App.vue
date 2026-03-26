@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import AppHeader from '@/components/layout/AppHeader.vue'
 import FeedbackButton from '@/components/FeedbackButton.vue'
 import { useProfileStore } from '@/stores/profileStore'
 import { useAuthStore } from '@/stores/authStore'
 
+const route = useRoute()
 const profileStore = useProfileStore()
 const authStore = useAuthStore()
+
+const isLanding = computed(() => route.name === 'landing')
 
 onMounted(() => {
   profileStore.init()
@@ -16,15 +20,15 @@ onMounted(() => {
 
 <template>
   <div class="min-h-screen bg-fh-dark text-gray-100">
-    <AppHeader />
-    <main class="max-w-7xl mx-auto px-4 pb-8 pt-18">
+    <AppHeader v-if="!isLanding" />
+    <main :class="isLanding ? '' : 'max-w-7xl mx-auto px-4 pb-8 pt-18'">
       <router-view v-slot="{ Component }">
         <transition name="page" mode="out-in">
           <component :is="Component" />
         </transition>
       </router-view>
     </main>
-    <FeedbackButton />
+    <FeedbackButton v-if="!isLanding" />
   </div>
 </template>
 
