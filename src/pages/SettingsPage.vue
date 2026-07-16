@@ -6,7 +6,8 @@ import { useScenarioStore } from '@/stores/scenarioStore'
 import { useCharacterStore } from '@/stores/characterStore'
 import { useAuthStore } from '@/stores/authStore'
 import { useToastStore } from '@/stores/toastStore'
-import { changePassword } from '@/services/api/authApi'
+import { changePassword, deleteAccount } from '@/services/api/authApi'
+import ConfirmDialog from '@/components/ui/ConfirmDialog.vue'
 
 const router = useRouter()
 const campaignStore = useCampaignStore()
@@ -178,6 +179,29 @@ async function handleChangePassword() {
   } finally {
     cpLoading.value = false
   }
+}
+
+// Smazání účtu (GDPR)
+const showDeleteAccount = ref(false)
+const daPassword = ref('')
+const daError = ref('')
+
+async function handleDeleteAccount() {
+  if (!daPassword.value) {
+    daError.value = 'Zadejte heslo'
+    return
+  }
+  daError.value = ''
+  const result = await deleteAccount(daPassword.value)
+  if (result.error) {
+    daError.value = result.error
+    return
+  }
+  showDeleteAccount.value = false
+  daPassword.value = ''
+  authStore.logout()
+  toast.show('Účet byl trvale smazán', 'info')
+  router.replace('/kampan')
 }
 
 // Delete campaign
@@ -423,6 +447,44 @@ function deleteCampaign() {
         <p v-if="cpError" class="text-xs text-red-400">{{ cpError }}</p>
         <p v-if="cpSuccess" class="text-xs text-fh-completed">Heslo bylo úspěšně změněno!</p>
       </div>
+
+      <!-- Smazání účtu (GDPR) -->
+      <div class="fh-divider mb-4">Smazání účtu</div>
+      <div class="fh-card p-5 mb-6 border-red-900/40">
+        <p class="text-xs text-gray-500 mb-3">
+          Trvale smaže účet i všechny kampaně uložené v cloudu. Lokální data v prohlížeči
+          zůstanou. Akce je nevratná — zvažte předchozí export.
+          Více v <router-link to="/ochrana-udaju" class="text-fh-primary underline">zásadách ochrany údajů</router-link>.
+        </p>
+        <button
+          class="text-sm px-4 py-2 rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-colors"
+          @click="showDeleteAccount = true"
+        >
+          Smazat účet…
+        </button>
+      </div>
+
+      <ConfirmDialog
+        :open="showDeleteAccount"
+        title="Trvale smazat účet?"
+        confirm-label="Smazat účet"
+        danger
+        @confirm="handleDeleteAccount"
+        @cancel="showDeleteAccount = false; daPassword = ''; daError = ''"
+      >
+        <p class="text-sm text-gray-400 mb-3">
+          Smaže se účet <strong class="text-gray-200">{{ authStore.user?.email }}</strong>
+          a všechny kampaně v cloudu. Pro potvrzení zadejte heslo.
+        </p>
+        <input
+          v-model="daPassword"
+          type="password"
+          class="fh-input w-full"
+          placeholder="Vaše heslo"
+          autocomplete="current-password"
+        />
+        <p v-if="daError" class="text-xs text-red-400 mt-2">{{ daError }}</p>
+      </ConfirmDialog>
     </template>
 
     <!-- 6. Podporte vyvoj -->

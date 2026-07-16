@@ -51,4 +51,5 @@ async function request<T>(method: string, path: string, body?: unknown, isForm?:
 export function apiGet<T>(path: string) { return request<T>('GET', path) }
 export function apiPost<T>(path: string, body?: unknown) { return request<T>('POST', path, body) }
 export function apiDelete(path: string) { return request<void>('DELETE', path) }
+export function apiDeleteBody<T>(path: string, body: unknown) { return request<T>('DELETE', path, body) }
 export function apiPostForm<T>(path: string, body: Record<string, string>) { return request<T>('POST', path, body, true) }

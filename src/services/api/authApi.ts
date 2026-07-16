@@ -1,4 +1,4 @@
-import { apiPost, apiPostForm, apiGet } from './apiClient'
+import { apiPost, apiPostForm, apiGet, apiDeleteBody } from './apiClient'
 
 export interface AuthUser {
   id: number
@@ -40,4 +40,9 @@ export function changePassword(currentPassword: string, newPassword: string) {
 
 export function getMe() {
   return apiGet<AuthUser>('/auth/me')
+}
+
+/** GDPR: trvalé smazání účtu včetně kampaní v cloudu. */
+export function deleteAccount(password: string) {
+  return apiDeleteBody<{ message: string }>('/auth/account', { password })
 }

@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 // Pages that don't require a campaign
 const PUBLIC_ROUTES = new Set([
-  'campaign-select', 'login', 'register', 'forgot-password',
+  'campaign-select', 'login', 'register', 'forgot-password', 'privacy',
 ])
 
 const router = createRouter({
@@ -113,6 +113,12 @@ const router = createRouter({
       name: 'register',
       component: () => import('@/pages/RegisterPage.vue'),
       meta: { title: 'Registrace', icon: 'register' },
+    },
+    {
+      path: '/ochrana-udaju',
+      name: 'privacy',
+      component: () => import('@/pages/PrivacyPage.vue'),
+      meta: { title: 'Ochrana údajů' },
     },
     {
       path: '/zapomenute-heslo',

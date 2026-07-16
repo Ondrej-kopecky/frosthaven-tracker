@@ -21,6 +21,7 @@ const code = ref('')
 const error = ref<string | null>(null)
 const isLoading = ref(false)
 const resendSuccess = ref(false)
+const consent = ref(false)
 
 function handleCodeInput(e: Event) {
   const input = e.target as HTMLInputElement
@@ -140,12 +141,20 @@ async function handleResend() {
         />
       </div>
 
+      <label class="flex items-start gap-2 text-xs text-gray-400 cursor-pointer">
+        <input v-model="consent" type="checkbox" class="mt-0.5 accent-[#5ba4cf]" />
+        <span>
+          Souhlasím se zpracováním e-mailu a dat kampaní pro provoz aplikace dle
+          <router-link to="/ochrana-udaju" class="text-fh-primary hover:text-fh-primary-light underline" target="_blank">zásad ochrany údajů</router-link>.
+        </span>
+      </label>
+
       <p v-if="error" class="text-xs text-red-400">{{ error }}</p>
 
       <button
         type="submit"
         class="fh-btn-primary w-full"
-        :disabled="isLoading"
+        :disabled="isLoading || !consent"
       >
         {{ isLoading ? 'Registruji...' : 'Zaregistrovat' }}
       </button>

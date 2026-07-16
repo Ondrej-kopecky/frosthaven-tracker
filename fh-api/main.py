@@ -43,6 +43,7 @@ SMTP_PORT = int(os.getenv("SMTP_PORT", "465"))
 SMTP_USER = os.getenv("SMTP_USER", "")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
 SMTP_FROM = os.getenv("SMTP_FROM", "")
+NOTIFY_EMAIL = os.getenv("NOTIFY_EMAIL", "okkopecky@gmail.com")
 
 DATABASE_URL = "sqlite:///./data/fh-app.db"
 
@@ -331,6 +332,10 @@ class ResetPasswordRequest(BaseModel):
 class ChangePasswordRequest(BaseModel):
     current_password: str
     new_password: str
+
+
+class DeleteAccountRequest(BaseModel):
+    password: str
 
 
 class CampaignSaveRequest(BaseModel):
@@ -654,6 +659,19 @@ async def change_password(req: ChangePasswordRequest, current_user=Depends(get_c
     return {"message": "Heslo bylo úspěšně změněno"}
 
 
+@app.delete("/api/auth/account")
+async def delete_account(req: DeleteAccountRequest, current_user=Depends(get_current_user)):
+    """GDPR: trvalé smazání účtu včetně všech kampaní."""
+    if not verify_password(req.password, current_user.hashed_password):
+        raise HTTPException(400, "Nesprávné heslo")
+
+    await database.execute(
+        campaigns.delete().where(campaigns.c.user_id == current_user.id)
+    )
+    await database.execute(users.delete().where(users.c.id == current_user.id))
+    return {"message": "Účet a všechna data byly trvale smazány"}
+
+
 # ---------------------------------------------------------------------------
 # Campaign endpoints
 # ---------------------------------------------------------------------------
@@ -788,6 +806,22 @@ async def submit_feedback(req: FeedbackRequest, request: Request):
         )
     )
     logger.info(f"Feedback received: type={req.type}, ip={client_ip}")
+
+    # Send email notification
+    if SMTP_USER and SMTP_PASSWORD:
+        try:
+            body = "Typ: " + req.type + "\nStranka: " + str(req.page) + "\nEmail: " + (req.email or "neuvedeno") + "\nIP: " + client_ip + "\n\n" + req.message
+            msg = MIMEText(body, "plain", "utf-8")
+            msg["From"] = "FH Tracker <" + SMTP_FROM + ">"
+            msg["To"] = NOTIFY_EMAIL
+            msg["Subject"] = "[FH Feedback] " + req.type + ": " + req.message[:50]
+            context = ssl.create_default_context()
+            with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=context) as server:
+                server.login(SMTP_USER, SMTP_PASSWORD)
+                server.sendmail(SMTP_FROM, NOTIFY_EMAIL, msg.as_string())
+        except Exception as e:
+            logger.error(f"Failed to send feedback notification: {e}")
+
     return {"ok": True}
 
 
