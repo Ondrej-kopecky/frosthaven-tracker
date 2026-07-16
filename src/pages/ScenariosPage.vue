@@ -6,6 +6,7 @@ import type { ScenarioData } from '@/models/Scenario'
 import { useCampaignStore } from '@/stores/campaignStore'
 import { useScenarioStore } from '@/stores/scenarioStore'
 import { useAchievementStore } from '@/stores/achievementStore'
+import ScenarioFinishWizard from '@/components/scenarios/ScenarioFinishWizard.vue'
 import scenarioIntros from '@/data/scenario-intros-cz.json'
 
 const introsMap = scenarioIntros as Record<string, string>
@@ -34,7 +35,21 @@ const chooseOptions = computed(() => {
   }))
 })
 
+/* ── Průvodce dokončením scénáře (loot, battle goals, výzvy, inspirace) ── */
+const showFinishWizard = ref(false)
+const finishScenarioId = ref<number | null>(null)
+
 function handleComplete(scenarioId: number) {
+  finishScenarioId.value = scenarioId
+  showFinishWizard.value = true
+}
+
+function onWizardFinished() {
+  showFinishWizard.value = false
+  const scenarioId = finishScenarioId.value
+  finishScenarioId.value = null
+  if (scenarioId === null) return
+
   const def = scenarioStore.getDefinition(scenarioId)
   if (def?.choices && def.choices.length > 1) {
     chooseScenarioId.value = scenarioId
@@ -795,6 +810,13 @@ function lootPreview(loot: ScenarioData['loot']): string {
         </div>
       </Transition>
     </Teleport>
+
+    <ScenarioFinishWizard
+      :open="showFinishWizard"
+      :scenario-id="finishScenarioId"
+      @close="showFinishWizard = false; finishScenarioId = null"
+      @finished="onWizardFinished"
+    />
   </div>
 </template>
 

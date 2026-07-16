@@ -1,9 +1,12 @@
 import { test, expect } from '@playwright/test'
+import { createCampaign } from './helpers'
 
 test.describe('Navigation', () => {
-  test('visiting / should redirect to /prehled', async ({ page }) => {
+  test('visiting / without a campaign should redirect to /kampan', async ({ page }) => {
     await page.goto('/')
-    await expect(page).toHaveURL(/\/prehled/)
+    await page.evaluate(() => localStorage.clear())
+    await page.goto('/')
+    await expect(page).toHaveURL(/\/kampan/)
   })
 
   test('title should be Frosthaven Tracker', async ({ page }) => {
@@ -23,7 +26,7 @@ test.describe('Navigation', () => {
   })
 
   test('navigation links should be visible on desktop', async ({ page }) => {
-    await page.goto('/')
+    await createCampaign(page)
     const nav = page.locator('header nav')
     await expect(nav.getByText('Domů')).toBeVisible()
     await expect(nav.getByText('Mapa')).toBeVisible()
@@ -32,16 +35,8 @@ test.describe('Navigation', () => {
     await expect(nav.getByText('Družina')).toBeVisible()
   })
 
-  test('clicking "Nová kampaň" should create campaign and navigate', async ({ page }) => {
-    // Clear any existing campaign data
-    await page.goto('/')
-    await page.evaluate(() => localStorage.clear())
-    await page.goto('/')
-
-    // On the welcome/dashboard page without a campaign, click "Nová kampaň"
-    await page.getByRole('button', { name: 'Nová kampaň' }).click()
-
-    // Should navigate away from the welcome screen
-    await expect(page).not.toHaveURL(/\/kampan/)
+  test('creating a campaign navigates to dashboard', async ({ page }) => {
+    await createCampaign(page)
+    await expect(page.getByText('Další krok')).toBeVisible()
   })
 })

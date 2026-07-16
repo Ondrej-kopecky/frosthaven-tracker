@@ -1,12 +1,9 @@
 import { test, expect } from '@playwright/test'
+import { createCampaign } from './helpers'
 
 test.describe('Scenarios', () => {
   test.beforeEach(async ({ page }) => {
-    // Start fresh — clear storage, create a new campaign
-    await page.goto('/')
-    await page.evaluate(() => localStorage.clear())
-    await page.goto('/')
-    await page.getByRole('button', { name: 'Nová kampaň' }).click()
+    await createCampaign(page)
     await page.goto('/scenare')
   })
 
@@ -17,7 +14,7 @@ test.describe('Scenarios', () => {
   test('clicking a scenario should open modal', async ({ page }) => {
     await page.getByText('Vytí ve sněhu').click()
     // Modal should appear with scenario details
-    await expect(page.locator('[role="dialog"], .fixed.inset-0, [class*="modal"]')).toBeVisible()
+    await expect(page.locator('.fixed.inset-0').first()).toBeVisible()
   })
 
   test('filter tabs should be visible and work', async ({ page }) => {
