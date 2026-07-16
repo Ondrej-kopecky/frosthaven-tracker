@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { useCampaignStore } from '@/stores/campaignStore'
 import { useEventStore, type DeckId } from '@/stores/eventStore'
 import EventCard from '@/components/EventCard.vue'
+import TownSystems from '@/components/outpost/TownSystems.vue'
 import townGuardData from '@/data/town-guard.json'
 import buildingsData from '@/data/buildings.json'
 import { computeTownGuardDeck, deckSize, cardLabel, type TownGuardCard } from '@/utils/townGuardDeck'
@@ -859,6 +860,9 @@ const builtCount = computed(() => buildings.filter((b) => getBuildingLevel(b.id)
         </transition>
       </Teleport>
     </div>
+
+    <!-- Odemykatelné městské systémy (zahrada, výzvy, zkoušky, mazlíčci) -->
+    <TownSystems />
 
     <!-- EventCard overlay -->
     <EventCard />

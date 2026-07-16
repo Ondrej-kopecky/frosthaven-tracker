@@ -73,6 +73,10 @@ export const useCampaignStore = defineStore('campaign', () => {
     if (typeof parsed.morale === 'number' && parsed.morale < 0) parsed.morale = 0
     if (!parsed.wreckedBuildings) parsed.wreckedBuildings = []
     if (!parsed.pendingPhase) parsed.pendingPhase = 'scenario'
+    if (!parsed.garden) parsed.garden = []
+    if (!parsed.challengesActive) parsed.challengesActive = []
+    if (!parsed.trials) parsed.trials = {}
+    if (!parsed.pets) parsed.pets = []
     if (!parsed.personalQuests) {
       // Dříve se stav osobních úkolů ukládal mimo kampaň (nesyncoval se do cloudu)
       const legacy = localStorage.getItem(`${getPrefix()}campaign_${parsed.id}_quests`)

@@ -68,6 +68,14 @@ export interface CampaignState {
   wreckedBuildings: number[]
   /** Kde v herní smyčce jsme: po dokončení scénáře čeká outpost fáze */
   pendingPhase: 'scenario' | 'outpost'
+  /** Zahrada (budova 24): zasazené byliny na záhonech */
+  garden: string[]
+  /** Radnice (budova 90): aktivní výzvy (čísla karet) */
+  challengesActive: string[]
+  /** Síň zábavy (budova 81): zkoušky postav — uuid → karta zkoušky */
+  trials: Record<string, { card: string; completed: number }>
+  /** Stáje (budova 88): mazlíčci */
+  pets: { name: string; active: boolean }[]
   characters: CharacterState[]
   archivedCharacters: CharacterState[]
   party: PartyState
@@ -106,6 +114,10 @@ export function createDefaultCampaign(id: string, name: string): CampaignState {
     calendarSections: {},
     wreckedBuildings: [],
     pendingPhase: 'scenario',
+    garden: [],
+    challengesActive: [],
+    trials: {},
+    pets: [],
     scenarios: {},
     globalAchievements: {},
     buildingLevels: {},
