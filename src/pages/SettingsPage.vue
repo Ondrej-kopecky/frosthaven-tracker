@@ -5,6 +5,7 @@ import { useCampaignStore } from '@/stores/campaignStore'
 import { useScenarioStore } from '@/stores/scenarioStore'
 import { useCharacterStore } from '@/stores/characterStore'
 import { useAuthStore } from '@/stores/authStore'
+import { useToastStore } from '@/stores/toastStore'
 import { changePassword } from '@/services/api/authApi'
 
 const router = useRouter()
@@ -12,6 +13,7 @@ const campaignStore = useCampaignStore()
 const scenarioStore = useScenarioStore()
 const characterStore = useCharacterStore()
 const authStore = useAuthStore()
+const toast = useToastStore()
 
 const isSyncing = ref(false)
 
@@ -19,12 +21,22 @@ async function handleCloudSync() {
   isSyncing.value = true
   await campaignStore.pullFromCloud()
   isSyncing.value = false
+  if (campaignStore.syncStatus === 'error') {
+    toast.show(campaignStore.syncError ?? 'Synchronizace selhala', 'error')
+  } else {
+    toast.show('Kampaně staženy z cloudu')
+  }
 }
 
 async function handleCloudPush() {
   isSyncing.value = true
   await campaignStore.syncToCloud()
   isSyncing.value = false
+  if (campaignStore.syncStatus === 'error') {
+    toast.show(campaignStore.syncError ?? 'Synchronizace selhala', 'error')
+  } else {
+    toast.show('Kampaň nahrána do cloudu')
+  }
 }
 
 onMounted(async () => {
@@ -99,6 +111,7 @@ function exportCampaign() {
   a.download = `frosthaven-${campaign.value?.name ?? 'kampan'}-${new Date().toISOString().slice(0, 10)}.json`
   a.click()
   URL.revokeObjectURL(url)
+  toast.show('Kampaň exportována')
 }
 
 // Import

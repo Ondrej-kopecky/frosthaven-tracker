@@ -14,6 +14,14 @@ export interface PartyState {
   notes: string
 }
 
+export interface PersonalQuestState {
+  /** Jméno hráče, kterému je úkol přiřazen */
+  assigned?: string
+  /** progressIdx → hodnoty (pole checkboxů nebo číslo) */
+  progress: Record<number, number[] | number>
+  completed: boolean
+}
+
 export interface TownGuardState {
   /** Celkový počet získaných checkmarků (0..45 = 15 perk marků × 3). */
   checkmarks: number
@@ -53,6 +61,7 @@ export interface CampaignState {
   totalDefense: number
   calendarWeek: number
   townGuard: TownGuardState
+  personalQuests: Record<number, PersonalQuestState>
   characters: CharacterState[]
   archivedCharacters: CharacterState[]
   party: PartyState
@@ -87,6 +96,7 @@ export function createDefaultCampaign(id: string, name: string): CampaignState {
     totalDefense: 0,
     calendarWeek: 1,
     townGuard: { checkmarks: 0, appliedPerks: {} },
+    personalQuests: {},
     scenarios: {},
     globalAchievements: {},
     buildingLevels: {},

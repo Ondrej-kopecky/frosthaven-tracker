@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCampaignStore } from '@/stores/campaignStore'
+import type { PersonalQuestState } from '@/models/Campaign'
 import questsData from '@/data/personal-quests.json'
 
 interface QuestProgress {
@@ -28,45 +29,24 @@ const quests = questsData as PersonalQuest[]
 onMounted(() => {
   if (!campaignStore.hasCampaign) {
     router.push('/kampan')
-    return
   }
-  loadQuestState()
 })
 
-// Quest state persisted in campaign
-interface QuestState {
-  assigned?: string // character name
-  progress: Record<number, number[] | number> // progressIdx -> values
-  completed: boolean
-}
+// Stav úkolů žije v kampani (syncuje se do cloudu spolu s ní)
+const questStates = computed<Record<number, PersonalQuestState>>(
+  () => campaignStore.currentCampaign?.personalQuests ?? {},
+)
 
-const questStates = ref<Record<number, QuestState>>({})
-
-function loadQuestState() {
-  const campaign = campaignStore.currentCampaign
-  if (!campaign) return
-  // Store quest state in campaign.notes as JSON prefix (or separate key)
-  const raw = localStorage.getItem(`${storageKey()}_quests`)
-  if (raw) {
-    questStates.value = JSON.parse(raw)
+function getState(questId: number): PersonalQuestState {
+  const campaign = campaignStore.currentCampaign!
+  if (!campaign.personalQuests[questId]) {
+    campaign.personalQuests[questId] = { progress: {}, completed: false }
   }
-}
-
-function storageKey(): string {
-  const profileId = localStorage.getItem('fh_tracker_active_profile') ?? 'default'
-  const campaignId = campaignStore.activeCampaignId ?? ''
-  return `fh_tracker_${profileId}_campaign_${campaignId}`
+  return campaign.personalQuests[questId]
 }
 
 function saveQuestState() {
-  localStorage.setItem(`${storageKey()}_quests`, JSON.stringify(questStates.value))
-}
-
-function getState(questId: number): QuestState {
-  if (!questStates.value[questId]) {
-    questStates.value[questId] = { progress: {}, completed: false }
-  }
-  return questStates.value[questId]
+  campaignStore.autoSave()
 }
 
 function toggleCheckbox(questId: number, progressIdx: number, checkboxIdx: number) {

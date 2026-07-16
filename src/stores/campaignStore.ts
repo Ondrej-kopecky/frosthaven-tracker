@@ -54,6 +54,12 @@ export const useCampaignStore = defineStore('campaign', () => {
     if (!parsed.buildingLevels) parsed.buildingLevels = {}
     if (!parsed.townGuard) parsed.townGuard = { checkmarks: 0, appliedPerks: {} }
     if (parsed.soldiers === undefined) parsed.soldiers = 0
+    if (!parsed.personalQuests) {
+      // Dříve se stav osobních úkolů ukládal mimo kampaň (nesyncoval se do cloudu)
+      const legacy = localStorage.getItem(`${getPrefix()}campaign_${parsed.id}_quests`)
+      parsed.personalQuests = legacy ? JSON.parse(legacy) : {}
+      if (legacy) localStorage.removeItem(`${getPrefix()}campaign_${parsed.id}_quests`)
+    }
   }
 
   // Load on init

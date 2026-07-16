@@ -259,3 +259,73 @@ select.fh-input option {
   background: linear-gradient(90deg, #3a7a9e 0%, #5ba4cf 50%, #a8d8ea 100%);
   border-radius: 9999px;
 }
+
+/* Disabled states for buttons */
+.fh-btn-primary:disabled,
+.fh-btn-secondary:disabled,
+.fh-btn-ghost:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.fh-btn-primary:disabled:hover {
+  background: linear-gradient(135deg, #5ba4cf 0%, #3a7a9e 100%);
+}
+
+/* Input validation states */
+.fh-input.fh-input-error {
+  border-color: rgba(239, 68, 68, 0.5);
+}
+.fh-input.fh-input-error:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1), 0 0 20px rgba(239, 68, 68, 0.08);
+}
+.fh-input.fh-input-success {
+  border-color: rgba(34, 197, 94, 0.5);
+}
+
+/* Skeleton loading shimmer */
+.fh-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 0.5rem;
+}
+.fh-skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(168, 216, 234, 0.06), transparent);
+  animation: fh-shimmer 1.6s infinite;
+}
+@keyframes fh-shimmer {
+  100% { transform: translateX(100%); }
+}
+
+/* Entrance animations */
+@keyframes fh-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fh-slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fh-animate-in {
+  animation: fh-slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Ornamental divider with ice crystal */
+.fh-divider-ornament {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #3a7a9e;
+}
+.fh-divider-ornament::before,
+.fh-divider-ornament::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(91, 164, 207, 0.35), transparent);
+}

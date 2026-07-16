@@ -2,6 +2,7 @@
 import { onMounted } from 'vue'
 import AppHeader from '@/components/layout/AppHeader.vue'
 import FeedbackButton from '@/components/FeedbackButton.vue'
+import ToastHost from '@/components/ui/ToastHost.vue'
 import { useProfileStore } from '@/stores/profileStore'
 import { useAuthStore } from '@/stores/authStore'
 
@@ -25,6 +26,7 @@ onMounted(() => {
       </router-view>
     </main>
     <FeedbackButton />
+    <ToastHost />
   </div>
 </template>
 
