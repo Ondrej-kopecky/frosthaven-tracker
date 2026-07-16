@@ -85,8 +85,57 @@ export const useCampaignStore = defineStore('campaign', () => {
     }
   }
 
+  // ── Snapshots (automatické zálohy, max 5 na kampaň) ──
+
+  const SNAPSHOT_LIMIT = 5
+
+  interface Snapshot {
+    takenAt: string
+    data: string
+  }
+
+  function snapshotKey(id: string): string {
+    return `${getPrefix()}snapshots_${id}`
+  }
+
+  function listSnapshots(id: string): Snapshot[] {
+    try {
+      return JSON.parse(localStorage.getItem(snapshotKey(id)) ?? '[]')
+    } catch {
+      return []
+    }
+  }
+
+  /** Uloží zálohu aktuálního stavu; auto = max 1 za 6 hodin. */
+  function takeSnapshot(auto = false) {
+    const c = currentCampaign.value
+    if (!c) return
+    const snapshots = listSnapshots(c.id)
+    if (auto && snapshots.length > 0) {
+      const last = new Date(snapshots[0].takenAt).getTime()
+      if (Date.now() - last < 6 * 60 * 60 * 1000) return
+    }
+    snapshots.unshift({ takenAt: new Date().toISOString(), data: JSON.stringify(c) })
+    localStorage.setItem(snapshotKey(c.id), JSON.stringify(snapshots.slice(0, SNAPSHOT_LIMIT)))
+  }
+
+  function restoreSnapshot(takenAt: string): boolean {
+    const c = currentCampaign.value
+    if (!c) return false
+    const snap = listSnapshots(c.id).find((s) => s.takenAt === takenAt)
+    if (!snap) return false
+    const parsed = JSON.parse(snap.data)
+    migrateCampaign(parsed)
+    currentCampaign.value = parsed
+    saveToLocalStorage()
+    if (hasToken()) syncToCloud()
+    return true
+  }
+
   // Load on init
   loadActiveCampaign()
+  // Automatická záloha při otevření kampaně
+  if (currentCampaign.value) takeSnapshot(true)
 
   const hasCampaign = computed(() => !!currentCampaign.value)
 
@@ -229,6 +278,7 @@ export const useCampaignStore = defineStore('campaign', () => {
     activeCampaignId.value = id
     localStorage.setItem(`${getPrefix()}active_campaign`, id)
     loadActiveCampaign()
+    if (currentCampaign.value) takeSnapshot(true)
   }
 
   function updateCampaign(updates: Partial<CampaignState>) {
@@ -241,6 +291,7 @@ export const useCampaignStore = defineStore('campaign', () => {
     campaigns.value = campaigns.value.filter((c) => c.id !== id)
     saveCampaignList()
     localStorage.removeItem(`${getPrefix()}campaign_${id}`)
+    localStorage.removeItem(snapshotKey(id))
 
     // Delete from cloud too
     if (hasToken()) apiDeleteCampaign(id)
@@ -294,6 +345,9 @@ export const useCampaignStore = defineStore('campaign', () => {
     autoSave,
     exportCampaign,
     importCampaign,
+    listSnapshots,
+    takeSnapshot,
+    restoreSnapshot,
     loadActiveCampaign,
     pullFromCloud,
     syncToCloud,

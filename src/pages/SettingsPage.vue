@@ -182,6 +182,41 @@ async function handleChangePassword() {
   }
 }
 
+// Snapshots
+const snapshotsVersion = ref(0)
+const snapshots = computed(() => {
+  void snapshotsVersion.value
+  return campaign.value ? campaignStore.listSnapshots(campaign.value.id) : []
+})
+const snapshotToRestore = ref<string | null>(null)
+
+function formatSnapshotDate(iso: string): string {
+  try {
+    return new Date(iso).toLocaleString('cs-CZ', {
+      day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit',
+    })
+  } catch {
+    return iso
+  }
+}
+
+function createSnapshot() {
+  campaignStore.takeSnapshot(false)
+  snapshotsVersion.value++
+  toast.show('Záloha vytvořena')
+}
+
+function handleRestoreSnapshot() {
+  if (!snapshotToRestore.value) return
+  const target = snapshotToRestore.value
+  // Nejdřív zálohuj současný stav, ať je návrat možný oběma směry
+  campaignStore.takeSnapshot(false)
+  const ok = campaignStore.restoreSnapshot(target)
+  snapshotToRestore.value = null
+  snapshotsVersion.value++
+  toast.show(ok ? 'Záloha obnovena' : 'Obnovení selhalo', ok ? 'success' : 'error')
+}
+
 // Sdílení kampaně
 import {
   createShare, getShareInfo, revokeShare, leaveCampaign, kickMember,
@@ -411,6 +446,35 @@ function deleteCampaign() {
         <p v-if="importError" class="text-xs text-red-400 mt-2">{{ importError }}</p>
         <p v-if="importSuccess" class="text-xs text-fh-completed mt-2">Kampaň úspěšně importována!</p>
       </div>
+
+      <!-- Snapshots -->
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <div class="text-sm text-gray-200">Zálohy (snapshoty)</div>
+          <button class="fh-btn-ghost text-xs" @click="createSnapshot">+ Vytvořit zálohu</button>
+        </div>
+        <p class="text-xs text-gray-500 mb-2">
+          Automaticky se ukládají při otevření kampaně (max 5, po 6 hodinách).
+        </p>
+        <div v-if="snapshots.length === 0" class="text-xs text-gray-600">Zatím žádná záloha.</div>
+        <div
+          v-for="s in snapshots"
+          :key="s.takenAt"
+          class="flex items-center justify-between rounded-lg border border-fh-border bg-black/15 px-3 py-1.5 mb-1.5"
+        >
+          <span class="text-xs text-gray-400">{{ formatSnapshotDate(s.takenAt) }}</span>
+          <button class="fh-btn-secondary text-xs" @click="snapshotToRestore = s.takenAt">Obnovit</button>
+        </div>
+      </div>
+
+      <ConfirmDialog
+        :open="!!snapshotToRestore"
+        title="Obnovit zálohu?"
+        :message="`Aktuální stav kampaně bude přepsán zálohou z ${snapshotToRestore ? formatSnapshotDate(snapshotToRestore) : ''}. Před obnovením se uloží záloha současného stavu.`"
+        confirm-label="Obnovit"
+        @confirm="handleRestoreSnapshot"
+        @cancel="snapshotToRestore = null"
+      />
     </div>
 
     <!-- 4. Cloud sync -->
