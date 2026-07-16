@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useCampaignStore } from '@/stores/campaignStore'
 import { useScenarioStore } from '@/stores/scenarioStore'
 import { useCharacterStore } from '@/stores/characterStore'
@@ -15,6 +15,8 @@ const router = useRouter()
 onMounted(async () => {
   await scenarioStore.loadScenarioData()
 })
+
+const pendingOutpost = computed(() => campaignStore.currentCampaign?.pendingPhase === 'outpost')
 
 function startNewCampaign() {
   campaignStore.createCampaign('Nová kampaň')
@@ -147,6 +149,32 @@ const quickLinks = [
       <h1 class="font-display text-2xl font-bold text-fh-frost">
         {{ campaignStore.currentCampaign?.name ?? 'Kampaň' }}
       </h1>
+    </div>
+
+    <!-- Kde v herní smyčce jsme -->
+    <div
+      class="fh-card p-5 mb-6 border-l-4"
+      :class="pendingOutpost ? 'border-l-fh-required' : 'border-l-fh-primary'"
+    >
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
+        <div>
+          <div class="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Další krok</div>
+          <div class="font-display text-lg font-bold" :class="pendingOutpost ? 'text-fh-required' : 'text-fh-frost'">
+            {{ pendingOutpost ? 'Čeká vás outpost fáze' : 'Vyberte a odehrajte scénář' }}
+          </div>
+          <p class="text-xs text-gray-500 mt-0.5">
+            {{ pendingOutpost
+              ? 'Po dokončeném scénáři: běh času, událost, provoz budov, odpočinek a stavba.'
+              : `Týden ${campaignStore.currentCampaign?.calendarWeek ?? 1}/80 · nezapomeňte na road event cestou.` }}
+          </p>
+        </div>
+        <router-link
+          :to="pendingOutpost ? '/outpost-faze' : '/scenare'"
+          class="fh-btn-primary no-underline text-center whitespace-nowrap shrink-0"
+        >
+          {{ pendingOutpost ? 'Spustit outpost fázi →' : 'Přehled scénářů →' }}
+        </router-link>
+      </div>
     </div>
 
     <!-- Key stats -->

@@ -31,6 +31,12 @@ const router = createRouter({
       meta: { title: 'Základna', icon: 'outpost' },
     },
     {
+      path: '/outpost-faze',
+      name: 'outpost-wizard',
+      component: () => import('@/pages/OutpostWizardPage.vue'),
+      meta: { title: 'Outpost fáze', icon: 'outpost' },
+    },
+    {
       path: '/druzina',
       name: 'party',
       component: () => import('@/pages/PartyPage.vue'),

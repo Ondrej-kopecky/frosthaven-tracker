@@ -54,6 +54,11 @@ export const useCampaignStore = defineStore('campaign', () => {
     if (!parsed.buildingLevels) parsed.buildingLevels = {}
     if (!parsed.townGuard) parsed.townGuard = { checkmarks: 0, appliedPerks: {} }
     if (parsed.soldiers === undefined) parsed.soldiers = 0
+    if (!parsed.calendarSections) parsed.calendarSections = {}
+    // Morálka má dle pravidel rozsah 0–20 (dřívější verze umožňovala záporné hodnoty)
+    if (typeof parsed.morale === 'number' && parsed.morale < 0) parsed.morale = 0
+    if (!parsed.wreckedBuildings) parsed.wreckedBuildings = []
+    if (!parsed.pendingPhase) parsed.pendingPhase = 'scenario'
     if (!parsed.personalQuests) {
       // Dříve se stav osobních úkolů ukládal mimo kampaň (nesyncoval se do cloudu)
       const legacy = localStorage.getItem(`${getPrefix()}campaign_${parsed.id}_quests`)

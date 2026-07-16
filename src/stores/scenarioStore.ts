@@ -209,6 +209,9 @@ export const useScenarioStore = defineStore('scenario', () => {
       }
     }
 
+    // Po dokončeném scénáři následuje outpost fáze (pokud nejde o linked scénář)
+    campaignStore.currentCampaign.pendingPhase = 'outpost'
+
     campaignStore.autoSave()
   }
 

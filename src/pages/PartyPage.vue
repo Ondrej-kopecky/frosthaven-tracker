@@ -1,8 +1,16 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useCampaignStore } from '@/stores/campaignStore'
 import { useCharacterStore } from '@/stores/characterStore'
 import ClassIcon from '@/components/characters/ClassIcon.vue'
+import {
+  seasonForWeek,
+  seasonLabel as seasonLabelFor,
+  moraleDefenseModifier,
+  moraleSectionTrigger,
+  MORALE_MIN,
+  MORALE_MAX,
+} from '@/utils/campaignLoop'
 
 const campaignStore = useCampaignStore()
 const characterStore = useCharacterStore()
@@ -43,10 +51,13 @@ function adjustResource(key: ResourceKey, delta: number) {
 
 function adjustMorale(delta: number) {
   if (!campaign.value) return
-  const val = Math.min(20, Math.max(-10, campaign.value.morale + delta))
+  const val = Math.min(MORALE_MAX, Math.max(MORALE_MIN, campaign.value.morale + delta))
   campaign.value.morale = val
   campaignStore.autoSave()
 }
+
+const moraleDefense = computed(() => moraleDefenseModifier(campaign.value?.morale ?? 0))
+const moraleSection = computed(() => moraleSectionTrigger(campaign.value?.morale ?? 0))
 
 function adjustProsperity(delta: number) {
   if (!campaign.value) return
@@ -72,18 +83,46 @@ function adjustWeek(delta: number) {
   campaignStore.autoSave()
 }
 
-// Season: weeks 1-20 summer, 21-40 winter, 41-60 summer, 61-80 winter
-const currentSeason = computed(() => {
-  const w = campaign.value?.calendarWeek ?? 1
-  return ((Math.ceil(w / 20) - 1) % 2 === 0) ? 'summer' : 'winter'
+// Sezóny se střídají po 10 týdnech (léto 1–10, zima 11–20, …)
+const currentSeason = computed(() => seasonForWeek(campaign.value?.calendarWeek ?? 1))
+
+const seasonLabel = computed(() => seasonLabelFor(currentSeason.value))
+
+const campaignYear = computed(() => Math.ceil((campaign.value?.calendarWeek ?? 1) / 20)) // 1-4
+
+// Time-locked sekce v kalendáři
+const newSectionWeek = ref<number | null>(null)
+const newSectionText = ref('')
+
+const plannedSections = computed(() => {
+  const sections = campaign.value?.calendarSections ?? {}
+  return Object.entries(sections)
+    .map(([week, secs]) => ({ week: Number(week), sections: secs }))
+    .sort((a, b) => a.week - b.week)
 })
 
-const seasonLabel = computed(() => currentSeason.value === 'summer' ? 'Léto' : 'Zima')
+function addSection() {
+  if (!campaign.value || !newSectionWeek.value || !newSectionText.value.trim()) return
+  const week = Math.min(80, Math.max(1, newSectionWeek.value))
+  if (!campaign.value.calendarSections[week]) campaign.value.calendarSections[week] = []
+  campaign.value.calendarSections[week].push(newSectionText.value.trim())
+  newSectionText.value = ''
+  newSectionWeek.value = null
+  campaignStore.autoSave()
+}
 
-const seasonSection = computed(() => {
-  const w = campaign.value?.calendarWeek ?? 1
-  return Math.ceil(w / 20) // 1-4
-})
+function removeSection(week: number, index: number) {
+  if (!campaign.value) return
+  campaign.value.calendarSections[week]?.splice(index, 1)
+  if (campaign.value.calendarSections[week]?.length === 0) {
+    delete campaign.value.calendarSections[week]
+  }
+  campaignStore.autoSave()
+}
+
+function weekHasSections(w: number): boolean {
+  return (campaign.value?.calendarSections?.[w]?.length ?? 0) > 0
+}
 
 // Scenario level calculator
 const scenarioLevel = computed(() => {
@@ -118,18 +157,17 @@ function getClassName(classId: string): string {
   return def?.name ?? classId
 }
 
-// Morale bar calculation
+// Morale bar calculation (rozsah 0–20)
 const moralePercent = computed(() => {
   const val = campaign.value?.morale ?? 0
-  // Range -10 to +20, map to 0-100%
-  return ((val + 10) / 30) * 100
+  return (val / MORALE_MAX) * 100
 })
 
 const moraleColor = computed(() => {
   const val = campaign.value?.morale ?? 0
-  if (val < -3) return 'bg-red-500'
-  if (val < 3) return 'bg-yellow-500'
-  if (val < 10) return 'bg-fh-primary'
+  if (val < 3) return 'bg-red-500'
+  if (val < 8) return 'bg-yellow-500'
+  if (val < 14) return 'bg-fh-primary'
   return 'bg-fh-completed'
 })
 </script>
@@ -219,38 +257,97 @@ const moraleColor = computed(() => {
               <svg v-else class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.34 2.02C6.59 1.82 2 6.42 2 12c0 5.52 4.48 10 10 10 3.71 0 6.93-2.02 8.66-5.02A7.95 7.95 0 0 1 12 20a8 8 0 0 1-8-8c0-3.72 2.56-6.83 6-7.73a9.3 9.3 0 0 1 2.34-2.25z"/></svg>
               {{ seasonLabel }}
             </span>
-            <span class="text-[10px] text-gray-600">sekce {{ seasonSection }}/4</span>
+            <span class="text-[10px] text-gray-600">rok {{ campaignYear }}/4</span>
           </div>
         </div>
       </div>
 
-      <!-- Calendar grid -->
-      <div class="grid gap-px" style="grid-template-columns: repeat(20, minmax(0, 1fr))">
+      <!-- Calendar grid: 8 řádků po 10 týdnech = 1 sezóna na řádek -->
+      <div class="grid gap-px" style="grid-template-columns: repeat(10, minmax(0, 1fr))">
         <div
           v-for="w in 80"
           :key="w"
-          class="aspect-square rounded-sm text-[7px] flex items-center justify-center font-medium cursor-pointer transition-all"
+          class="relative aspect-square rounded-sm text-[8px] flex items-center justify-center font-medium cursor-pointer transition-all"
           :class="[
             w === (campaign.calendarWeek ?? 1)
               ? 'ring-1 ring-fh-primary bg-fh-primary/30 text-white'
               : w < (campaign.calendarWeek ?? 1)
                 ? 'bg-white/[0.06] text-gray-500'
-                : 'bg-white/[0.02] text-gray-700',
-            (Math.ceil(w / 20) - 1) % 2 === 0
-              ? 'border-b border-amber-800/10'
-              : 'border-b border-sky-800/10'
+                : seasonForWeek(w) === 'summer'
+                  ? 'bg-amber-500/[0.04] text-gray-600'
+                  : 'bg-sky-500/[0.05] text-gray-600',
           ]"
-          :title="`Týden ${w} — ${(Math.ceil(w / 20) - 1) % 2 === 0 ? 'Léto' : 'Zima'}`"
+          :title="`Týden ${w} — ${seasonLabelFor(seasonForWeek(w))}${weekHasSections(w) ? ' · sekce: ' + (campaign.calendarSections[w] ?? []).join(', ') : ''}`"
           @click="campaign.calendarWeek = w; campaignStore.autoSave()"
         >
           {{ w }}
+          <span
+            v-if="weekHasSections(w)"
+            class="absolute top-0.5 right-0.5 w-1.5 h-1.5 rounded-full bg-fh-required"
+          />
         </div>
       </div>
       <div class="flex justify-between text-[9px] text-gray-600 mt-1">
-        <span class="text-amber-400/50">Léto 1-20</span>
-        <span class="text-sky-400/50">Zima 21-40</span>
-        <span class="text-amber-400/50">Léto 41-60</span>
-        <span class="text-sky-400/50">Zima 61-80</span>
+        <span class="text-amber-400/60">☀ léto = řádky 1, 3, 5, 7</span>
+        <span class="text-sky-400/60">❄ zima = řádky 2, 4, 6, 8</span>
+      </div>
+
+      <!-- Time-locked sekce -->
+      <div class="mt-4 pt-4 border-t border-fh-border/40">
+        <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Sekce v kalendáři (time-locks)</div>
+        <p class="text-[11px] text-gray-600 mb-3">
+          Když hra řekne „zapiš sekci X do boxu za N týdnů", přidej ji sem — týden se v mřížce označí tečkou.
+        </p>
+        <div
+          v-for="entry in plannedSections"
+          :key="entry.week"
+          class="flex items-center gap-2 mb-1.5"
+        >
+          <span
+            class="fh-badge shrink-0"
+            :class="entry.week <= (campaign.calendarWeek ?? 1)
+              ? 'bg-fh-required/20 text-fh-required'
+              : 'bg-fh-primary/10 text-fh-primary'"
+          >
+            Týden {{ entry.week }}
+          </span>
+          <span
+            v-if="entry.week <= (campaign.calendarWeek ?? 1)"
+            class="text-[10px] text-fh-required font-semibold uppercase shrink-0"
+          >Přečíst!</span>
+          <div class="flex flex-wrap gap-1.5 flex-1">
+            <span
+              v-for="(sec, i) in entry.sections"
+              :key="i"
+              class="inline-flex items-center gap-1 text-xs text-gray-300 bg-black/25 border border-fh-border rounded-md px-2 py-0.5"
+            >
+              {{ sec }}
+              <button
+                class="text-gray-600 hover:text-red-400 transition-colors"
+                title="Odebrat (po přečtení)"
+                @click="removeSection(entry.week, i)"
+              >×</button>
+            </span>
+          </div>
+        </div>
+        <div class="flex gap-2 mt-2">
+          <input
+            v-model.number="newSectionWeek"
+            type="number"
+            min="1"
+            max="80"
+            placeholder="Týden"
+            class="fh-input w-20 text-sm py-1.5 text-center"
+          />
+          <input
+            v-model="newSectionText"
+            type="text"
+            placeholder="Sekce (např. 82.3)"
+            class="fh-input flex-1 text-sm py-1.5"
+            @keyup.enter="addSection"
+          />
+          <button class="fh-btn-secondary text-xs px-3" @click="addSection">Přidat</button>
+        </div>
       </div>
     </div>
 
@@ -302,7 +399,12 @@ const moraleColor = computed(() => {
             @click="adjustMorale(1)"
           >+</button>
         </div>
-        <div class="text-xs text-gray-500">-10 / +20</div>
+        <div class="text-right">
+          <div class="text-xs text-gray-500">0 / 20</div>
+          <div class="text-xs mt-0.5" :class="moraleDefense >= 0 ? 'text-emerald-400' : 'text-red-400'">
+            Obrana {{ moraleDefense >= 0 ? '+' : '' }}{{ moraleDefense }}
+          </div>
+        </div>
       </div>
       <div class="h-2.5 rounded-full bg-black/30 overflow-hidden">
         <div
@@ -312,9 +414,16 @@ const moraleColor = computed(() => {
         ></div>
       </div>
       <div class="flex justify-between text-[10px] text-gray-600 mt-1">
-        <span>-10</span>
-        <span>0</span>
-        <span>+20</span>
+        <span>0 (−10)</span>
+        <span>5–7 (0)</span>
+        <span>14+ (+15)</span>
+      </div>
+      <div
+        v-if="moraleSection"
+        class="mt-3 rounded-lg border border-fh-required/40 bg-fh-required/10 px-3 py-2 text-xs text-fh-required"
+      >
+        ⚠ Morálka dosáhla {{ moraleSection === 'low' ? 'nuly' : 'maxima (20)' }} —
+        přečtěte příslušnou sekci z knihy sekcí (viz kampaňový list).
       </div>
     </div>
 

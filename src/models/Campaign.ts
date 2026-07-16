@@ -62,6 +62,12 @@ export interface CampaignState {
   calendarWeek: number
   townGuard: TownGuardState
   personalQuests: Record<number, PersonalQuestState>
+  /** Sekce zapsané do budoucích týdnů kalendáře (time-locks): týden → čísla sekcí */
+  calendarSections: Record<number, string[]>
+  /** Zničené (wrecked) budovy — id budov s otočenou kartou */
+  wreckedBuildings: number[]
+  /** Kde v herní smyčce jsme: po dokončení scénáře čeká outpost fáze */
+  pendingPhase: 'scenario' | 'outpost'
   characters: CharacterState[]
   archivedCharacters: CharacterState[]
   party: PartyState
@@ -97,6 +103,9 @@ export function createDefaultCampaign(id: string, name: string): CampaignState {
     calendarWeek: 1,
     townGuard: { checkmarks: 0, appliedPerks: {} },
     personalQuests: {},
+    calendarSections: {},
+    wreckedBuildings: [],
+    pendingPhase: 'scenario',
     scenarios: {},
     globalAchievements: {},
     buildingLevels: {},
