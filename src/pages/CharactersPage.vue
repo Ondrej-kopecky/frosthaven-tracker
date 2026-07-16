@@ -200,22 +200,34 @@
                 +
               </button>
             </div>
-            <div class="flex items-center gap-2">
-              <span class="text-sm text-fh-primary">Checkmarky</span>
-              <button
-                class="w-7 h-7 rounded-md bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors text-sm font-bold"
-                @click="characterStore.setChecks(char.uuid, char.checks - 1)"
-              >
-                -
-              </button>
-              <span class="text-sm font-semibold w-6 text-center">{{ char.checks }}</span>
-              <button
-                class="w-7 h-7 rounded-md bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors text-sm font-bold"
-                @click="characterStore.setChecks(char.uuid, char.checks + 1)"
-              >
-                +
-              </button>
+          </div>
+
+          <!-- Checkmark track: 18 políček = 6 perk marků -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-sm text-fh-primary">Checkmarky <span class="text-xs text-gray-600">{{ char.checks }}/18</span></span>
+              <span class="text-xs text-gray-500">Perk marky: <strong class="text-fh-frost">{{ perkMarksEarned(char) }}</strong>/6</span>
             </div>
+            <div class="flex flex-wrap gap-x-2 gap-y-1">
+              <div v-for="group in 6" :key="group" class="flex gap-0.5 items-center">
+                <button
+                  v-for="i in 3"
+                  :key="i"
+                  class="w-5 h-5 rounded border transition-all flex items-center justify-center"
+                  :class="char.checks >= (group - 1) * 3 + i
+                    ? ((group - 1) * 3 + i) % 3 === 0
+                      ? 'bg-fh-primary border-fh-primary text-fh-dark'
+                      : 'bg-fh-primary/40 border-fh-primary/60 text-fh-dark'
+                    : 'border-gray-600 hover:border-fh-primary-dim'"
+                  @click="clickCheckTrack(char, (group - 1) * 3 + i - 1)"
+                >
+                  <svg v-if="char.checks >= (group - 1) * 3 + i" class="w-full h-full p-0.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <p class="text-[10px] text-gray-600 mt-1">Každá dokončená trojice = 1 perk mark (battle goals apod.)</p>
           </div>
 
           <!-- Perks -->
@@ -327,6 +339,57 @@
             </div>
           </div>
 
+          <!-- Osobní zásoby -->
+          <div>
+            <button
+              class="flex items-center gap-2 text-sm text-gray-400 hover:text-fh-frost transition-colors mb-3"
+              @click="toggleSection(char.uuid, 'resources')"
+            >
+              <svg
+                class="w-4 h-4 transition-transform"
+                :class="{ 'rotate-90': isSectionOpen(char.uuid, 'resources') }"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+              Osobní zásoby ({{ personalResourceTotal(char) }})
+            </button>
+            <div v-if="isSectionOpen(char.uuid, 'resources')" class="pl-6">
+              <p class="text-[11px] text-gray-600 mb-2">
+                Výroba předmětů jde jen z osobních materiálů. Převod do zásob Frosthavenu je nevratný (šipka).
+              </p>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <div
+                  v-for="r in personalResourceDefs"
+                  :key="r.key"
+                  class="flex items-center justify-between gap-1 rounded-lg border border-fh-border bg-black/15 px-2 py-1.5"
+                >
+                  <div class="flex flex-col min-w-0">
+                    <span class="text-[10px] text-gray-500 uppercase tracking-wide truncate">{{ r.label }}</span>
+                    <Stepper
+                      small
+                      :model-value="char.resources?.[r.key] ?? 0"
+                      @update:model-value="(v) => characterStore.setResource(char.uuid, r.key, v)"
+                    />
+                  </div>
+                  <button
+                    class="w-7 h-7 rounded-md text-fh-primary/60 hover:text-fh-primary hover:bg-fh-primary/10 transition-colors shrink-0 disabled:opacity-20"
+                    :disabled="(char.resources?.[r.key] ?? 0) === 0"
+                    title="Převést 1 ks do zásob Frosthavenu"
+                    @click="characterStore.donateToSupply(char.uuid, r.key)"
+                  >
+                    <svg class="w-4 h-4 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Inventory -->
           <div>
             <button
@@ -434,29 +497,12 @@
               Nebezpečná zóna
             </button>
             <div v-if="isSectionOpen(char.uuid, 'danger')" class="pl-6 mt-3">
-              <div v-if="retireConfirm !== char.uuid">
-                <button
-                  class="text-sm px-4 py-2 rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-colors"
-                  @click="retireConfirm = char.uuid"
-                >
-                  Ukončit postavu (retirement)
-                </button>
-              </div>
-              <div v-else class="flex items-center gap-3">
-                <span class="text-sm text-red-400">Opravdu ukončit postavu?</span>
-                <button
-                  class="text-sm px-4 py-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/30 transition-colors"
-                  @click="handleRetire(char.uuid)"
-                >
-                  Ano, ukončit
-                </button>
-                <button
-                  class="text-sm text-gray-500 hover:text-gray-300 transition-colors"
-                  @click="retireConfirm = null"
-                >
-                  Zrušit
-                </button>
-              </div>
+              <button
+                class="text-sm px-4 py-2 rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-colors"
+                @click="retireWizardUuid = char.uuid"
+              >
+                Odchod do důchodu (retirement)
+              </button>
             </div>
           </div>
         </div>
@@ -522,6 +568,13 @@
         </div>
       </div>
     </div>
+
+    <RetirementWizard
+      :open="!!retireWizardUuid"
+      :character-uuid="retireWizardUuid"
+      @close="retireWizardUuid = null"
+      @retired="retireWizardUuid = null"
+    />
   </div>
 </template>
 
@@ -531,7 +584,9 @@ import { useRouter } from 'vue-router'
 import { useCharacterStore } from '@/stores/characterStore'
 import { useCampaignStore } from '@/stores/campaignStore'
 import ClassIcon from '@/components/characters/ClassIcon.vue'
-import type { CharacterState, PerkDefinition } from '@/models/Character'
+import RetirementWizard from '@/components/characters/RetirementWizard.vue'
+import Stepper from '@/components/ui/Stepper.vue'
+import type { CharacterResources, CharacterState, PerkDefinition } from '@/models/Character'
 
 const router = useRouter()
 const characterStore = useCharacterStore()
@@ -571,7 +626,7 @@ function onClickOutside(e: MouseEvent) {
 onBeforeUnmount(() => document.removeEventListener('click', onClickOutside))
 
 // UI state
-const retireConfirm = ref<string | null>(null)
+const retireWizardUuid = ref<string | null>(null)
 const showArchived = ref(false)
 const openSections = reactive<Record<string, Record<string, boolean>>>({})
 const addItemInputs = reactive<Record<string, string>>({})
@@ -604,6 +659,35 @@ function getPerks(classId: string): PerkDefinition[] {
 function getItemName(itemId: string): string {
   const def = characterStore.getItemDef(itemId)
   return def?.name ?? 'Neznámý předmět'
+}
+
+// Osobní zásoby
+const personalResourceDefs: { key: keyof CharacterResources; label: string }[] = [
+  { key: 'lumber', label: 'Dřevo' },
+  { key: 'metal', label: 'Kov' },
+  { key: 'hide', label: 'Kůže' },
+  { key: 'arrowvine', label: 'Šípobyl' },
+  { key: 'axenut', label: 'Sekeřičník' },
+  { key: 'corpsecap', label: 'Mrtvolník' },
+  { key: 'flamefruit', label: 'Plamenoplod' },
+  { key: 'rockroot', label: 'Skalokořen' },
+  { key: 'snowthistle', label: 'Sněhobodlák' },
+]
+
+function personalResourceTotal(char: CharacterState): number {
+  if (!char.resources) return 0
+  return Object.values(char.resources).reduce((s, n) => s + n, 0)
+}
+
+// Checkmark track: 18 políček = 6 perk marků po 3
+function perkMarksEarned(char: CharacterState): number {
+  return Math.floor((char.checks ?? 0) / 3)
+}
+
+function clickCheckTrack(char: CharacterState, index: number) {
+  // Klik na políčko: nastaví count na index+1; klik na poslední zaškrtnuté = ubrat
+  const target = index + 1
+  characterStore.setChecks(char.uuid, char.checks === target ? target - 1 : target)
 }
 
 function xpProgress(char: CharacterState): number {
@@ -699,8 +783,4 @@ function handleAddItem(uuid: string) {
   }
 }
 
-function handleRetire(uuid: string) {
-  characterStore.retireCharacter(uuid)
-  retireConfirm.value = null
-}
 </script>

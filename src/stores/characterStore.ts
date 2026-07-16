@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { CharacterDefinition, CharacterState } from '@/models/Character'
-import { createDefaultCharacter } from '@/models/Character'
+import type { CharacterDefinition, CharacterResources, CharacterState } from '@/models/Character'
+import { createDefaultCharacter, emptyCharacterResources } from '@/models/Character'
 import type { ItemData } from '@/models/Item'
 import charactersData from '@/data/characters.json'
 import itemsData from '@/data/items.json'
@@ -45,9 +45,12 @@ export const useCharacterStore = defineStore('character', () => {
   }
 
   function createCharacter(classId: string, playerName: string) {
-    if (!campaignStore.currentCampaign) return
+    const campaign = campaignStore.currentCampaign
+    if (!campaign) return
     const char = createDefaultCharacter(generateId(), classId, playerName)
-    campaignStore.currentCampaign.characters.push(char)
+    // Startovní zlato dle pravidel: 10 × prosperita + 20 (utratit hned za předměty)
+    char.gold = 10 * (campaign.prosperity ?? 0) + 20
+    campaign.characters.push(char)
     campaignStore.autoSave()
   }
 
@@ -70,11 +73,35 @@ export const useCharacterStore = defineStore('character', () => {
     campaignStore.autoSave()
   }
 
+  /** Checkmark track má strop 18 (6 perk marků po 3). */
   function setChecks(uuid: string, value: number) {
     const char = getCharacter(uuid)
     if (!char) return
-    char.checks = Math.max(0, value)
+    char.checks = Math.min(18, Math.max(0, value))
     campaignStore.autoSave()
+  }
+
+  // ── Osobní zásoby (crafting jde jen z osobních materiálů) ──
+
+  function setResource(uuid: string, key: keyof CharacterResources, value: number) {
+    const char = getCharacter(uuid)
+    if (!char) return
+    if (!char.resources) char.resources = emptyCharacterResources()
+    char.resources[key] = Math.max(0, value)
+    campaignStore.autoSave()
+  }
+
+  /** Jednosměrný převod suroviny do zásob Frosthavenu (zpět to dle pravidel nejde). */
+  function donateToSupply(uuid: string, key: keyof CharacterResources, amount = 1): boolean {
+    const char = getCharacter(uuid)
+    const campaign = campaignStore.currentCampaign
+    if (!char || !campaign) return false
+    if (!char.resources) char.resources = emptyCharacterResources()
+    if (char.resources[key] < amount) return false
+    char.resources[key] -= amount
+    campaign.resources[key] += amount
+    campaignStore.autoSave()
+    return true
   }
 
   function togglePerk(uuid: string, perkId: string) {
@@ -93,16 +120,34 @@ export const useCharacterStore = defineStore('character', () => {
     campaignStore.autoSave()
   }
 
-  function retireCharacter(uuid: string) {
-    if (!campaignStore.currentCampaign) return
-    const idx = campaignStore.currentCampaign.characters.findIndex((c) => c.uuid === uuid)
+  /**
+   * Odchod postavy do důchodu dle pravidel: suroviny → zásoby Frosthavenu,
+   * zlato propadá, +2 prosperita (další efekty řeší průvodce odchodem).
+   */
+  function retireCharacter(uuid: string, options?: { applyRewards?: boolean }) {
+    const campaign = campaignStore.currentCampaign
+    if (!campaign) return
+    const idx = campaign.characters.findIndex((c) => c.uuid === uuid)
     if (idx < 0) return
 
-    const char = campaignStore.currentCampaign.characters[idx]
+    const char = campaign.characters[idx]
+
+    if (options?.applyRewards !== false) {
+      // Suroviny do společných zásob
+      if (char.resources) {
+        for (const key of Object.keys(char.resources) as (keyof CharacterResources)[]) {
+          campaign.resources[key] += char.resources[key]
+          char.resources[key] = 0
+        }
+      }
+      char.gold = 0
+      campaign.prosperity += 2
+    }
+
     char.isRetired = true
     char.retiredAt = new Date().toISOString()
-    campaignStore.currentCampaign.archivedCharacters.push(char)
-    campaignStore.currentCampaign.characters.splice(idx, 1)
+    campaign.archivedCharacters.push(char)
+    campaign.characters.splice(idx, 1)
     campaignStore.autoSave()
   }
 
@@ -156,6 +201,8 @@ export const useCharacterStore = defineStore('character', () => {
     setXp,
     setGold,
     setChecks,
+    setResource,
+    donateToSupply,
     togglePerk,
     retireCharacter,
     setNotes,

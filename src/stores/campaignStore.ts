@@ -55,6 +55,20 @@ export const useCampaignStore = defineStore('campaign', () => {
     if (!parsed.townGuard) parsed.townGuard = { checkmarks: 0, appliedPerks: {} }
     if (parsed.soldiers === undefined) parsed.soldiers = 0
     if (!parsed.calendarSections) parsed.calendarSections = {}
+    // Osobní zásoby postav (crafting jde jen z osobních materiálů)
+    for (const list of [parsed.characters, parsed.archivedCharacters]) {
+      if (Array.isArray(list)) {
+        for (const c of list as Record<string, unknown>[]) {
+          if (!c.resources) {
+            c.resources = {
+              lumber: 0, metal: 0, hide: 0,
+              arrowvine: 0, axenut: 0, corpsecap: 0,
+              flamefruit: 0, rockroot: 0, snowthistle: 0,
+            }
+          }
+        }
+      }
+    }
     // Morálka má dle pravidel rozsah 0–20 (dřívější verze umožňovala záporné hodnoty)
     if (typeof parsed.morale === 'number' && parsed.morale < 0) parsed.morale = 0
     if (!parsed.wreckedBuildings) parsed.wreckedBuildings = []
