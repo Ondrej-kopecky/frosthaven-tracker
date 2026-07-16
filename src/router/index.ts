@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 // Pages that don't require a campaign
 const PUBLIC_ROUTES = new Set([
-  'campaign-select', 'login', 'register', 'forgot-password', 'privacy',
+  'landing', 'campaign-select', 'login', 'register', 'forgot-password', 'privacy',
 ])
 
 const router = createRouter({
@@ -10,7 +10,16 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/prehled',
+      name: 'landing',
+      component: () => import('@/pages/LandingPage.vue'),
+      meta: { title: 'Frosthaven Campaign Tracker' },
+      beforeEnter: () => {
+        const profileId = localStorage.getItem('fh_tracker_active_profile') ?? 'default'
+        const prefix = `fh_tracker_${profileId}_`
+        const activeCampaign = localStorage.getItem(`${prefix}active_campaign`)
+        if (activeCampaign) return '/prehled'
+        return true
+      },
     },
     {
       path: '/prehled',
@@ -143,6 +152,12 @@ router.beforeEach((to) => {
   }
 
   return true
+})
+
+// Dynamic page titles
+router.afterEach((to) => {
+  const title = to.meta?.title as string | undefined
+  document.title = title ? `${title} | Frosthaven Tracker` : 'Frosthaven Tracker'
 })
 
 export default router

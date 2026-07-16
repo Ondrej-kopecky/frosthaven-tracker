@@ -2,26 +2,33 @@ import { test, expect } from '@playwright/test'
 import { createCampaign } from './helpers'
 
 test.describe('Navigation', () => {
-  test('visiting / without a campaign should redirect to /kampan', async ({ page }) => {
-    await page.goto('/')
+  test('visiting / without a campaign shows the landing page', async ({ page }) => {
+    await page.goto('/kampan')
     await page.evaluate(() => localStorage.clear())
     await page.goto('/')
-    await expect(page).toHaveURL(/\/kampan/)
+    await expect(page).toHaveURL(/\/$/)
+    await expect(page.locator('h1')).toBeVisible()
+  })
+
+  test('visiting / with a campaign redirects to dashboard', async ({ page }) => {
+    await createCampaign(page)
+    await page.goto('/')
+    await expect(page).toHaveURL(/\/prehled/)
   })
 
   test('title should be Frosthaven Tracker', async ({ page }) => {
-    await page.goto('/')
-    await expect(page).toHaveTitle('Frosthaven Tracker')
+    await page.goto('/kampan')
+    await expect(page).toHaveTitle(/Frosthaven Tracker/)
   })
 
   test('header should have snowflake logo', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/kampan')
     const logo = page.locator('header svg').first()
     await expect(logo).toBeVisible()
   })
 
   test('header should show FROSTHAVEN text', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/kampan')
     await expect(page.locator('header')).toContainText('FROSTHAVEN')
   })
 
