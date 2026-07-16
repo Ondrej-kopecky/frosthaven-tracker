@@ -14,6 +14,13 @@ export interface PartyState {
   notes: string
 }
 
+export interface TownGuardState {
+  /** Celkový počet získaných checkmarků (0..45 = 15 perk marků × 3). */
+  checkmarks: number
+  /** Mapuje index perku v town-guard.json → kolikrát byl perk použit. */
+  appliedPerks: Record<number, number>
+}
+
 export interface CampaignState {
   id: string
   name: string
@@ -21,6 +28,7 @@ export interface CampaignState {
   lastPlayedAt: string
   morale: number
   prosperity: number
+  soldiers: number
   soldiersLost: number
   hideSpoilers: boolean
   chapterId: number
@@ -44,6 +52,7 @@ export interface CampaignState {
   eventDecks?: Record<string, { available: number[]; removed: number[] }>
   totalDefense: number
   calendarWeek: number
+  townGuard: TownGuardState
   characters: CharacterState[]
   archivedCharacters: CharacterState[]
   party: PartyState
@@ -65,6 +74,7 @@ export function createDefaultCampaign(id: string, name: string): CampaignState {
     lastPlayedAt: new Date().toISOString(),
     morale: 0,
     prosperity: 0,
+    soldiers: 0,
     soldiersLost: 0,
     hideSpoilers: true,
     chapterId: 1,
@@ -76,6 +86,7 @@ export function createDefaultCampaign(id: string, name: string): CampaignState {
     },
     totalDefense: 0,
     calendarWeek: 1,
+    townGuard: { checkmarks: 0, appliedPerks: {} },
     scenarios: {},
     globalAchievements: {},
     buildingLevels: {},

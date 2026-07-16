@@ -52,6 +52,8 @@ export const useCampaignStore = defineStore('campaign', () => {
     if (parsed.inspiration === undefined) parsed.inspiration = 0
     if (parsed.lastPlayedAt === undefined) parsed.lastPlayedAt = parsed.createdAt
     if (!parsed.buildingLevels) parsed.buildingLevels = {}
+    if (!parsed.townGuard) parsed.townGuard = { checkmarks: 0, appliedPerks: {} }
+    if (parsed.soldiers === undefined) parsed.soldiers = 0
   }
 
   // Load on init

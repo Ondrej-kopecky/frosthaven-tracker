@@ -6,6 +6,7 @@ import { useEventStore, type DeckId } from '@/stores/eventStore'
 import EventCard from '@/components/EventCard.vue'
 import townGuardData from '@/data/town-guard.json'
 import buildingsData from '@/data/buildings.json'
+import { computeTownGuardDeck, deckSize, cardLabel, type TownGuardCard } from '@/utils/townGuardDeck'
 
 interface BuildingLevel {
   level: number
@@ -59,6 +60,12 @@ function getResource(key: ResourceKey): number {
 }
 
 // Soldiers
+function adjustSoldiers(delta: number) {
+  if (!campaign.value) return
+  campaign.value.soldiers = Math.max(0, (campaign.value.soldiers ?? 0) + delta)
+  campaignStore.autoSave()
+}
+
 function adjustSoldiersLost(delta: number) {
   if (!campaign.value) return
   campaign.value.soldiersLost = Math.max(0, campaign.value.soldiersLost + delta)
@@ -67,6 +74,62 @@ function adjustSoldiersLost(delta: number) {
 
 // Town guard perks
 const townGuardPerks = computed(() => townGuardData.perks)
+
+// ── Town Guard progrese: checkmarky → perk marky → použité perky ──
+const PERK_MARKS = 15           // max perk marků
+const CHECKS_PER_MARK = 3       // 3 checkmarky = 1 perk mark
+const MAX_CHECKMARKS = PERK_MARKS * CHECKS_PER_MARK // 45
+
+// Defenzivní přístup pro starší kampaně, kde townGuard ještě neexistuje.
+function ensureTownGuard() {
+  if (!campaign.value) return
+  if (!campaign.value.townGuard) {
+    campaign.value.townGuard = { checkmarks: 0, appliedPerks: {} }
+  }
+}
+
+const checkmarks = computed(() => campaign.value?.townGuard?.checkmarks ?? 0)
+const perkMarksEarned = computed(() => Math.floor(checkmarks.value / CHECKS_PER_MARK))
+const perkMarksUsed = computed(() => {
+  const applied = campaign.value?.townGuard?.appliedPerks ?? {}
+  return Object.values(applied).reduce((sum, n) => sum + n, 0)
+})
+const perkMarksAvailable = computed(() => perkMarksEarned.value - perkMarksUsed.value)
+
+// Kliknutí na políčko: nastaví počet checkmarků (toggle na posledním).
+// Nedovolí snížit pod počet už použitých perků (perkMarksUsed × 3).
+function setCheckmarks(target: number) {
+  if (!campaign.value) return
+  ensureTownGuard()
+  const floor = perkMarksUsed.value * CHECKS_PER_MARK
+  let next = target === campaign.value.townGuard.checkmarks ? target - 1 : target
+  next = Math.max(floor, Math.min(MAX_CHECKMARKS, next))
+  campaign.value.townGuard.checkmarks = next
+  campaignStore.autoSave()
+}
+
+function perkAppliedCount(index: number): number {
+  return campaign.value?.townGuard?.appliedPerks?.[index] ?? 0
+}
+
+function applyPerk(index: number) {
+  if (!campaign.value) return
+  ensureTownGuard()
+  const perk = townGuardPerks.value[index]
+  if (perkMarksAvailable.value <= 0) return
+  if (perkAppliedCount(index) >= perk.count) return
+  campaign.value.townGuard.appliedPerks[index] = perkAppliedCount(index) + 1
+  campaignStore.autoSave()
+}
+
+function unapplyPerk(index: number) {
+  if (!campaign.value) return
+  ensureTownGuard()
+  const current = perkAppliedCount(index)
+  if (current <= 0) return
+  campaign.value.townGuard.appliedPerks[index] = current - 1
+  campaignStore.autoSave()
+}
 
 function perkTypeBadge(type: string): { label: string; class: string } {
   if (type === 'replace') return { label: 'Nahradit', class: 'bg-yellow-500/15 text-yellow-400 border border-yellow-500/25' }
@@ -80,6 +143,66 @@ function cleanPerkDesc(desc: string): string {
     return tag
   })
 }
+
+// ── Town Guard modifier deck (base + aplikované perky) ──
+const townGuardDeck = computed(() =>
+  computeTownGuardDeck(campaign.value?.townGuard?.appliedPerks ?? {})
+)
+const townGuardDeckSize = computed(() => deckSize(townGuardDeck.value))
+
+function cardClass(card: TownGuardCard): string {
+  if (card.special === 'wreck') return 'bg-red-500/15 border-red-500/40 text-red-300'
+  if (card.special === 'success') return 'bg-fh-completed/15 border-fh-completed/40 text-fh-completed'
+  if (card.value > 0) return 'bg-fh-completed/10 border-fh-completed/30 text-fh-completed'
+  if (card.value < 0) return 'bg-red-500/10 border-red-500/30 text-red-300'
+  return 'bg-white/3 border-white/10 text-gray-300'
+}
+
+// ── Defense check (líznutí karty z Town Guard decku) ──
+const drawWithAdvantage = ref(false)
+const drawnCard = ref<TownGuardCard | null>(null)
+const drawnSecondary = ref<TownGuardCard | null>(null)
+
+// „Lepší" karta pro výhodu: success > vyšší hodnota > wreck.
+function cardRank(c: TownGuardCard): number {
+  if (c.special === 'success') return Infinity
+  if (c.special === 'wreck') return -Infinity
+  return c.value
+}
+
+function drawRandomCard(): TownGuardCard {
+  const deck = townGuardDeck.value
+  const total = townGuardDeckSize.value
+  let roll = Math.floor(Math.random() * total)
+  for (const entry of deck) {
+    roll -= entry.count
+    if (roll < 0) return entry.card
+  }
+  return deck[deck.length - 1].card
+}
+
+function drawDefenseCard() {
+  const first = drawRandomCard()
+  if (drawWithAdvantage.value) {
+    const second = drawRandomCard()
+    if (cardRank(second) > cardRank(first)) {
+      drawnCard.value = second
+      drawnSecondary.value = first
+    } else {
+      drawnCard.value = first
+      drawnSecondary.value = second
+    }
+  } else {
+    drawnCard.value = first
+    drawnSecondary.value = null
+  }
+}
+
+// Výsledek obrany = obrana města + hodnota karty (Wreck/Success řešeny zvlášť).
+const defenseResult = computed(() => {
+  if (!drawnCard.value || drawnCard.value.special) return null
+  return (campaign.value?.totalDefense ?? 0) + drawnCard.value.value
+})
 
 // Season
 const season = ref<'summer' | 'winter'>('summer')
@@ -400,32 +523,111 @@ const builtCount = computed(() => buildings.filter((b) => getBuildingLevel(b.id)
       </div>
     </div>
 
-    <!-- Soldiers Lost -->
-    <div class="fh-divider mb-4">Padlí vojáci</div>
-    <div class="fh-card p-5 mb-6">
-      <div class="flex items-center justify-center gap-4">
-        <button
-          class="w-10 h-10 rounded-xl bg-red-500/15 border border-red-500/25 text-red-400 hover:bg-red-500/25 transition-colors text-xl font-bold flex items-center justify-center"
-          @click="adjustSoldiersLost(-1)"
-        >-</button>
-        <div class="text-center">
-          <div class="font-display text-4xl font-bold text-red-400">{{ campaign.soldiersLost }}</div>
-          <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1">ztraceno</div>
+    <!-- Vojáci -->
+    <div class="fh-divider mb-4">Vojáci</div>
+    <div class="grid grid-cols-2 gap-3 mb-6">
+      <!-- Aktuální vojáci -->
+      <div class="fh-card p-5">
+        <div class="flex items-center justify-center gap-3">
+          <button
+            class="w-9 h-9 rounded-xl bg-red-500/15 border border-red-500/25 text-red-400 hover:bg-red-500/25 transition-colors text-xl font-bold flex items-center justify-center"
+            @click="adjustSoldiers(-1)"
+          >-</button>
+          <div class="text-center">
+            <div class="font-display text-3xl font-bold text-fh-primary">{{ campaign.soldiers ?? 0 }}</div>
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1">k dispozici</div>
+          </div>
+          <button
+            class="w-9 h-9 rounded-xl bg-fh-completed/15 border border-fh-completed/25 text-fh-completed hover:bg-fh-completed/25 transition-colors text-xl font-bold flex items-center justify-center"
+            @click="adjustSoldiers(1)"
+          >+</button>
         </div>
-        <button
-          class="w-10 h-10 rounded-xl bg-fh-completed/15 border border-fh-completed/25 text-fh-completed hover:bg-fh-completed/25 transition-colors text-xl font-bold flex items-center justify-center"
-          @click="adjustSoldiersLost(1)"
-        >+</button>
+      </div>
+      <!-- Padlí vojáci -->
+      <div class="fh-card p-5">
+        <div class="flex items-center justify-center gap-3">
+          <button
+            class="w-9 h-9 rounded-xl bg-red-500/15 border border-red-500/25 text-red-400 hover:bg-red-500/25 transition-colors text-xl font-bold flex items-center justify-center"
+            @click="adjustSoldiersLost(-1)"
+          >-</button>
+          <div class="text-center">
+            <div class="font-display text-3xl font-bold text-red-400">{{ campaign.soldiersLost }}</div>
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1">padlí</div>
+          </div>
+          <button
+            class="w-9 h-9 rounded-xl bg-fh-completed/15 border border-fh-completed/25 text-fh-completed hover:bg-fh-completed/25 transition-colors text-xl font-bold flex items-center justify-center"
+            @click="adjustSoldiersLost(1)"
+          >+</button>
+        </div>
       </div>
     </div>
 
     <!-- Town Guard Perks -->
     <div class="fh-divider mb-4">Perky městské hlídky</div>
+
+    <!-- Souhrn perk marků + checkmark track -->
+    <div class="fh-card p-5 mb-4">
+      <div class="flex items-center justify-around text-center mb-4">
+        <div>
+          <div class="font-display text-3xl font-bold text-fh-primary">{{ perkMarksEarned }}</div>
+          <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1">získané</div>
+        </div>
+        <div>
+          <div class="font-display text-3xl font-bold text-gray-400">{{ perkMarksUsed }}</div>
+          <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1">použité</div>
+        </div>
+        <div>
+          <div
+            class="font-display text-3xl font-bold"
+            :class="perkMarksAvailable > 0 ? 'text-fh-completed' : 'text-gray-600'"
+          >{{ perkMarksAvailable }}</div>
+          <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1">k dispozici</div>
+        </div>
+      </div>
+
+      <p class="text-[11px] text-gray-500 text-center mb-3">
+        Každé 3 checkmarky = 1 perk mark (max {{ PERK_MARKS }})
+      </p>
+
+      <!-- Checkmark track: 15 skupin po 3 -->
+      <div class="flex flex-wrap gap-x-3 gap-y-2 justify-center">
+        <div
+          v-for="g in PERK_MARKS"
+          :key="g"
+          class="flex items-center gap-1"
+        >
+          <button
+            v-for="j in CHECKS_PER_MARK"
+            :key="j"
+            class="w-5 h-5 rounded-md border transition-colors flex items-center justify-center"
+            :class="(g - 1) * CHECKS_PER_MARK + j <= checkmarks
+              ? 'bg-fh-primary/25 border-fh-primary/50 text-fh-primary'
+              : 'bg-white/3 border-white/10 text-transparent hover:border-fh-primary/30'"
+            @click="setCheckmarks((g - 1) * CHECKS_PER_MARK + j)"
+          >
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </button>
+          <!-- perk mark indikátor za každou trojicí -->
+          <svg
+            class="w-3.5 h-3.5 ml-0.5"
+            :class="g <= perkMarksEarned ? 'text-fh-completed' : 'text-white/10'"
+            fill="currentColor" viewBox="0 0 24 24"
+          >
+            <path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17.8 5.9 20.4l1.5-6.8L2.2 9l6.9-.7L12 2z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seznam perků s aplikací -->
     <div class="space-y-2 mb-6">
       <div
         v-for="(perk, index) in townGuardPerks"
         :key="index"
-        class="fh-card p-4 border-l-3 border-l-fh-primary/30"
+        class="fh-card p-4 border-l-3 transition-colors"
+        :class="perkAppliedCount(index) > 0 ? 'border-l-fh-completed/60' : 'border-l-fh-primary/30'"
       >
         <div class="flex items-start gap-3">
           <div class="shrink-0 mt-0.5">
@@ -435,12 +637,102 @@ const builtCount = computed(() => buildings.filter((b) => getBuildingLevel(b.id)
           </div>
           <div class="flex-1 min-w-0">
             <p class="text-sm text-gray-300 leading-relaxed">{{ cleanPerkDesc(perk.desc) }}</p>
-            <div class="flex items-center gap-3 mt-2">
-              <span class="text-[10px] text-gray-500">Počet: {{ perk.count }}x</span>
+            <div class="flex items-center justify-between gap-3 mt-2.5">
               <span class="text-[10px] text-gray-600">Sekce: {{ perk.sections.join(', ') }}</span>
+              <!-- Aplikační sloty -->
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button
+                  v-for="p in perk.count"
+                  :key="p"
+                  class="w-6 h-6 rounded-md border transition-colors flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
+                  :class="p <= perkAppliedCount(index)
+                    ? 'bg-fh-completed/25 border-fh-completed/50 text-fh-completed'
+                    : 'bg-white/3 border-white/10 text-gray-600 hover:border-fh-completed/30'"
+                  :disabled="p > perkAppliedCount(index) && (perkMarksAvailable <= 0 || p !== perkAppliedCount(index) + 1)"
+                  @click="p <= perkAppliedCount(index) ? unapplyPerk(index) : applyPerk(index)"
+                >
+                  <svg v-if="p <= perkAppliedCount(index)" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span v-else class="text-xs leading-none">+</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Town Guard Modifier Deck -->
+    <div class="fh-divider mb-4">Balíček městské hlídky</div>
+    <div class="fh-card p-5 mb-4">
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-[11px] text-gray-500">
+          Výsledné složení po aplikaci perků
+        </p>
+        <span class="fh-badge text-[10px] bg-fh-primary/15 text-fh-primary border border-fh-primary/25">
+          {{ townGuardDeckSize }} karet
+        </span>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <div
+          v-for="(entry, i) in townGuardDeck"
+          :key="i"
+          class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium"
+          :class="cardClass(entry.card)"
+        >
+          <span class="font-display font-bold">{{ cardLabel(entry.card) }}</span>
+          <span class="opacity-60 text-[10px]">×{{ entry.count }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Defense check -->
+    <div class="fh-card p-5 mb-6">
+      <div class="flex items-center justify-between mb-3">
+        <h4 class="font-display text-sm font-semibold text-gray-200">Obranný hod</h4>
+        <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            v-model="drawWithAdvantage"
+            class="w-4 h-4 rounded border-white/20 bg-white/5 accent-fh-primary"
+          />
+          Výhoda (voják)
+        </label>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <button
+          class="fh-btn-primary px-4 py-2.5 text-sm shrink-0"
+          @click="drawDefenseCard"
+        >Líznout kartu</button>
+
+        <div v-if="drawnCard" class="flex items-center gap-3 flex-1 min-w-0">
+          <div
+            class="flex items-center justify-center px-3 py-2 rounded-lg border font-display font-bold"
+            :class="cardClass(drawnCard)"
+          >
+            {{ cardLabel(drawnCard) }}
+          </div>
+          <div class="text-sm min-w-0">
+            <template v-if="drawnCard.special === 'wreck'">
+              <span class="text-red-400 font-semibold">Budova zničena</span>
+            </template>
+            <template v-else-if="drawnCard.special === 'success'">
+              <span class="text-fh-completed font-semibold">Automatický úspěch</span>
+            </template>
+            <template v-else>
+              <span class="text-gray-400">Obrana {{ campaign.totalDefense ?? 0 }} {{ drawnCard.value >= 0 ? '+' : '−' }} {{ Math.abs(drawnCard.value) }} = </span>
+              <span class="font-display font-bold text-fh-primary text-base">{{ defenseResult }}</span>
+            </template>
+            <div v-if="drawnSecondary" class="text-[10px] text-gray-600 mt-0.5">
+              (zahozeno: {{ cardLabel(drawnSecondary) }})
+            </div>
+          </div>
+        </div>
+        <p v-else class="text-[11px] text-gray-600 flex-1">
+          Líznutá karta se přičte k obraně města ({{ campaign.totalDefense ?? 0 }}).
+        </p>
       </div>
     </div>
 
