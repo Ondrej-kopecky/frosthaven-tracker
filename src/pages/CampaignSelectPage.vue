@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, nextTick } from 'vue'
+import { ref, computed, nextTick } from 'vue'
 import { useCampaignStore } from '@/stores/campaignStore'
 import { useProfileStore } from '@/stores/profileStore'
 import { useToastStore } from '@/stores/toastStore'
@@ -73,6 +73,34 @@ function deleteCurrentProfile() {
   campaignStore.loadActiveCampaign()
   profileToDelete.value = false
   toast.show(`Profil „${name}" smazán`, 'info')
+}
+
+// Připojení ke sdílené kampani
+import { joinCampaign } from '@/services/api/campaignApi'
+import { hasToken } from '@/services/api/apiClient'
+
+const joinCode = ref('')
+const joinError = ref('')
+const joinLoading = ref(false)
+const isLoggedIn = computed(() => hasToken())
+
+async function handleJoin() {
+  const code = joinCode.value.trim().toUpperCase()
+  if (!code) return
+  joinLoading.value = true
+  joinError.value = ''
+  const result = await joinCampaign(code)
+  joinLoading.value = false
+  if (result.error || !result.data) {
+    joinError.value = result.error ?? 'Připojení selhalo'
+    return
+  }
+  // Stáhnout kampaň z cloudu a přepnout na ni
+  await campaignStore.pullFromCloud()
+  campaignStore.switchCampaign(result.data.campaignId)
+  toast.show(`Připojeno ke kampani „${result.data.campaignName}" (${result.data.ownerUsername})`)
+  joinCode.value = ''
+  router.push('/prehled')
 }
 
 // Mazání kampaně s potvrzením
@@ -184,6 +212,24 @@ function deleteCampaignConfirmed() {
         />
         <button class="fh-btn-primary whitespace-nowrap" @click="create">Vytvořit</button>
       </div>
+    </div>
+
+    <!-- Join shared campaign -->
+    <div v-if="isLoggedIn" class="fh-card p-5 mb-6">
+      <h2 class="font-display text-sm font-semibold text-fh-primary-light mb-3 uppercase tracking-wider">Připojit se ke sdílené kampani</h2>
+      <div class="flex gap-3">
+        <input
+          v-model="joinCode"
+          class="fh-input flex-1 uppercase tracking-widest"
+          placeholder="Kód (např. A3K9XZ)"
+          maxlength="6"
+          @keyup.enter="handleJoin"
+        />
+        <button class="fh-btn-secondary whitespace-nowrap" :disabled="joinLoading" @click="handleJoin">
+          {{ joinLoading ? 'Připojuji…' : 'Připojit' }}
+        </button>
+      </div>
+      <p v-if="joinError" class="text-xs text-red-400 mt-2">{{ joinError }}</p>
     </div>
 
     <!-- Existing campaigns -->

@@ -46,6 +46,7 @@ onMounted(async () => {
     return
   }
   await scenarioStore.loadScenarioData()
+  loadShareInfo()
 })
 
 const campaign = computed(() => campaignStore.currentCampaign)
@@ -179,6 +180,70 @@ async function handleChangePassword() {
   } finally {
     cpLoading.value = false
   }
+}
+
+// Sdílení kampaně
+import {
+  createShare, getShareInfo, revokeShare, leaveCampaign, kickMember,
+  type ShareInfo,
+} from '@/services/api/campaignApi'
+
+const shareInfo = ref<ShareInfo | null>(null)
+const shareLoading = ref(false)
+const shareError = ref('')
+
+const isOwnerOfCurrent = computed(() =>
+  !shareInfo.value || shareInfo.value.ownerUsername === authStore.user?.username,
+)
+
+async function loadShareInfo() {
+  if (!authStore.isLoggedIn || !campaign.value) return
+  const result = await getShareInfo(campaign.value.id)
+  if (result.data) shareInfo.value = result.data
+}
+
+async function handleCreateShare() {
+  if (!campaign.value) return
+  shareLoading.value = true
+  shareError.value = ''
+  // Kampaň musí být nejdřív v cloudu
+  await campaignStore.syncToCloud()
+  const result = await createShare(campaign.value.id)
+  shareLoading.value = false
+  if (result.error) {
+    shareError.value = result.error
+    return
+  }
+  await loadShareInfo()
+  toast.show('Kód pro sdílení vytvořen')
+}
+
+function copyShareCode() {
+  if (!shareInfo.value?.shareCode) return
+  navigator.clipboard.writeText(shareInfo.value.shareCode)
+  toast.show('Kód zkopírován do schránky')
+}
+
+async function handleRevokeShare() {
+  if (!campaign.value) return
+  await revokeShare(campaign.value.id)
+  await loadShareInfo()
+  toast.show('Sdílení zrušeno', 'info')
+}
+
+async function handleKick(userId: number) {
+  if (!campaign.value) return
+  await kickMember(campaign.value.id, userId)
+  await loadShareInfo()
+  toast.show('Člen odebrán', 'info')
+}
+
+async function handleLeave() {
+  if (!campaign.value) return
+  await leaveCampaign(campaign.value.id)
+  campaignStore.deleteCampaign(campaign.value.id)
+  toast.show('Kampaň opuštěna', 'info')
+  router.replace('/kampan')
 }
 
 // Smazání účtu (GDPR)
@@ -402,6 +467,63 @@ function deleteCampaign() {
         </div>
       </template>
     </div>
+
+    <!-- 4b. Sdílení kampaně -->
+    <template v-if="authStore.isLoggedIn">
+      <div class="fh-divider mb-4">Sdílení kampaně</div>
+      <div class="fh-card p-5 mb-6 space-y-4">
+        <p class="text-xs text-gray-500">
+          Sdílejte kampaň se spoluhráči — každý ji uvidí ve svém seznamu a změny se synchronizují.
+        </p>
+
+        <!-- Vlastník: kód -->
+        <div v-if="shareInfo?.shareCode" class="flex items-center gap-3">
+          <div class="font-display text-2xl font-bold tracking-[0.3em] text-fh-primary bg-black/30 border border-fh-primary/30 rounded-lg px-4 py-2">
+            {{ shareInfo.shareCode }}
+          </div>
+          <button class="fh-btn-secondary text-xs" @click="copyShareCode">Kopírovat</button>
+          <button class="fh-btn-ghost text-xs text-red-400" @click="handleRevokeShare">Zrušit sdílení</button>
+        </div>
+        <button
+          v-else-if="!shareInfo?.isShared || isOwnerOfCurrent"
+          class="fh-btn-primary text-sm"
+          :disabled="shareLoading"
+          @click="handleCreateShare"
+        >
+          {{ shareLoading ? 'Generuji…' : 'Vygenerovat kód pro sdílení' }}
+        </button>
+
+        <p v-if="shareError" class="text-xs text-red-400">{{ shareError }}</p>
+
+        <!-- Členové -->
+        <div v-if="shareInfo && (shareInfo.members.length > 0 || !isOwnerOfCurrent)">
+          <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">
+            Členové · vlastník: {{ shareInfo.ownerUsername }}
+          </div>
+          <div
+            v-for="m in shareInfo.members"
+            :key="m.userId"
+            class="flex items-center justify-between rounded-lg border border-fh-border bg-black/15 px-3 py-1.5 mb-1.5"
+          >
+            <span class="text-sm text-gray-300">{{ m.username }}</span>
+            <button
+              v-if="isOwnerOfCurrent"
+              class="text-xs text-gray-600 hover:text-red-400 transition-colors"
+              @click="handleKick(m.userId)"
+            >
+              Odebrat
+            </button>
+          </div>
+          <button
+            v-if="!isOwnerOfCurrent"
+            class="fh-btn-ghost text-xs text-red-400 mt-1"
+            @click="handleLeave"
+          >
+            Opustit sdílenou kampaň
+          </button>
+        </div>
+      </div>
+    </template>
 
     <!-- 5. Změna hesla -->
     <template v-if="authStore.isLoggedIn">

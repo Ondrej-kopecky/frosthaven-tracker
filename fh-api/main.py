@@ -97,6 +97,24 @@ feedback = sqlalchemy.Table(
     sqlalchemy.Column("created_at", sqlalchemy.DateTime, default=datetime.utcnow),
 )
 
+# Sdílení kampaní: kód pro připojení + členové
+campaign_shares = sqlalchemy.Table(
+    "campaign_shares",
+    metadata,
+    sqlalchemy.Column("campaign_id", sqlalchemy.String, primary_key=True),
+    sqlalchemy.Column("share_code", sqlalchemy.String, unique=True, index=True),
+    sqlalchemy.Column("created_at", sqlalchemy.DateTime, default=datetime.utcnow),
+)
+
+campaign_members = sqlalchemy.Table(
+    "campaign_members",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("campaign_id", sqlalchemy.String, index=True),
+    sqlalchemy.Column("user_id", sqlalchemy.Integer, index=True),
+    sqlalchemy.Column("joined_at", sqlalchemy.DateTime, default=datetime.utcnow),
+)
+
 engine = sqlalchemy.create_engine(
     DATABASE_URL.replace("sqlite:///", "sqlite:///"),
     connect_args={"check_same_thread": False},
@@ -665,8 +683,22 @@ async def delete_account(req: DeleteAccountRequest, current_user=Depends(get_cur
     if not verify_password(req.password, current_user.hashed_password):
         raise HTTPException(400, "Nesprávné heslo")
 
+    own_campaigns = await database.fetch_all(
+        campaigns.select().where(campaigns.c.user_id == current_user.id)
+    )
+    for c in own_campaigns:
+        await database.execute(
+            campaign_shares.delete().where(campaign_shares.c.campaign_id == c.id)
+        )
+        await database.execute(
+            campaign_members.delete().where(campaign_members.c.campaign_id == c.id)
+        )
     await database.execute(
         campaigns.delete().where(campaigns.c.user_id == current_user.id)
+    )
+    # Členství v cizích kampaních
+    await database.execute(
+        campaign_members.delete().where(campaign_members.c.user_id == current_user.id)
     )
     await database.execute(users.delete().where(users.c.id == current_user.id))
     return {"message": "Účet a všechna data byly trvale smazány"}
@@ -679,26 +711,59 @@ async def delete_account(req: DeleteAccountRequest, current_user=Depends(get_cur
 
 @app.get("/api/campaigns/")
 async def list_campaigns(current_user=Depends(get_current_user)):
-    query = campaigns.select().where(campaigns.c.user_id == current_user.id)
-    rows = await database.fetch_all(query)
-    return [
-        {
+    own = await database.fetch_all(
+        campaigns.select().where(campaigns.c.user_id == current_user.id)
+    )
+    memberships = await database.fetch_all(
+        campaign_members.select().where(campaign_members.c.user_id == current_user.id)
+    )
+    shared = []
+    for m in memberships:
+        row = await database.fetch_one(
+            campaigns.select().where(campaigns.c.id == m.campaign_id)
+        )
+        if row:
+            shared.append(row)
+
+    def summary(r, role):
+        return {
             "id": r.id,
             "name": r.name,
             "created_at": r.created_at,
             "last_played_at": r.last_played_at,
             "updated_at": r.updated_at.isoformat() if r.updated_at else None,
+            "role": role,
         }
-        for r in rows
-    ]
+
+    return [summary(r, "owner") for r in own] + [summary(r, "member") for r in shared]
+
+
+async def get_campaign_access(campaign_id: str, user_id: int) -> str | None:
+    """Vrátí 'owner' / 'member' / None podle přístupu uživatele ke kampani."""
+    row = await database.fetch_one(
+        campaigns.select().where(campaigns.c.id == campaign_id)
+    )
+    if not row:
+        return None
+    if row.user_id == user_id:
+        return "owner"
+    member = await database.fetch_one(
+        campaign_members.select().where(
+            (campaign_members.c.campaign_id == campaign_id)
+            & (campaign_members.c.user_id == user_id)
+        )
+    )
+    return "member" if member else None
 
 
 @app.get("/api/campaigns/{campaign_id}")
 async def get_campaign(campaign_id: str, current_user=Depends(get_current_user)):
-    query = campaigns.select().where(
-        (campaigns.c.id == campaign_id) & (campaigns.c.user_id == current_user.id)
+    access = await get_campaign_access(campaign_id, current_user.id)
+    if not access:
+        raise HTTPException(404, "Kampaň nenalezena")
+    row = await database.fetch_one(
+        campaigns.select().where(campaigns.c.id == campaign_id)
     )
-    row = await database.fetch_one(query)
     if not row:
         raise HTTPException(404, "Kampaň nenalezena")
     return {
@@ -724,19 +789,18 @@ async def save_campaign(
         window_seconds=60,
     )
 
-    # Upsert: check if exists
+    # Upsert: vlastník i člen sdílené kampaně smí aktualizovat
     existing = await database.fetch_one(
-        campaigns.select().where(
-            (campaigns.c.id == req.id) & (campaigns.c.user_id == current_user.id)
-        )
+        campaigns.select().where(campaigns.c.id == req.id)
     )
 
     if existing:
+        access = await get_campaign_access(req.id, current_user.id)
+        if not access:
+            raise HTTPException(403, "Ke kampani nemáte přístup")
         await database.execute(
             campaigns.update()
-            .where(
-                (campaigns.c.id == req.id) & (campaigns.c.user_id == current_user.id)
-            )
+            .where(campaigns.c.id == req.id)
             .values(
                 name=req.name,
                 created_at=req.created_at,
@@ -763,20 +827,194 @@ async def save_campaign(
 
 @app.delete("/api/campaigns/{campaign_id}")
 async def delete_campaign(campaign_id: str, current_user=Depends(get_current_user)):
+    access = await get_campaign_access(campaign_id, current_user.id)
+    if not access:
+        raise HTTPException(404, "Kampaň nenalezena")
+
+    if access == "member":
+        # Člen kampaň nemaže — jen ji opouští
+        await database.execute(
+            campaign_members.delete().where(
+                (campaign_members.c.campaign_id == campaign_id)
+                & (campaign_members.c.user_id == current_user.id)
+            )
+        )
+        return {"status": "left"}
+
+    await database.execute(
+        campaigns.delete().where(campaigns.c.id == campaign_id)
+    )
+    await database.execute(
+        campaign_shares.delete().where(campaign_shares.c.campaign_id == campaign_id)
+    )
+    await database.execute(
+        campaign_members.delete().where(campaign_members.c.campaign_id == campaign_id)
+    )
+    return {"status": "deleted"}
+
+
+# ---------------------------------------------------------------------------
+# Campaign sharing
+# ---------------------------------------------------------------------------
+
+SHARE_CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"  # bez záměnných znaků
+
+
+class JoinRequest(BaseModel):
+    code: str
+
+
+@app.post("/api/campaigns/{campaign_id}/share")
+async def create_share(campaign_id: str, current_user=Depends(get_current_user)):
+    access = await get_campaign_access(campaign_id, current_user.id)
+    if access != "owner":
+        raise HTTPException(403, "Sdílet může jen vlastník kampaně")
+    if not current_user.is_verified:
+        raise HTTPException(403, "Pro sdílení je nutný ověřený e-mail")
+
     existing = await database.fetch_one(
-        campaigns.select().where(
-            (campaigns.c.id == campaign_id) & (campaigns.c.user_id == current_user.id)
+        campaign_shares.select().where(campaign_shares.c.campaign_id == campaign_id)
+    )
+    if existing:
+        return {"shareCode": existing.share_code}
+
+    import secrets
+    for _ in range(20):
+        code = "".join(secrets.choice(SHARE_CODE_ALPHABET) for _ in range(6))
+        clash = await database.fetch_one(
+            campaign_shares.select().where(campaign_shares.c.share_code == code)
+        )
+        if not clash:
+            break
+    else:
+        raise HTTPException(500, "Nepodařilo se vygenerovat kód")
+
+    await database.execute(
+        campaign_shares.insert().values(
+            campaign_id=campaign_id, share_code=code, created_at=datetime.utcnow()
+        )
+    )
+    return {"shareCode": code}
+
+
+@app.get("/api/campaigns/{campaign_id}/share")
+async def get_share_info(campaign_id: str, current_user=Depends(get_current_user)):
+    access = await get_campaign_access(campaign_id, current_user.id)
+    if not access:
+        raise HTTPException(404, "Kampaň nenalezena")
+
+    share = await database.fetch_one(
+        campaign_shares.select().where(campaign_shares.c.campaign_id == campaign_id)
+    )
+    member_rows = await database.fetch_all(
+        campaign_members.select().where(campaign_members.c.campaign_id == campaign_id)
+    )
+    members = []
+    for m in member_rows:
+        u = await database.fetch_one(users.select().where(users.c.id == m.user_id))
+        if u:
+            members.append({
+                "userId": u.id,
+                "username": u.username,
+                "joinedAt": m.joined_at.isoformat() if m.joined_at else None,
+            })
+
+    campaign_row = await database.fetch_one(
+        campaigns.select().where(campaigns.c.id == campaign_id)
+    )
+    owner = await database.fetch_one(
+        users.select().where(users.c.id == campaign_row.user_id)
+    )
+
+    return {
+        # Kód vidí jen vlastník (člen by ho mohl šířit dál)
+        "shareCode": share.share_code if (share and access == "owner") else None,
+        "isShared": bool(share) or len(members) > 0,
+        "members": members,
+        "ownerUsername": owner.username if owner else "?",
+    }
+
+
+@app.delete("/api/campaigns/{campaign_id}/share")
+async def revoke_share(campaign_id: str, current_user=Depends(get_current_user)):
+    access = await get_campaign_access(campaign_id, current_user.id)
+    if access != "owner":
+        raise HTTPException(403, "Zrušit sdílení může jen vlastník")
+    await database.execute(
+        campaign_shares.delete().where(campaign_shares.c.campaign_id == campaign_id)
+    )
+    return {"status": "revoked"}
+
+
+@app.post("/api/campaigns/join")
+async def join_campaign(req: JoinRequest, current_user=Depends(get_current_user)):
+    share = await database.fetch_one(
+        campaign_shares.select().where(
+            campaign_shares.c.share_code == req.code.strip().upper()
+        )
+    )
+    if not share:
+        raise HTTPException(404, "Neplatný kód")
+
+    campaign_row = await database.fetch_one(
+        campaigns.select().where(campaigns.c.id == share.campaign_id)
+    )
+    if not campaign_row:
+        raise HTTPException(404, "Kampaň už neexistuje")
+    if campaign_row.user_id == current_user.id:
+        raise HTTPException(400, "Vlastní kampaň nelze připojit")
+
+    existing = await database.fetch_one(
+        campaign_members.select().where(
+            (campaign_members.c.campaign_id == share.campaign_id)
+            & (campaign_members.c.user_id == current_user.id)
         )
     )
     if not existing:
-        raise HTTPException(404, "Kampaň nenalezena")
+        await database.execute(
+            campaign_members.insert().values(
+                campaign_id=share.campaign_id,
+                user_id=current_user.id,
+                joined_at=datetime.utcnow(),
+            )
+        )
 
+    owner = await database.fetch_one(
+        users.select().where(users.c.id == campaign_row.user_id)
+    )
+    return {
+        "campaignId": campaign_row.id,
+        "campaignName": campaign_row.name,
+        "ownerUsername": owner.username if owner else "?",
+    }
+
+
+@app.post("/api/campaigns/{campaign_id}/leave")
+async def leave_campaign(campaign_id: str, current_user=Depends(get_current_user)):
+    access = await get_campaign_access(campaign_id, current_user.id)
+    if access != "member":
+        raise HTTPException(400, "Nejste členem této kampaně")
     await database.execute(
-        campaigns.delete().where(
-            (campaigns.c.id == campaign_id) & (campaigns.c.user_id == current_user.id)
+        campaign_members.delete().where(
+            (campaign_members.c.campaign_id == campaign_id)
+            & (campaign_members.c.user_id == current_user.id)
         )
     )
-    return {"status": "deleted"}
+    return {"status": "left"}
+
+
+@app.delete("/api/campaigns/{campaign_id}/members/{user_id}")
+async def kick_member(campaign_id: str, user_id: int, current_user=Depends(get_current_user)):
+    access = await get_campaign_access(campaign_id, current_user.id)
+    if access != "owner":
+        raise HTTPException(403, "Členy může odebírat jen vlastník")
+    await database.execute(
+        campaign_members.delete().where(
+            (campaign_members.c.campaign_id == campaign_id)
+            & (campaign_members.c.user_id == user_id)
+        )
+    )
+    return {"status": "kicked"}
 
 
 # ---------------------------------------------------------------------------

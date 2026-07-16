@@ -59,3 +59,45 @@ export function upsertCampaign(campaign: CampaignState) {
 export function deleteCampaign(id: string) {
   return apiDelete(`/campaigns/${id}`)
 }
+
+// ── Sdílení kampaní ──
+
+export interface ShareMember {
+  userId: number
+  username: string
+  joinedAt: string | null
+}
+
+export interface ShareInfo {
+  shareCode: string | null
+  isShared: boolean
+  members: ShareMember[]
+  ownerUsername: string
+}
+
+export function createShare(campaignId: string) {
+  return apiPost<{ shareCode: string }>(`/campaigns/${campaignId}/share`)
+}
+
+export function getShareInfo(campaignId: string) {
+  return apiGet<ShareInfo>(`/campaigns/${campaignId}/share`)
+}
+
+export function revokeShare(campaignId: string) {
+  return apiDelete(`/campaigns/${campaignId}/share`)
+}
+
+export function joinCampaign(code: string) {
+  return apiPost<{ campaignId: string; campaignName: string; ownerUsername: string }>(
+    '/campaigns/join',
+    { code },
+  )
+}
+
+export function leaveCampaign(campaignId: string) {
+  return apiPost<{ status: string }>(`/campaigns/${campaignId}/leave`)
+}
+
+export function kickMember(campaignId: string, userId: number) {
+  return apiDelete(`/campaigns/${campaignId}/members/${userId}`)
+}
