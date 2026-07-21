@@ -44,10 +44,10 @@ function handleRemove() {
         <!-- Backdrop -->
         <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" @click="handleReturn" />
 
-        <!-- Card container -->
-        <div class="relative z-10 w-full max-w-md">
-          <!-- Header -->
-          <div class="flex items-center justify-between mb-3">
+        <!-- Card container: tmavý rámeček + pergamenová karta uvnitř (jako reálná karta) -->
+        <div class="event-frame relative z-10 w-full max-w-md">
+          <!-- Header (app info v tmavém pruhu) -->
+          <div class="flex items-center justify-between px-4 pt-3 pb-2">
             <div class="text-sm text-gray-400">
               <span class="text-fh-primary font-display font-bold">{{ deckName }}</span>
               <span class="text-gray-600 ml-2">#{{ card.cardNum }}</span>
@@ -64,41 +64,41 @@ function handleRemove() {
 
           <!-- Card with flip -->
           <div
-            class="card-flip cursor-pointer"
+            class="card-flip cursor-pointer mx-3 mb-3"
             :class="{ 'is-flipped': card.flipped }"
             @click="handleFlip"
           >
             <div class="card-flip-inner">
               <!-- Front -->
-              <div class="card-flip-front">
+              <div class="card-flip-front fh-parchment event-parch">
                 <img
                   :src="frontUrl"
                   :alt="`${deckName} #${card.cardNum} - přední strana`"
-                  class="w-full rounded-xl shadow-2xl border border-fh-border"
+                  class="block w-full rounded-lg border border-black/25"
                   loading="eager"
                 />
                 <div v-if="!card.flipped" class="absolute inset-0 flex items-end justify-center pb-6">
-                  <span class="px-4 py-2 bg-black/60 backdrop-blur-sm rounded-full text-sm text-gray-300 border border-white/10">
+                  <span class="event-flip-hint">
                     Klikni pro otočení
                   </span>
                 </div>
               </div>
 
               <!-- Back -->
-              <div class="card-flip-back">
+              <div class="card-flip-back fh-parchment event-parch">
                 <img
                   :src="backUrl"
                   :alt="`${deckName} #${card.cardNum} - zadní strana`"
-                  class="w-full rounded-xl shadow-2xl border border-fh-border"
+                  class="block w-full rounded-lg border border-black/25"
                   loading="eager"
                 />
               </div>
             </div>
           </div>
 
-          <!-- Action buttons (visible after flip) -->
+          <!-- Action buttons (visible after flip) — tmavý pruh pod pergamenem -->
           <transition name="fade">
-            <div v-if="card.flipped" class="flex gap-3 mt-4">
+            <div v-if="card.flipped" class="flex gap-3 px-3 pb-3">
               <button
                 class="flex-1 fh-btn-ghost py-2.5 text-sm flex items-center justify-center gap-2 rounded-xl"
                 @click="handleReturn"
@@ -109,7 +109,7 @@ function handleRemove() {
                 Vrátit do balíčku
               </button>
               <button
-                class="flex-1 py-2.5 text-sm flex items-center justify-center gap-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-all"
+                class="flex-1 fh-btn-ghost py-2.5 text-sm flex items-center justify-center gap-2 rounded-xl !text-fh-blocked hover:!bg-fh-blocked/10"
                 @click="handleRemove"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
@@ -126,6 +126,32 @@ function handleRemove() {
 </template>
 
 <style scoped>
+/* Tmavý rámeček karty (vzor .item-card / detail modal z ItemsPage) */
+.event-frame {
+  border-radius: 0.875rem;
+  border: 1px solid rgba(91, 164, 207, 0.2);
+  background: linear-gradient(180deg, #0d1528 0%, #0a1020 100%);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(91, 164, 207, 0.08);
+}
+
+/* Pergamenová plocha karty (obě strany flipu) */
+.event-parch {
+  border-radius: 0.625rem;
+  padding: 0.625rem;
+}
+
+/* Nápověda k otočení — tmavý inkoust na pergamenu */
+.event-flip-hint {
+  padding: 0.4rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-fh-ink);
+  background: rgba(216, 204, 169, 0.92);
+  border: 1px solid rgba(36, 28, 16, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
 .card-flip {
   perspective: 1000px;
   position: relative;

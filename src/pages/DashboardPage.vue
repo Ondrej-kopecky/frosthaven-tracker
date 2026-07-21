@@ -5,6 +5,7 @@ import { useScenarioStore } from '@/stores/scenarioStore'
 import { useCharacterStore } from '@/stores/characterStore'
 import { useAuthStore } from '@/stores/authStore'
 import { useRouter } from 'vue-router'
+import { RESOURCES, MONEY_ICON } from '@/utils/gameIcons'
 
 const campaignStore = useCampaignStore()
 const scenarioStore = useScenarioStore()
@@ -112,8 +113,8 @@ const quickLinks = [
         <template v-if="authStore.isLoggedIn">
           <h2 class="font-display text-lg font-semibold text-fh-frost">{{ authStore.user?.username }}</h2>
           <p class="text-xs text-gray-500">Přihlášen/a — kampaně se synchronizují</p>
-          <div class="fh-badge bg-green-900/20 text-green-400 border border-green-800/30 inline-flex items-center gap-1.5 px-3 py-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+          <div class="fh-badge bg-fh-completed/10 text-fh-completed border border-fh-completed/30 inline-flex items-center gap-1.5 px-3 py-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-fh-completed"></span>
             Synchronizováno
           </div>
         </template>
@@ -184,7 +185,7 @@ const quickLinks = [
         <div class="fh-stat-label">Morálka</div>
       </div>
       <div class="fh-card fh-stat">
-        <div class="fh-stat-value text-yellow-400 text-2xl">{{ campaignStore.currentCampaign?.prosperity ?? 0 }}</div>
+        <div class="fh-stat-value text-fh-ice text-2xl">{{ campaignStore.currentCampaign?.prosperity ?? 0 }}</div>
         <div class="fh-stat-label">Prosperita</div>
       </div>
       <div class="fh-card fh-stat">
@@ -231,7 +232,21 @@ const quickLinks = [
         :key="key"
         class="fh-card p-2 text-center"
       >
-        <div class="text-base font-bold" :class="key === 'gold' ? 'text-yellow-400' : 'text-gray-200'">
+        <img
+          v-if="key === 'gold'"
+          :src="MONEY_ICON"
+          class="fh-gicon !h-5 mx-auto mb-1"
+          :alt="resourceLabels[key]"
+          :title="resourceLabels[key]"
+        >
+        <img
+          v-else-if="RESOURCES[key]"
+          :src="RESOURCES[key]?.url"
+          class="fh-gicon fh-gicon-light !h-5 mx-auto mb-1"
+          :alt="resourceLabels[key]"
+          :title="resourceLabels[key]"
+        >
+        <div class="text-base font-bold" :class="key === 'gold' ? 'text-amber-400' : 'text-gray-200'">
           {{ getResourceValue(key) }}
         </div>
         <div class="text-[9px] text-gray-500 uppercase tracking-wider mt-0.5 leading-tight">

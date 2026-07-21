@@ -148,9 +148,9 @@ function statusGlow(status: string): string {
   switch (status) {
     case SCENARIO_STATUSES.COMPLETED: return 'drop-shadow(0 0 6px rgba(34,197,94,0.6))'
     case SCENARIO_STATUSES.AVAILABLE: return 'drop-shadow(0 0 6px rgba(91,164,207,0.5))'
-    case SCENARIO_STATUSES.ATTEMPTED: return 'drop-shadow(0 0 6px rgba(245,158,11,0.5))'
+    case SCENARIO_STATUSES.ATTEMPTED: return 'drop-shadow(0 0 6px rgba(249,115,22,0.5))'
     case SCENARIO_STATUSES.BLOCKED: return 'drop-shadow(0 0 6px rgba(239,68,68,0.5))'
-    case SCENARIO_STATUSES.REQUIRED: return 'drop-shadow(0 0 6px rgba(168,85,247,0.5))'
+    case SCENARIO_STATUSES.REQUIRED: return 'drop-shadow(0 0 6px rgba(234,179,8,0.5))'
     default: return ''
   }
 }
@@ -159,10 +159,10 @@ function markerColor(status: string): string {
   switch (status) {
     case SCENARIO_STATUSES.COMPLETED: return '#22c55e'
     case SCENARIO_STATUSES.AVAILABLE: return '#5ba4cf'
-    case SCENARIO_STATUSES.ATTEMPTED: return '#f59e0b'
+    case SCENARIO_STATUSES.ATTEMPTED: return '#f97316'
     case SCENARIO_STATUSES.BLOCKED: return '#ef4444'
-    case SCENARIO_STATUSES.REQUIRED: return '#a855f7'
-    default: return '#6b7280'
+    case SCENARIO_STATUSES.REQUIRED: return '#eab308'
+    default: return '#5a6577'
   }
 }
 
@@ -316,19 +316,19 @@ function goToOutpost() {
       <div class="text-[9px] text-gray-500 uppercase tracking-wider font-semibold mb-2">Legenda</div>
       <div class="space-y-1.5">
         <div class="flex items-center gap-2">
-          <span class="w-3 h-3 rounded-full bg-green-500" />
+          <span class="w-3 h-3 rounded-full bg-fh-completed" />
           <span class="text-[10px] text-gray-400">Dokončeno</span>
         </div>
         <div class="flex items-center gap-2">
-          <span class="w-3 h-3 rounded-full bg-fh-primary" />
+          <span class="w-3 h-3 rounded-full bg-fh-available" />
           <span class="text-[10px] text-gray-400">Dostupné</span>
         </div>
         <div class="flex items-center gap-2">
-          <span class="w-3 h-3 rounded-full bg-orange-500" />
+          <span class="w-3 h-3 rounded-full bg-fh-attempted" />
           <span class="text-[10px] text-gray-400">Pokus</span>
         </div>
         <div class="flex items-center gap-2">
-          <span class="w-3 h-3 rounded-full bg-red-500" />
+          <span class="w-3 h-3 rounded-full bg-fh-blocked" />
           <span class="text-[10px] text-gray-400">Blokováno</span>
         </div>
       </div>

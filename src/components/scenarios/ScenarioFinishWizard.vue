@@ -150,7 +150,7 @@ function finish() {
             :max="30"
             @update:model-value="(v) => (coinsPerChar[c.uuid] = v)"
           />
-          <span class="text-[11px] text-yellow-400 w-16 text-right">
+          <span class="text-[11px] text-amber-400 w-16 text-right">
             +{{ (coinsPerChar[c.uuid] ?? 0) * conversion }} zl.
           </span>
         </div>

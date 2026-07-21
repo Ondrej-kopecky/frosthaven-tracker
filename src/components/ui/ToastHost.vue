@@ -5,16 +5,16 @@ const toastStore = useToastStore()
 
 const typeStyles = {
   success: {
-    border: 'border-fh-primary/40',
-    accent: 'bg-green-500',
-    icon: 'text-green-400',
+    border: 'border-fh-completed/40',
+    accent: 'bg-fh-completed',
+    icon: 'text-fh-completed',
     text: 'text-gray-200',
     path: 'M5 13l4 4L19 7',
   },
   error: {
-    border: 'border-red-700/40',
-    accent: 'bg-red-500',
-    icon: 'text-red-400',
+    border: 'border-fh-blocked/40',
+    accent: 'bg-fh-blocked',
+    icon: 'text-fh-blocked',
     text: 'text-gray-200',
     path: 'M6 18 18 6M6 6l12 12',
   },

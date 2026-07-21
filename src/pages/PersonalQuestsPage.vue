@@ -169,7 +169,7 @@ function toggleExpand(id: number) {
         v-for="quest in filteredQuests"
         :key="quest.id"
         class="fh-card overflow-hidden"
-        :class="questStates[quest.id]?.completed ? 'border-green-800/30' : ''"
+        :class="questStates[quest.id]?.completed ? 'border-fh-completed/25' : ''"
       >
         <!-- Header -->
         <button
@@ -180,7 +180,7 @@ function toggleExpand(id: number) {
           <div
             class="w-8 h-8 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors"
             :class="questStates[quest.id]?.completed
-              ? 'border-green-500 bg-green-500/15 text-green-400'
+              ? 'border-fh-completed bg-fh-completed/15 text-fh-completed'
               : 'border-fh-border bg-transparent text-gray-600'"
           >
             <svg v-if="questStates[quest.id]?.completed" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -190,7 +190,7 @@ function toggleExpand(id: number) {
           </div>
 
           <div class="flex-1 min-w-0">
-            <h3 class="font-display text-sm font-semibold tracking-wide" :class="questStates[quest.id]?.completed ? 'text-green-400/80' : 'text-gray-200'">
+            <h3 class="font-display text-sm font-semibold tracking-wide" :class="questStates[quest.id]?.completed ? 'text-fh-completed/80' : 'text-gray-200'">
               {{ quest.name }}
             </h3>
             <p v-if="questStates[quest.id]?.assigned" class="text-[11px] text-fh-primary mt-0.5">

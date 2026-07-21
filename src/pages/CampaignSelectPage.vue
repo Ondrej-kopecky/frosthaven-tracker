@@ -155,7 +155,7 @@ function deleteCampaignConfirmed() {
         <!-- Delete button (only if more than 1 profile) -->
         <button
           v-if="profileStore.profiles.length > 1"
-          class="fh-btn-ghost text-xs px-2 py-1 text-red-400 hover:text-red-300"
+          class="fh-btn-ghost text-xs px-2 py-1 text-fh-blocked hover:text-red-400"
           title="Smazat profil"
           @click="profileToDelete = true"
         >
@@ -229,7 +229,7 @@ function deleteCampaignConfirmed() {
           {{ joinLoading ? 'Připojuji…' : 'Připojit' }}
         </button>
       </div>
-      <p v-if="joinError" class="text-xs text-red-400 mt-2">{{ joinError }}</p>
+      <p v-if="joinError" class="text-xs text-fh-blocked mt-2">{{ joinError }}</p>
     </div>
 
     <!-- Existing campaigns -->
@@ -251,7 +251,7 @@ function deleteCampaignConfirmed() {
             Aktivní
           </span>
           <button
-            class="w-9 h-9 rounded-lg flex items-center justify-center text-gray-600 hover:text-red-400 hover:bg-red-500/10 transition-colors shrink-0"
+            class="w-9 h-9 rounded-lg flex items-center justify-center text-gray-600 hover:text-fh-blocked hover:bg-fh-blocked/10 transition-colors shrink-0"
             title="Smazat kampaň"
             @click.stop="campaignToDelete = { id: c.id, name: c.name }"
           >

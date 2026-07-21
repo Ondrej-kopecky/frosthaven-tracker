@@ -404,15 +404,15 @@ function deleteCampaign() {
         <div class="fh-stat-label">Moralka</div>
       </div>
       <div class="fh-card fh-stat">
-        <div class="fh-stat-value text-yellow-400">{{ campaign.prosperity }}</div>
+        <div class="fh-stat-value text-fh-frost">{{ campaign.prosperity }}</div>
         <div class="fh-stat-label">Prosperita</div>
       </div>
       <div class="fh-card fh-stat">
-        <div class="fh-stat-value text-yellow-300">{{ totalGold }}</div>
+        <div class="fh-stat-value text-amber-400">{{ totalGold }}</div>
         <div class="fh-stat-label">Celkove zlato</div>
       </div>
       <div class="fh-card fh-stat">
-        <div class="fh-stat-value text-red-400">{{ campaign.soldiersLost }}</div>
+        <div class="fh-stat-value text-fh-blocked">{{ campaign.soldiersLost }}</div>
         <div class="fh-stat-label">Padli vojaci</div>
       </div>
     </div>
@@ -443,7 +443,7 @@ function deleteCampaign() {
           Nahrat soubor
           <input type="file" accept=".json" class="hidden" @change="handleImport" />
         </label>
-        <p v-if="importError" class="text-xs text-red-400 mt-2">{{ importError }}</p>
+        <p v-if="importError" class="text-xs text-fh-blocked mt-2">{{ importError }}</p>
         <p v-if="importSuccess" class="text-xs text-fh-completed mt-2">Kampaň úspěšně importována!</p>
       </div>
 
@@ -494,9 +494,9 @@ function deleteCampaign() {
           <div
             class="w-2.5 h-2.5 rounded-full"
             :class="{
-              'bg-green-500': campaignStore.syncStatus === 'synced',
+              'bg-fh-completed': campaignStore.syncStatus === 'synced',
               'bg-fh-primary animate-pulse': campaignStore.syncStatus === 'syncing',
-              'bg-red-500': campaignStore.syncStatus === 'error',
+              'bg-fh-blocked': campaignStore.syncStatus === 'error',
               'bg-gray-600': campaignStore.syncStatus === 'idle',
             }"
           ></div>
@@ -546,7 +546,7 @@ function deleteCampaign() {
             {{ shareInfo.shareCode }}
           </div>
           <button class="fh-btn-secondary text-xs" @click="copyShareCode">Kopírovat</button>
-          <button class="fh-btn-ghost text-xs text-red-400" @click="handleRevokeShare">Zrušit sdílení</button>
+          <button class="fh-btn-ghost text-xs text-fh-blocked" @click="handleRevokeShare">Zrušit sdílení</button>
         </div>
         <button
           v-else-if="!shareInfo?.isShared || isOwnerOfCurrent"
@@ -557,7 +557,7 @@ function deleteCampaign() {
           {{ shareLoading ? 'Generuji…' : 'Vygenerovat kód pro sdílení' }}
         </button>
 
-        <p v-if="shareError" class="text-xs text-red-400">{{ shareError }}</p>
+        <p v-if="shareError" class="text-xs text-fh-blocked">{{ shareError }}</p>
 
         <!-- Členové -->
         <div v-if="shareInfo && (shareInfo.members.length > 0 || !isOwnerOfCurrent)">
@@ -572,7 +572,7 @@ function deleteCampaign() {
             <span class="text-sm text-gray-300">{{ m.username }}</span>
             <button
               v-if="isOwnerOfCurrent"
-              class="text-xs text-gray-600 hover:text-red-400 transition-colors"
+              class="text-xs text-gray-600 hover:text-fh-blocked transition-colors"
               @click="handleKick(m.userId)"
             >
               Odebrat
@@ -580,7 +580,7 @@ function deleteCampaign() {
           </div>
           <button
             v-if="!isOwnerOfCurrent"
-            class="fh-btn-ghost text-xs text-red-400 mt-1"
+            class="fh-btn-ghost text-xs text-fh-blocked mt-1"
             @click="handleLeave"
           >
             Opustit sdílenou kampaň
@@ -630,20 +630,20 @@ function deleteCampaign() {
             {{ cpLoading ? 'Měním heslo...' : 'Změnit heslo' }}
           </button>
         </div>
-        <p v-if="cpError" class="text-xs text-red-400">{{ cpError }}</p>
+        <p v-if="cpError" class="text-xs text-fh-blocked">{{ cpError }}</p>
         <p v-if="cpSuccess" class="text-xs text-fh-completed">Heslo bylo úspěšně změněno!</p>
       </div>
 
       <!-- Smazání účtu (GDPR) -->
       <div class="fh-divider mb-4">Smazání účtu</div>
-      <div class="fh-card p-5 mb-6 border-red-900/40">
+      <div class="fh-card p-5 mb-6 border-fh-blocked/20">
         <p class="text-xs text-gray-500 mb-3">
           Trvale smaže účet i všechny kampaně uložené v cloudu. Lokální data v prohlížeči
           zůstanou. Akce je nevratná — zvažte předchozí export.
           Více v <router-link to="/ochrana-udaju" class="text-fh-primary underline">zásadách ochrany údajů</router-link>.
         </p>
         <button
-          class="text-sm px-4 py-2 rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-colors"
+          class="text-sm px-4 py-2 rounded-lg border border-fh-blocked/30 text-fh-blocked hover:bg-fh-blocked/10 transition-colors"
           @click="showDeleteAccount = true"
         >
           Smazat účet…
@@ -669,7 +669,7 @@ function deleteCampaign() {
           placeholder="Vaše heslo"
           autocomplete="current-password"
         />
-        <p v-if="daError" class="text-xs text-red-400 mt-2">{{ daError }}</p>
+        <p v-if="daError" class="text-xs text-fh-blocked mt-2">{{ daError }}</p>
       </ConfirmDialog>
     </template>
 
@@ -706,8 +706,8 @@ function deleteCampaign() {
     </div>
 
     <!-- 6. Nebezpečná zóna -->
-    <div class="fh-divider mb-4 text-red-500/70">Nebezpečná zóna</div>
-    <div class="fh-card p-5 mb-6 border-red-500/20">
+    <div class="fh-divider mb-4 text-fh-blocked/70">Nebezpečná zóna</div>
+    <div class="fh-card p-5 mb-6 border-fh-blocked/20">
       <div class="flex items-center justify-between">
         <div>
           <div class="text-sm text-gray-200">Smazat kampaň</div>
@@ -715,7 +715,7 @@ function deleteCampaign() {
         </div>
         <button
           v-if="!showDeleteConfirm"
-          class="px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/25 text-red-400 text-sm font-medium hover:bg-red-500/20 transition-all"
+          class="px-4 py-2 rounded-lg bg-fh-blocked/10 border border-fh-blocked/25 text-fh-blocked text-sm font-medium hover:bg-fh-blocked/20 transition-all"
           @click="showDeleteConfirm = true"
         >
           Smazat
@@ -723,11 +723,11 @@ function deleteCampaign() {
       </div>
 
       <!-- Confirmation -->
-      <div v-if="showDeleteConfirm" class="mt-4 p-4 rounded-lg bg-red-500/5 border border-red-500/20">
-        <p class="text-sm text-red-300 mb-3">Opravdu chceš smazat kampaň "{{ campaign.name }}"? Tuto akci nelze vzít zpět.</p>
+      <div v-if="showDeleteConfirm" class="mt-4 p-4 rounded-lg bg-fh-blocked/5 border border-fh-blocked/20">
+        <p class="text-sm text-fh-blocked mb-3">Opravdu chceš smazat kampaň "{{ campaign.name }}"? Tuto akci nelze vzít zpět.</p>
         <div class="flex gap-2">
           <button
-            class="px-4 py-2 rounded-lg bg-red-500 text-white text-sm font-semibold hover:bg-red-600 transition-colors"
+            class="px-4 py-2 rounded-lg bg-fh-blocked text-white text-sm font-semibold hover:bg-red-600 transition-colors"
             @click="deleteCampaign"
           >
             Ano, smazat

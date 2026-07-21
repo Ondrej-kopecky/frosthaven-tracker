@@ -161,14 +161,14 @@ function isSecondaryActive(): boolean {
         <!-- Separator -->
         <div class="w-px h-5 bg-fh-border/50 mx-1.5"></div>
 
-        <!-- Settings — distinct amber/warm color -->
+        <!-- Settings -->
         <router-link
           to="/nastaveni"
           title="Nastavení"
           class="flex items-center justify-center w-8 h-8 rounded-lg transition-all no-underline"
           :class="isActive('/nastaveni')
-            ? 'bg-amber-500/15 text-amber-400'
-            : 'text-gray-500 hover:text-amber-400 hover:bg-amber-500/10'"
+            ? 'bg-fh-primary/15 text-fh-primary-light'
+            : 'text-gray-500 hover:text-fh-primary hover:bg-fh-primary/10'"
         >
           <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -187,7 +187,7 @@ function isSecondaryActive(): boolean {
             {{ authStore.user?.username }}
           </button>
           <button
-            class="px-1.5 py-1.5 rounded-lg text-gray-500 hover:text-red-400 hover:bg-red-500/10 transition-all"
+            class="px-1.5 py-1.5 rounded-lg text-gray-500 hover:text-fh-blocked hover:bg-fh-blocked/10 transition-all"
             title="Odhlásit se"
             @click="handleLogout"
           >
@@ -286,8 +286,8 @@ function isSecondaryActive(): boolean {
               to="/nastaveni"
               class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium no-underline transition-all"
               :class="isActive('/nastaveni')
-                ? 'bg-amber-500/15 text-amber-400 border border-amber-500/20'
-                : 'text-gray-400 bg-white/3 border border-fh-border hover:text-amber-400 hover:bg-amber-500/10'"
+                ? 'bg-fh-primary/15 text-fh-primary-light border border-fh-primary/20'
+                : 'text-gray-400 bg-white/3 border border-fh-border hover:text-fh-primary hover:bg-fh-primary/10'"
               @click="menuOpen = false"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
@@ -306,7 +306,7 @@ function isSecondaryActive(): boolean {
                 {{ authStore.user?.username }}
               </div>
               <button
-                class="px-3 py-1.5 rounded-lg text-xs font-medium text-gray-500 hover:text-red-400 hover:bg-red-500/10 transition-all"
+                class="px-3 py-1.5 rounded-lg text-xs font-medium text-gray-500 hover:text-fh-blocked hover:bg-fh-blocked/10 transition-all"
                 @click="handleLogout"
               >
                 Odhlásit

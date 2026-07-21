@@ -4,6 +4,7 @@ import { useCampaignStore } from '@/stores/campaignStore'
 import { useCharacterStore } from '@/stores/characterStore'
 import { useToastStore } from '@/stores/toastStore'
 import buildingsData from '@/data/buildings.json'
+import { RESOURCES } from '@/utils/gameIcons'
 
 /**
  * Odemykatelné městské systémy (progressive disclosure):
@@ -154,10 +155,11 @@ function removePet(index: number) {
           <span
             v-for="(herb, i) in campaign.garden"
             :key="i"
-            class="inline-flex items-center gap-1.5 text-xs bg-green-900/25 border border-green-700/30 text-green-200 rounded-md px-2 py-1"
+            class="inline-flex items-center gap-1.5 text-xs bg-fh-primary/10 border border-fh-primary/30 text-fh-frost rounded-md px-2 py-1"
           >
-            🌱 {{ herbLabel(herb) }}
-            <button class="text-green-400/50 hover:text-red-400 transition-colors" title="Vykopat" @click="unplant(i)">×</button>
+            <img :src="RESOURCES[herb]?.url" class="fh-gicon fh-gicon-light" :alt="herbLabel(herb)" :title="herbLabel(herb)">
+            {{ herbLabel(herb) }}
+            <button class="text-gray-500 hover:text-red-400 transition-colors" title="Vykopat" @click="unplant(i)">×</button>
           </span>
           <span v-if="campaign.garden.length === 0" class="text-xs text-gray-600">Nic není zasazeno.</span>
         </div>

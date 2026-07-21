@@ -137,7 +137,7 @@ const finalList = computed(() => {
 
 function typeBadgeClass(type: string): string {
   if (type === 'Campaign') return 'bg-fh-primary/15 text-fh-primary border border-fh-primary/25'
-  return 'bg-purple-500/15 text-purple-400 border border-purple-500/25'
+  return 'bg-fh-frost/10 text-fh-frost border border-fh-frost/25'
 }
 
 function typeLabel(type: string): string {
@@ -234,7 +234,7 @@ function typeLabel(type: string): string {
             <!-- Manual badge -->
             <span
               v-if="achievement.is_manual"
-              class="fh-badge text-[10px] bg-yellow-500/15 text-yellow-400 border border-yellow-500/25"
+              class="fh-badge text-[10px] bg-amber-500/15 text-amber-400 border border-amber-500/25"
             >
               manuální
             </span>
@@ -318,7 +318,7 @@ function typeLabel(type: string): string {
                     <span class="fh-badge text-[10px]" :class="typeBadgeClass(selectedDef.type)">
                       {{ typeLabel(selectedDef.type) }}
                     </span>
-                    <span v-if="selectedDef.is_manual" class="fh-badge text-[10px] bg-yellow-500/15 text-yellow-400 border border-yellow-500/25">
+                    <span v-if="selectedDef.is_manual" class="fh-badge text-[10px] bg-amber-500/15 text-amber-400 border border-amber-500/25">
                       manuální
                     </span>
                     <span v-if="selectedDef.hidden" class="fh-badge text-[10px] bg-gray-500/15 text-gray-400 border border-gray-500/25">
@@ -405,7 +405,7 @@ function typeLabel(type: string): string {
                   <button
                     v-for="sid in achievementScenarioMap[selectedDef.name].awarded"
                     :key="sid"
-                    class="text-xs px-2 py-0.5 rounded-md bg-green-900/10 text-green-400/80 border border-green-800/20 hover:bg-green-900/20 transition-colors"
+                    class="text-xs px-2 py-0.5 rounded-md bg-fh-completed/10 text-fh-completed/80 border border-fh-completed/20 hover:bg-fh-completed/20 transition-colors"
                     @click="closeDetail(); router.push({ path: '/scenare', query: { open: String(sid) } })"
                   >
                     {{ scenarioName(sid) }}
@@ -420,7 +420,7 @@ function typeLabel(type: string): string {
                   <button
                     v-for="sid in achievementScenarioMap[selectedDef.name].lost"
                     :key="sid"
-                    class="text-xs px-2 py-0.5 rounded-md bg-red-900/10 text-red-400/80 border border-red-800/20 hover:bg-red-900/20 transition-colors"
+                    class="text-xs px-2 py-0.5 rounded-md bg-fh-blocked/10 text-fh-blocked/80 border border-fh-blocked/20 hover:bg-fh-blocked/20 transition-colors"
                     @click="closeDetail(); router.push({ path: '/scenare', query: { open: String(sid) } })"
                   >
                     {{ scenarioName(sid) }}

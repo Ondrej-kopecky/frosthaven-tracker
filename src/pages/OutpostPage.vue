@@ -8,6 +8,7 @@ import TownSystems from '@/components/outpost/TownSystems.vue'
 import townGuardData from '@/data/town-guard.json'
 import buildingsData from '@/data/buildings.json'
 import { computeTownGuardDeck, deckSize, cardLabel, type TownGuardCard } from '@/utils/townGuardDeck'
+import { RESOURCES, MONEY_ICON } from '@/utils/gameIcons'
 
 interface BuildingLevel {
   level: number
@@ -40,18 +41,18 @@ const campaign = computed(() => campaignStore.currentCampaign)
 
 // Resources
 const materials = [
-  { key: 'lumber', label: 'Dřevo', color: 'bg-amber-900/40 border-amber-700/30 text-amber-200' },
-  { key: 'metal', label: 'Kov', color: 'bg-slate-700/40 border-slate-500/30 text-slate-200' },
-  { key: 'hide', label: 'Kůže', color: 'bg-orange-900/40 border-orange-700/30 text-orange-200' },
+  { key: 'lumber', label: 'Dřevo' },
+  { key: 'metal', label: 'Kov' },
+  { key: 'hide', label: 'Kůže' },
 ] as const
 
 const herbs = [
-  { key: 'arrowvine', label: 'Šípobyl', color: 'bg-green-900/40 border-green-700/30 text-green-200' },
-  { key: 'axenut', label: 'Sekeřičník', color: 'bg-lime-900/40 border-lime-700/30 text-lime-200' },
-  { key: 'corpsecap', label: 'Mrtvolník', color: 'bg-emerald-900/40 border-emerald-700/30 text-emerald-200' },
-  { key: 'flamefruit', label: 'Plamenoplod', color: 'bg-teal-900/40 border-teal-700/30 text-teal-200' },
-  { key: 'rockroot', label: 'Skalokořen', color: 'bg-cyan-900/40 border-cyan-700/30 text-cyan-200' },
-  { key: 'snowthistle', label: 'Sněhobodlák', color: 'bg-sky-900/40 border-sky-700/30 text-sky-200' },
+  { key: 'arrowvine', label: 'Šípobyl' },
+  { key: 'axenut', label: 'Sekeřičník' },
+  { key: 'corpsecap', label: 'Mrtvolník' },
+  { key: 'flamefruit', label: 'Plamenoplod' },
+  { key: 'rockroot', label: 'Skalokořen' },
+  { key: 'snowthistle', label: 'Sněhobodlák' },
 ] as const
 
 type ResourceKey = 'lumber' | 'metal' | 'hide' | 'gold' | 'arrowvine' | 'axenut' | 'corpsecap' | 'flamefruit' | 'rockroot' | 'snowthistle'
@@ -133,7 +134,7 @@ function unapplyPerk(index: number) {
 }
 
 function perkTypeBadge(type: string): { label: string; class: string } {
-  if (type === 'replace') return { label: 'Nahradit', class: 'bg-yellow-500/15 text-yellow-400 border border-yellow-500/25' }
+  if (type === 'replace') return { label: 'Nahradit', class: 'bg-fh-required/15 text-fh-required border border-fh-required/25' }
   return { label: 'Přidat', class: 'bg-fh-completed/15 text-fh-completed border border-fh-completed/25' }
 }
 
@@ -328,25 +329,28 @@ const builtCount = computed(() => buildings.filter((b) => getBuildingLevel(b.id)
 
     <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-2">Materiály</h3>
     <div class="grid grid-cols-3 gap-2 mb-3">
-      <div v-for="res in materials" :key="res.key" class="rounded-xl border p-3 text-center" :class="res.color">
-        <div class="text-lg font-bold">{{ getResource(res.key) }}</div>
-        <div class="text-[10px] uppercase tracking-wider opacity-75">{{ res.label }}</div>
+      <div v-for="res in materials" :key="res.key" class="fh-card rounded-xl p-3 text-center">
+        <img :src="RESOURCES[res.key]?.url" class="fh-gicon fh-gicon-light !h-5 block mx-auto mb-1" :alt="res.label" :title="res.label">
+        <div class="text-lg font-bold text-gray-200">{{ getResource(res.key) }}</div>
+        <div class="text-[10px] uppercase tracking-wider text-gray-500">{{ res.label }}</div>
       </div>
     </div>
 
     <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-2">Byliny</h3>
     <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-3">
-      <div v-for="res in herbs" :key="res.key" class="rounded-xl border p-3 text-center" :class="res.color">
-        <div class="text-lg font-bold">{{ getResource(res.key) }}</div>
-        <div class="text-[10px] uppercase tracking-wider opacity-75">{{ res.label }}</div>
+      <div v-for="res in herbs" :key="res.key" class="fh-card rounded-xl p-3 text-center">
+        <img :src="RESOURCES[res.key]?.url" class="fh-gicon fh-gicon-light !h-5 block mx-auto mb-1" :alt="res.label" :title="res.label">
+        <div class="text-lg font-bold text-gray-200">{{ getResource(res.key) }}</div>
+        <div class="text-[10px] uppercase tracking-wider text-gray-500">{{ res.label }}</div>
       </div>
     </div>
 
     <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-2">Pokladna</h3>
     <div class="grid grid-cols-3 gap-2 mb-6">
-      <div class="rounded-xl border p-3 text-center bg-yellow-900/40 border-yellow-600/30 text-yellow-200">
-        <div class="text-lg font-bold">{{ getResource('gold') }}</div>
-        <div class="text-[10px] uppercase tracking-wider opacity-75">Zlato</div>
+      <div class="fh-card rounded-xl p-3 text-center">
+        <img :src="MONEY_ICON" class="fh-gicon !h-5 block mx-auto mb-1" alt="Zlato" title="Zlato">
+        <div class="text-lg font-bold text-amber-400">{{ getResource('gold') }}</div>
+        <div class="text-[10px] uppercase tracking-wider text-gray-500">Zlato</div>
       </div>
     </div>
 
@@ -436,28 +440,32 @@ const builtCount = computed(() => buildings.filter((b) => getBuildingLevel(b.id)
           <div v-if="getNextUpgradeCost(building)" class="bg-white/[0.02] rounded-lg p-3 border border-fh-border/30">
             <div class="text-[10px] text-gray-500 uppercase tracking-wider mb-2">Cena vylepšení na level {{ getBuildingLevel(building.id) + 1 }}</div>
             <div class="flex flex-wrap gap-2">
-              <span v-if="getNextUpgradeCost(building)!.prosperity" class="inline-flex items-center gap-1 text-xs text-yellow-400 bg-yellow-900/15 px-2 py-0.5 rounded border border-yellow-700/20">
+              <span v-if="getNextUpgradeCost(building)!.prosperity" class="inline-flex items-center gap-1 text-xs text-fh-required bg-fh-required/10 px-2 py-0.5 rounded border border-fh-required/20">
                 <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2l2.5 5.5L18 8.5l-4 4 1 5.5L10 15.5 4.5 18l1-5.5-4-4 5.5-1z"/></svg>
                 {{ getNextUpgradeCost(building)!.prosperity }}
               </span>
-              <span v-if="getNextUpgradeCost(building)!.lumber" class="inline-flex items-center gap-1 text-xs text-amber-300 bg-amber-900/15 px-2 py-0.5 rounded border border-amber-700/20"
+              <span v-if="getNextUpgradeCost(building)!.lumber" class="inline-flex items-center gap-1 text-xs text-gray-300 bg-white/[0.03] px-2 py-0.5 rounded border border-white/10"
                 :class="hasEnough('lumber', getNextUpgradeCost(building)!.lumber) ? '' : 'ring-1 ring-red-500/40'"
               >
+                <img :src="RESOURCES.lumber?.url" class="fh-gicon fh-gicon-light" alt="Dřevo" title="Dřevo">
                 {{ getNextUpgradeCost(building)!.lumber }} dřevo
               </span>
-              <span v-if="getNextUpgradeCost(building)!.metal" class="inline-flex items-center gap-1 text-xs text-slate-300 bg-slate-700/25 px-2 py-0.5 rounded border border-slate-500/20"
+              <span v-if="getNextUpgradeCost(building)!.metal" class="inline-flex items-center gap-1 text-xs text-gray-300 bg-white/[0.03] px-2 py-0.5 rounded border border-white/10"
                 :class="hasEnough('metal', getNextUpgradeCost(building)!.metal) ? '' : 'ring-1 ring-red-500/40'"
               >
+                <img :src="RESOURCES.metal?.url" class="fh-gicon fh-gicon-light" alt="Kov" title="Kov">
                 {{ getNextUpgradeCost(building)!.metal }} kov
               </span>
-              <span v-if="getNextUpgradeCost(building)!.hide" class="inline-flex items-center gap-1 text-xs text-orange-300 bg-orange-900/15 px-2 py-0.5 rounded border border-orange-700/20"
+              <span v-if="getNextUpgradeCost(building)!.hide" class="inline-flex items-center gap-1 text-xs text-gray-300 bg-white/[0.03] px-2 py-0.5 rounded border border-white/10"
                 :class="hasEnough('hide', getNextUpgradeCost(building)!.hide) ? '' : 'ring-1 ring-red-500/40'"
               >
+                <img :src="RESOURCES.hide?.url" class="fh-gicon fh-gicon-light" alt="Kůže" title="Kůže">
                 {{ getNextUpgradeCost(building)!.hide }} kůže
               </span>
-              <span v-if="getNextUpgradeCost(building)!.gold" class="inline-flex items-center gap-1 text-xs text-yellow-200 bg-yellow-900/15 px-2 py-0.5 rounded border border-yellow-600/20"
+              <span v-if="getNextUpgradeCost(building)!.gold" class="inline-flex items-center gap-1 text-xs text-amber-400 bg-white/[0.03] px-2 py-0.5 rounded border border-white/10"
                 :class="hasEnough('gold', getNextUpgradeCost(building)!.gold) ? '' : 'ring-1 ring-red-500/40'"
               >
+                <img :src="MONEY_ICON" class="fh-gicon" alt="Zlato" title="Zlato">
                 {{ getNextUpgradeCost(building)!.gold }} zl.
               </span>
             </div>
@@ -471,11 +479,11 @@ const builtCount = computed(() => buildings.filter((b) => getBuildingLevel(b.id)
                 <span class="text-gray-300">{{ getCurrentLevelData(building)?.operations }}</span>
               </div>
               <div v-if="getCurrentLevelData(building)?.downtime" class="flex gap-2">
-                <span class="text-[11px] text-yellow-400 font-medium shrink-0 mt-0.5">Volný čas:</span>
+                <span class="text-[11px] text-amber-400 font-medium shrink-0 mt-0.5">Volný čas:</span>
                 <span class="text-gray-300">{{ getCurrentLevelData(building)?.downtime }}</span>
               </div>
               <div v-if="getCurrentLevelData(building)?.passive" class="flex gap-2">
-                <span class="text-[11px] text-green-400 font-medium shrink-0 mt-0.5">Pasivní:</span>
+                <span class="text-[11px] text-fh-frost font-medium shrink-0 mt-0.5">Pasivní:</span>
                 <span class="text-gray-300">{{ getCurrentLevelData(building)?.passive }}</span>
               </div>
               <div v-if="getCurrentLevelData(building)?.wrecked" class="flex gap-2">
@@ -511,10 +519,10 @@ const builtCount = computed(() => buildings.filter((b) => getBuildingLevel(b.id)
                     <template v-if="lvl.rewards"> — {{ lvl.rewards }}</template>
                   </span>
                   <div v-if="(lvl as any).upgradeCost" class="flex gap-1 mt-0.5 flex-wrap">
-                    <span v-if="(lvl as any).upgradeCost.lumber" class="text-[9px] text-amber-400/70">{{ (lvl as any).upgradeCost.lumber }}D</span>
-                    <span v-if="(lvl as any).upgradeCost.metal" class="text-[9px] text-slate-400/70">{{ (lvl as any).upgradeCost.metal }}K</span>
-                    <span v-if="(lvl as any).upgradeCost.hide" class="text-[9px] text-orange-400/70">{{ (lvl as any).upgradeCost.hide }}Kž</span>
-                    <span v-if="(lvl as any).upgradeCost.gold" class="text-[9px] text-yellow-400/70">{{ (lvl as any).upgradeCost.gold }}zl</span>
+                    <span v-if="(lvl as any).upgradeCost.lumber" class="text-[9px] text-gray-500">{{ (lvl as any).upgradeCost.lumber }}D</span>
+                    <span v-if="(lvl as any).upgradeCost.metal" class="text-[9px] text-gray-500">{{ (lvl as any).upgradeCost.metal }}K</span>
+                    <span v-if="(lvl as any).upgradeCost.hide" class="text-[9px] text-gray-500">{{ (lvl as any).upgradeCost.hide }}Kž</span>
+                    <span v-if="(lvl as any).upgradeCost.gold" class="text-[9px] text-amber-400/70">{{ (lvl as any).upgradeCost.gold }}zl</span>
                   </div>
                 </div>
               </div>
@@ -744,7 +752,7 @@ const builtCount = computed(() => buildings.filter((b) => getBuildingLevel(b.id)
         <button
           class="flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200"
           :class="season === 'summer'
-            ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'
+            ? 'bg-fh-primary/20 text-fh-primary-light border border-fh-primary/30'
             : 'bg-white/3 text-gray-500 border border-white/5 hover:text-gray-300'"
           @click="season = 'summer'"
         >
@@ -758,7 +766,7 @@ const builtCount = computed(() => buildings.filter((b) => getBuildingLevel(b.id)
         <button
           class="flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200"
           :class="season === 'winter'
-            ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
+            ? 'bg-fh-primary/20 text-fh-primary-light border border-fh-primary/30'
             : 'bg-white/3 text-gray-500 border border-white/5 hover:text-gray-300'"
           @click="season = 'winter'"
         >

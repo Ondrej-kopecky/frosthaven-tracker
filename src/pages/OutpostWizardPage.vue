@@ -13,6 +13,7 @@ import {
 } from '@/utils/campaignLoop'
 import { computeTownGuardDeck, cardLabel, type TownGuardCard } from '@/utils/townGuardDeck'
 import buildingsData from '@/data/buildings.json'
+import { RESOURCES } from '@/utils/gameIcons'
 
 interface BuildingLevel {
   level: number
@@ -307,10 +308,7 @@ function finishPhase() {
           </div>
           <div class="text-right">
             <div class="fh-stat-label">Sezóna</div>
-            <div
-              class="font-display text-2xl font-bold"
-              :class="currentSeason === 'summer' ? 'text-amber-300' : 'text-sky-300'"
-            >
+            <div class="font-display text-2xl font-bold text-fh-frost">
               {{ currentSeason === 'summer' ? '☀' : '❄' }} {{ seasonLabel(currentSeason) }}
             </div>
           </div>
@@ -324,7 +322,7 @@ function finishPhase() {
           {{ weekAdvanced ? 'Týden označen ✓' : 'Posunout čas o 1 týden' }}
         </button>
 
-        <div v-if="weekAdvanced && seasonChanged" class="mt-3 rounded-lg border border-sky-500/40 bg-sky-500/10 px-3 py-2 text-xs text-sky-300">
+        <div v-if="weekAdvanced && seasonChanged" class="mt-3 rounded-lg border border-fh-primary/30 bg-fh-primary/5 px-3 py-2 text-xs text-fh-primary">
           Sezóna se změnila na {{ seasonLabel(currentSeason).toLowerCase() }} — od teď se používají
           {{ currentSeason === 'summer' ? 'letní' : 'zimní' }} balíčky událostí.
         </div>
@@ -400,7 +398,7 @@ function finishPhase() {
               </div>
               <div>
                 <div class="fh-stat-label">Morálka</div>
-                <div class="font-display text-xl font-bold" :class="moraleDefense >= 0 ? 'text-emerald-400' : 'text-red-400'">
+                <div class="font-display text-xl font-bold" :class="moraleDefense >= 0 ? 'text-fh-completed' : 'text-red-400'">
                   {{ moraleDefense >= 0 ? '+' : '' }}{{ moraleDefense }}
                 </div>
               </div>
@@ -499,6 +497,9 @@ function finishPhase() {
           <div class="text-xs text-gray-500 uppercase tracking-wider mb-3">Rychlý zápis vyprodukovaných surovin</div>
           <div class="grid grid-cols-3 gap-3">
             <div v-for="r in resDefs" :key="r.key" class="text-center">
+              <div class="mb-1">
+                <img :src="RESOURCES[r.key]?.url" class="fh-gicon fh-gicon-light !h-5" :alt="r.label" :title="r.label">
+              </div>
               <Stepper
                 small
                 :model-value="campaign.resources[r.key]"

@@ -78,8 +78,8 @@ async function handleReset() {
         />
       </div>
 
-      <p v-if="error" class="text-xs text-red-400">{{ error }}</p>
-      <p v-if="success" class="text-xs text-green-400">{{ success }}</p>
+      <p v-if="error" class="text-xs text-fh-blocked">{{ error }}</p>
+      <p v-if="success" class="text-xs text-fh-completed">{{ success }}</p>
 
       <button type="submit" class="fh-btn-primary w-full" :disabled="loading">
         {{ loading ? 'Odesílám...' : 'Odeslat kód' }}
@@ -120,8 +120,8 @@ async function handleReset() {
         />
       </div>
 
-      <p v-if="error" class="text-xs text-red-400">{{ error }}</p>
-      <p v-if="success" class="text-xs text-green-400">{{ success }}</p>
+      <p v-if="error" class="text-xs text-fh-blocked">{{ error }}</p>
+      <p v-if="success" class="text-xs text-fh-completed">{{ success }}</p>
 
       <button type="submit" class="fh-btn-primary w-full" :disabled="loading">
         {{ loading ? 'Měním heslo...' : 'Změnit heslo' }}

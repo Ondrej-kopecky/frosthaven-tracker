@@ -142,14 +142,14 @@ async function handleResend() {
       </div>
 
       <label class="flex items-start gap-2 text-xs text-gray-400 cursor-pointer">
-        <input v-model="consent" type="checkbox" class="mt-0.5 accent-[#5ba4cf]" />
+        <input v-model="consent" type="checkbox" class="mt-0.5 accent-fh-primary" />
         <span>
           Souhlasím se zpracováním e-mailu a dat kampaní pro provoz aplikace dle
           <router-link to="/ochrana-udaju" class="text-fh-primary hover:text-fh-primary-light underline" target="_blank">zásad ochrany údajů</router-link>.
         </span>
       </label>
 
-      <p v-if="error" class="text-xs text-red-400">{{ error }}</p>
+      <p v-if="error" class="text-xs text-fh-blocked">{{ error }}</p>
 
       <button
         type="submit"
@@ -183,7 +183,7 @@ async function handleResend() {
         />
       </div>
 
-      <p v-if="error" class="text-xs text-red-400">{{ error }}</p>
+      <p v-if="error" class="text-xs text-fh-blocked">{{ error }}</p>
 
       <button
         type="submit"
@@ -201,7 +201,7 @@ async function handleResend() {
         >
           Odeslat kód znovu
         </button>
-        <p v-if="resendSuccess" class="text-xs text-green-400 mt-1">Kód odeslán!</p>
+        <p v-if="resendSuccess" class="text-xs text-fh-completed mt-1">Kód odeslán!</p>
       </div>
     </form>
 

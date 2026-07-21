@@ -66,7 +66,7 @@ async function handleSubmit() {
   <!-- Floating button -->
   <button
     @click="openModal"
-    class="fixed bottom-5 right-5 z-50 w-12 h-12 rounded-full bg-fh-primary text-white shadow-lg
+    class="fixed bottom-5 right-5 z-50 w-12 h-12 rounded-full bg-fh-primary text-fh-dark shadow-lg
            hover:bg-fh-primary-light transition-all duration-200 flex items-center justify-center
            hover:scale-110 active:scale-95"
     title="Zpetná vazba"
@@ -96,12 +96,12 @@ async function handleSubmit() {
         <div class="fh-card relative z-10 w-full max-w-md p-6 shadow-2xl border border-fh-border rounded-xl">
           <!-- Success state -->
           <div v-if="showSuccess" class="text-center py-8">
-            <div class="w-14 h-14 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-4">
-              <svg class="w-7 h-7 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <div class="w-14 h-14 rounded-full bg-fh-completed/10 flex items-center justify-center mx-auto mb-4">
+              <svg class="w-7 h-7 text-fh-completed" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
               </svg>
             </div>
-            <p class="text-lg font-semibold text-green-400">Odesláno, díky!</p>
+            <p class="text-lg font-semibold text-fh-completed">Odesláno, díky!</p>
           </div>
 
           <!-- Form state -->
@@ -147,7 +147,7 @@ async function handleSubmit() {
                 />
               </div>
 
-              <p v-if="error" class="text-xs text-red-400">{{ error }}</p>
+              <p v-if="error" class="text-xs text-fh-blocked">{{ error }}</p>
 
               <div class="flex gap-3 pt-1">
                 <button type="button" @click="closeModal" class="fh-btn-ghost flex-1">

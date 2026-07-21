@@ -11,6 +11,7 @@ import {
   MORALE_MIN,
   MORALE_MAX,
 } from '@/utils/campaignLoop'
+import { RESOURCES, MONEY_ICON } from '@/utils/gameIcons'
 
 const campaignStore = useCampaignStore()
 const characterStore = useCharacterStore()
@@ -18,23 +19,25 @@ const characterStore = useCharacterStore()
 const campaign = computed(() => campaignStore.currentCampaign)
 const activeMembers = computed(() => characterStore.activeCharacters)
 
-// Resource definitions
+// Resource definitions (jednotný neutrální vzhled, rozlišení přes herní loot ikony)
+const resourceTileClass = 'bg-fh-card border-fh-border text-gray-200'
+
 const materials = [
-  { key: 'lumber', label: 'Dřevo', color: 'bg-amber-900/40 border-amber-700/30 text-amber-200' },
-  { key: 'metal', label: 'Kov', color: 'bg-slate-700/40 border-slate-500/30 text-slate-200' },
-  { key: 'hide', label: 'Kůže', color: 'bg-orange-900/40 border-orange-700/30 text-orange-200' },
+  { key: 'lumber', label: 'Dřevo', color: resourceTileClass },
+  { key: 'metal', label: 'Kov', color: resourceTileClass },
+  { key: 'hide', label: 'Kůže', color: resourceTileClass },
 ] as const
 
 const herbs = [
-  { key: 'arrowvine', label: 'Šípobyl', color: 'bg-green-900/40 border-green-700/30 text-green-200' },
-  { key: 'axenut', label: 'Sekeřičník', color: 'bg-lime-900/40 border-lime-700/30 text-lime-200' },
-  { key: 'corpsecap', label: 'Mrtvolník', color: 'bg-emerald-900/40 border-emerald-700/30 text-emerald-200' },
-  { key: 'flamefruit', label: 'Plamenoplod', color: 'bg-teal-900/40 border-teal-700/30 text-teal-200' },
-  { key: 'rockroot', label: 'Skalokořen', color: 'bg-cyan-900/40 border-cyan-700/30 text-cyan-200' },
-  { key: 'snowthistle', label: 'Sněhobodlák', color: 'bg-sky-900/40 border-sky-700/30 text-sky-200' },
+  { key: 'arrowvine', label: 'Šípobyl', color: resourceTileClass },
+  { key: 'axenut', label: 'Sekeřičník', color: resourceTileClass },
+  { key: 'corpsecap', label: 'Mrtvolník', color: resourceTileClass },
+  { key: 'flamefruit', label: 'Plamenoplod', color: resourceTileClass },
+  { key: 'rockroot', label: 'Skalokořen', color: resourceTileClass },
+  { key: 'snowthistle', label: 'Sněhobodlák', color: resourceTileClass },
 ] as const
 
-const goldDef = { key: 'gold', label: 'Zlato', color: 'bg-yellow-900/40 border-yellow-600/30 text-yellow-200' } as const
+const goldDef = { key: 'gold', label: 'Zlato', color: resourceTileClass } as const
 
 type ResourceKey = 'lumber' | 'metal' | 'hide' | 'gold' | 'arrowvine' | 'axenut' | 'corpsecap' | 'flamefruit' | 'rockroot' | 'snowthistle'
 
@@ -165,8 +168,8 @@ const moralePercent = computed(() => {
 
 const moraleColor = computed(() => {
   const val = campaign.value?.morale ?? 0
-  if (val < 3) return 'bg-red-500'
-  if (val < 8) return 'bg-yellow-500'
+  if (val < 3) return 'bg-fh-blocked'
+  if (val < 8) return 'bg-fh-required'
   if (val < 14) return 'bg-fh-primary'
   return 'bg-fh-completed'
 })
@@ -231,7 +234,7 @@ const moraleColor = computed(() => {
           <div class="text-xs text-gray-500 uppercase tracking-wider mb-0.5">Týden</div>
           <div class="flex items-center gap-3">
             <button
-              class="w-7 h-7 rounded-lg bg-red-500/15 border border-red-500/25 text-red-400 hover:bg-red-500/25 transition-colors text-sm font-bold flex items-center justify-center"
+              class="w-7 h-7 rounded-lg bg-fh-blocked/15 border border-fh-blocked/25 text-fh-blocked hover:bg-fh-blocked/25 transition-colors text-sm font-bold flex items-center justify-center"
               @click="adjustWeek(-1)"
             >-</button>
             <div class="font-display text-3xl font-bold text-fh-frost min-w-[3rem] text-center">
@@ -250,8 +253,8 @@ const moraleColor = computed(() => {
             <span
               class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-semibold"
               :class="currentSeason === 'summer'
-                ? 'bg-amber-900/30 border border-amber-600/30 text-amber-300'
-                : 'bg-sky-900/30 border border-sky-600/30 text-sky-300'"
+                ? 'bg-white/[0.06] border border-fh-border-light text-gray-300'
+                : 'bg-fh-primary/15 border border-fh-primary/30 text-fh-frost'"
             >
               <svg v-if="currentSeason === 'summer'" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 0 0 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg>
               <svg v-else class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.34 2.02C6.59 1.82 2 6.42 2 12c0 5.52 4.48 10 10 10 3.71 0 6.93-2.02 8.66-5.02A7.95 7.95 0 0 1 12 20a8 8 0 0 1-8-8c0-3.72 2.56-6.83 6-7.73a9.3 9.3 0 0 1 2.34-2.25z"/></svg>
@@ -274,8 +277,8 @@ const moraleColor = computed(() => {
               : w < (campaign.calendarWeek ?? 1)
                 ? 'bg-white/[0.06] text-gray-500'
                 : seasonForWeek(w) === 'summer'
-                  ? 'bg-amber-500/[0.04] text-gray-600'
-                  : 'bg-sky-500/[0.05] text-gray-600',
+                  ? 'bg-white/[0.03] text-gray-600'
+                  : 'bg-fh-primary/[0.07] text-gray-600',
           ]"
           :title="`Týden ${w} — ${seasonLabelFor(seasonForWeek(w))}${weekHasSections(w) ? ' · sekce: ' + (campaign.calendarSections[w] ?? []).join(', ') : ''}`"
           @click="campaign.calendarWeek = w; campaignStore.autoSave()"
@@ -288,8 +291,8 @@ const moraleColor = computed(() => {
         </div>
       </div>
       <div class="flex justify-between text-[9px] text-gray-600 mt-1">
-        <span class="text-amber-400/60">☀ léto = řádky 1, 3, 5, 7</span>
-        <span class="text-sky-400/60">❄ zima = řádky 2, 4, 6, 8</span>
+        <span class="text-gray-500">☀ léto = řádky 1, 3, 5, 7</span>
+        <span class="text-fh-primary/60">❄ zima = řádky 2, 4, 6, 8</span>
       </div>
 
       <!-- Time-locked sekce -->
@@ -323,7 +326,7 @@ const moraleColor = computed(() => {
             >
               {{ sec }}
               <button
-                class="text-gray-600 hover:text-red-400 transition-colors"
+                class="text-gray-600 hover:text-fh-blocked transition-colors"
                 title="Odebrat (po přečtení)"
                 @click="removeSection(entry.week, i)"
               >×</button>
@@ -369,10 +372,10 @@ const moraleColor = computed(() => {
         <div class="fh-stat-label mb-2">Celková obrana</div>
         <div class="flex items-center justify-center gap-3">
           <button
-            class="w-7 h-7 rounded-lg bg-red-500/15 border border-red-500/25 text-red-400 hover:bg-red-500/25 transition-colors text-sm font-bold flex items-center justify-center"
+            class="w-7 h-7 rounded-lg bg-fh-blocked/15 border border-fh-blocked/25 text-fh-blocked hover:bg-fh-blocked/25 transition-colors text-sm font-bold flex items-center justify-center"
             @click="adjustDefense(-1)"
           >-</button>
-          <div class="font-display text-3xl font-bold text-emerald-400">{{ campaign.totalDefense ?? 0 }}</div>
+          <div class="font-display text-3xl font-bold text-fh-frost">{{ campaign.totalDefense ?? 0 }}</div>
           <button
             class="w-7 h-7 rounded-lg bg-fh-completed/15 border border-fh-completed/25 text-fh-completed hover:bg-fh-completed/25 transition-colors text-sm font-bold flex items-center justify-center"
             @click="adjustDefense(1)"
@@ -388,7 +391,7 @@ const moraleColor = computed(() => {
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-3">
           <button
-            class="w-8 h-8 rounded-lg bg-red-500/15 border border-red-500/25 text-red-400 hover:bg-red-500/25 transition-colors text-lg font-bold flex items-center justify-center"
+            class="w-8 h-8 rounded-lg bg-fh-blocked/15 border border-fh-blocked/25 text-fh-blocked hover:bg-fh-blocked/25 transition-colors text-lg font-bold flex items-center justify-center"
             @click="adjustMorale(-1)"
           >-</button>
           <div class="font-display text-3xl font-bold text-fh-frost min-w-[3rem] text-center">
@@ -401,7 +404,7 @@ const moraleColor = computed(() => {
         </div>
         <div class="text-right">
           <div class="text-xs text-gray-500">0 / 20</div>
-          <div class="text-xs mt-0.5" :class="moraleDefense >= 0 ? 'text-emerald-400' : 'text-red-400'">
+          <div class="text-xs mt-0.5" :class="moraleDefense >= 0 ? 'text-fh-completed' : 'text-fh-blocked'">
             Obrana {{ moraleDefense >= 0 ? '+' : '' }}{{ moraleDefense }}
           </div>
         </div>
@@ -433,10 +436,10 @@ const moraleColor = computed(() => {
         <div class="fh-stat-label mb-2">Prosperita</div>
         <div class="flex items-center justify-center gap-3">
           <button
-            class="w-7 h-7 rounded-lg bg-red-500/15 border border-red-500/25 text-red-400 hover:bg-red-500/25 transition-colors text-sm font-bold flex items-center justify-center"
+            class="w-7 h-7 rounded-lg bg-fh-blocked/15 border border-fh-blocked/25 text-fh-blocked hover:bg-fh-blocked/25 transition-colors text-sm font-bold flex items-center justify-center"
             @click="adjustProsperity(-1)"
           >-</button>
-          <div class="font-display text-3xl font-bold text-yellow-400">{{ campaign.prosperity }}</div>
+          <div class="font-display text-3xl font-bold text-fh-frost">{{ campaign.prosperity }}</div>
           <button
             class="w-7 h-7 rounded-lg bg-fh-completed/15 border border-fh-completed/25 text-fh-completed hover:bg-fh-completed/25 transition-colors text-sm font-bold flex items-center justify-center"
             @click="adjustProsperity(1)"
@@ -448,7 +451,7 @@ const moraleColor = computed(() => {
         <div class="fh-stat-label mb-2">Inspirace</div>
         <div class="flex items-center justify-center gap-3">
           <button
-            class="w-7 h-7 rounded-lg bg-red-500/15 border border-red-500/25 text-red-400 hover:bg-red-500/25 transition-colors text-sm font-bold flex items-center justify-center"
+            class="w-7 h-7 rounded-lg bg-fh-blocked/15 border border-fh-blocked/25 text-fh-blocked hover:bg-fh-blocked/25 transition-colors text-sm font-bold flex items-center justify-center"
             @click="adjustInspiration(-1)"
           >-</button>
           <div class="font-display text-3xl font-bold text-fh-primary-light">{{ campaign.inspiration }}</div>
@@ -472,6 +475,7 @@ const moraleColor = computed(() => {
         class="rounded-xl border p-3 text-center"
         :class="res.color"
       >
+        <img :src="RESOURCES[res.key].url" class="fh-gicon fh-gicon-light !h-5 block mx-auto mb-1" :alt="res.label" :title="res.label">
         <div class="text-lg font-bold">{{ getResource(res.key) }}</div>
         <div class="text-[10px] uppercase tracking-wider opacity-75 mb-2">{{ res.label }}</div>
         <div class="flex justify-center gap-1.5">
@@ -496,6 +500,7 @@ const moraleColor = computed(() => {
         class="rounded-xl border p-3 text-center"
         :class="res.color"
       >
+        <img :src="RESOURCES[res.key].url" class="fh-gicon fh-gicon-light !h-5 block mx-auto mb-1" :alt="res.label" :title="res.label">
         <div class="text-lg font-bold">{{ getResource(res.key) }}</div>
         <div class="text-[10px] uppercase tracking-wider opacity-75 mb-2">{{ res.label }}</div>
         <div class="flex justify-center gap-1.5">
@@ -518,7 +523,8 @@ const moraleColor = computed(() => {
         class="rounded-xl border p-3 text-center"
         :class="goldDef.color"
       >
-        <div class="text-lg font-bold">{{ getResource('gold') }}</div>
+        <img :src="MONEY_ICON" class="fh-gicon fh-gicon-light !h-5 block mx-auto mb-1" :alt="goldDef.label" :title="goldDef.label">
+        <div class="text-lg font-bold text-amber-400">{{ getResource('gold') }}</div>
         <div class="text-[10px] uppercase tracking-wider opacity-75 mb-2">{{ goldDef.label }}</div>
         <div class="flex justify-center gap-1.5">
           <button

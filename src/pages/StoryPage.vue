@@ -100,8 +100,8 @@ function eventLabel(type: string): string {
     <div class="fh-page-header">
       <h1 class="font-display text-2xl font-bold text-fh-frost tracking-wide">Příběh</h1>
       <div class="flex items-center gap-3 mt-2">
-        <span class="text-xs text-green-400/80">{{ completedCount }} dokončených</span>
-        <span v-if="attemptedCount > 0" class="text-xs text-orange-400/80">{{ attemptedCount }} pokusů</span>
+        <span class="text-xs text-fh-completed/80">{{ completedCount }} dokončených</span>
+        <span v-if="attemptedCount > 0" class="text-xs text-fh-attempted/80">{{ attemptedCount }} pokusů</span>
       </div>
     </div>
 
@@ -152,7 +152,7 @@ function eventLabel(type: string): string {
         <!-- Card -->
         <div
           class="fh-card p-5"
-          :class="s.eventType === SCENARIO_STATUSES.ATTEMPTED ? 'border-orange-800/20' : ''"
+          :class="s.eventType === SCENARIO_STATUSES.ATTEMPTED ? 'border-fh-attempted/20' : ''"
         >
           <div class="flex items-start justify-between mb-2">
             <div>
@@ -195,13 +195,13 @@ function eventLabel(type: string): string {
           <div v-if="getConclusion(s.id)" class="mt-2">
             <button
               class="flex items-center gap-1.5 text-xs font-medium transition-colors"
-              :class="expandedConclusions.has(s.id) ? 'text-green-400' : 'text-gray-500 hover:text-gray-300'"
+              :class="expandedConclusions.has(s.id) ? 'text-fh-completed' : 'text-gray-500 hover:text-gray-300'"
               @click="toggleConclusion(s.id)"
             >
               <svg class="w-3 h-3 transition-transform" :class="expandedConclusions.has(s.id) ? 'rotate-90' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
               Závěr příběhu
             </button>
-            <div v-if="expandedConclusions.has(s.id)" class="mt-2 p-3 rounded-lg bg-green-900/5 border-l-2 border-green-500/20">
+            <div v-if="expandedConclusions.has(s.id)" class="mt-2 p-3 rounded-lg bg-fh-completed/5 border-l-2 border-fh-completed/20">
               <p class="text-sm text-gray-400 leading-relaxed whitespace-pre-line">{{ getConclusion(s.id) }}</p>
             </div>
           </div>

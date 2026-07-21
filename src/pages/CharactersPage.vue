@@ -125,12 +125,12 @@
           <!-- XP + Gold -->
           <div class="text-right shrink-0">
             <div class="text-sm">
-              <span class="text-yellow-400">&#9734;</span>
+              <span class="text-fh-frost">&#9734;</span>
               <span class="text-fh-frost font-semibold ml-1">{{ char.xp }} ZK</span>
             </div>
             <div class="text-sm mt-1">
-              <span class="text-yellow-500">&#9737;</span>
-              <span class="text-gray-300 ml-1">{{ char.gold }} zl.</span>
+              <img :src="MONEY_ICON" class="fh-gicon" alt="zlato" title="Zlato">
+              <span class="text-amber-400 ml-1">{{ char.gold }} zl.</span>
             </div>
           </div>
 
@@ -179,7 +179,8 @@
           <!-- Gold + Checks -->
           <div class="flex gap-4">
             <div class="flex items-center gap-2">
-              <span class="text-sm text-yellow-500">Zlato</span>
+              <img :src="MONEY_ICON" class="fh-gicon" alt="zlato" title="Zlato">
+              <span class="text-sm text-amber-400">Zlato</span>
               <button
                 class="w-7 h-7 rounded-md bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors text-sm font-bold"
                 @click="characterStore.setGold(char.uuid, char.gold - 1)"
@@ -313,8 +314,8 @@
                   class="w-5 h-5 rounded border transition-all shrink-0 mt-0.5"
                   :class="
                     isMasteryCompleted(char, idx)
-                      ? 'bg-yellow-500 border-yellow-500 text-fh-dark'
-                      : 'border-gray-600 hover:border-yellow-600'
+                      ? 'bg-fh-completed border-fh-completed text-fh-dark'
+                      : 'border-gray-600 hover:border-fh-completed/60'
                   "
                   @click="toggleMastery(char.uuid, idx)"
                 >
@@ -331,7 +332,7 @@
                 </button>
                 <span
                   class="text-sm transition-colors"
-                  :class="isMasteryCompleted(char, idx) ? 'text-yellow-400/80 line-through' : 'text-gray-300 group-hover:text-gray-100'"
+                  :class="isMasteryCompleted(char, idx) ? 'text-fh-completed/80 line-through' : 'text-gray-300 group-hover:text-gray-100'"
                 >
                   {{ mastery }}
                 </span>
@@ -368,7 +369,16 @@
                   class="flex items-center justify-between gap-1 rounded-lg border border-fh-border bg-black/15 px-2 py-1.5"
                 >
                   <div class="flex flex-col min-w-0">
-                    <span class="text-[10px] text-gray-500 uppercase tracking-wide truncate">{{ r.label }}</span>
+                    <span class="text-[10px] text-gray-500 uppercase tracking-wide truncate">
+                      <img
+                        v-if="RESOURCES[r.key]"
+                        :src="RESOURCES[r.key]?.url"
+                        class="fh-gicon fh-gicon-light"
+                        :alt="r.label"
+                        :title="r.label"
+                      >
+                      {{ r.label }}
+                    </span>
                     <Stepper
                       small
                       :model-value="char.resources?.[r.key] ?? 0"
@@ -418,7 +428,14 @@
                   :key="idx"
                   class="flex items-center justify-between py-1 px-2 rounded-md bg-white/3 group"
                 >
-                  <span class="text-sm text-gray-300">
+                  <span class="text-sm text-gray-300 flex items-center gap-1.5 min-w-0">
+                    <img
+                      v-if="getItemSlot(itemId)"
+                      :src="slotIconUrl(getItemSlot(itemId))"
+                      class="fh-gicon fh-gicon-light shrink-0"
+                      :alt="slotLabel(getItemSlot(itemId))"
+                      :title="slotLabel(getItemSlot(itemId))"
+                    >
                     <span class="text-gray-500 text-xs mr-1">#{{ itemId }}</span>
                     {{ getItemName(itemId) }}
                   </span>
@@ -587,6 +604,7 @@ import ClassIcon from '@/components/characters/ClassIcon.vue'
 import RetirementWizard from '@/components/characters/RetirementWizard.vue'
 import Stepper from '@/components/ui/Stepper.vue'
 import type { CharacterResources, CharacterState, PerkDefinition } from '@/models/Character'
+import { RESOURCES, MONEY_ICON, slotIconUrl } from '@/utils/gameIcons'
 
 const router = useRouter()
 const characterStore = useCharacterStore()
@@ -659,6 +677,25 @@ function getPerks(classId: string): PerkDefinition[] {
 function getItemName(itemId: string): string {
   const def = characterStore.getItemDef(itemId)
   return def?.name ?? 'Neznámý předmět'
+}
+
+// Slot vybavení předmětu (herní ikona)
+const slotLabels: Record<string, string> = {
+  Head: 'Hlava',
+  Body: 'Tělo',
+  Legs: 'Nohy',
+  'One Hand': 'Jedna ruka',
+  'Two Hands': 'Dvě ruce',
+  'Small Item': 'Malý předmět',
+}
+
+function getItemSlot(itemId: string): string | undefined {
+  return characterStore.getItemDef(itemId)?.slot
+}
+
+function slotLabel(slot: string | undefined): string {
+  if (!slot) return ''
+  return slotLabels[slot] ?? slot
 }
 
 // Osobní zásoby

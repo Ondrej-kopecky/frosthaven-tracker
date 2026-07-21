@@ -121,7 +121,7 @@ function finish() {
         </div>
         <div class="flex justify-between text-xs">
           <span class="text-gray-500">Zlato (propadá)</span>
-          <span class="text-yellow-400">{{ character?.gold ?? 0 }} zl.</span>
+          <span class="text-amber-400">{{ character?.gold ?? 0 }} zl.</span>
         </div>
         <div class="flex justify-between text-xs">
           <span class="text-gray-500">Suroviny (→ zásoby Frosthavenu)</span>
@@ -141,7 +141,7 @@ function finish() {
       <div class="rounded-lg border border-fh-border bg-black/20 p-3 space-y-2 text-sm">
         <div class="flex justify-between">
           <span class="text-gray-400">Prosperita</span>
-          <span class="text-yellow-400 font-semibold">+2</span>
+          <span class="text-fh-frost font-semibold">+2</span>
         </div>
         <div v-if="assignedQuest?.building_unlocks?.length" class="text-xs text-gray-400">
           🏠 Otevřete obálku budovy z osobního úkolu:
@@ -167,7 +167,7 @@ function finish() {
         <input
           v-model="secondQuest"
           type="checkbox"
-          class="mt-0.5 accent-[#5ba4cf]"
+          class="mt-0.5 accent-fh-primary"
           :disabled="!canAffordSecondQuest"
         />
         <span class="text-xs text-gray-300">
@@ -182,8 +182,8 @@ function finish() {
     <div v-else class="space-y-3">
       <h3 class="font-display text-base font-semibold text-fh-frost">3. Potvrzení</h3>
       <div class="rounded-lg border border-fh-border bg-black/20 p-3 space-y-1.5 text-sm">
-        <div class="flex justify-between"><span class="text-gray-400">Prosperita</span><span class="text-yellow-400">+{{ secondQuest ? 4 : 2 }}</span></div>
-        <div v-if="secondQuest" class="flex justify-between"><span class="text-gray-400">Inspirace</span><span class="text-red-400">−15</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Prosperita</span><span class="text-fh-frost">+{{ secondQuest ? 4 : 2 }}</span></div>
+        <div v-if="secondQuest" class="flex justify-between"><span class="text-gray-400">Inspirace</span><span class="text-fh-blocked">−15</span></div>
         <div class="flex justify-between text-xs"><span class="text-gray-500">Suroviny do zásob</span><span class="text-gray-300">+{{ totalResources }}</span></div>
         <div class="flex justify-between text-xs"><span class="text-gray-500">Zlato propadá</span><span class="text-gray-500">−{{ character?.gold ?? 0 }}</span></div>
       </div>

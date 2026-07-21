@@ -8,6 +8,7 @@ import { useScenarioStore } from '@/stores/scenarioStore'
 import { useAchievementStore } from '@/stores/achievementStore'
 import ScenarioFinishWizard from '@/components/scenarios/ScenarioFinishWizard.vue'
 import scenarioIntros from '@/data/scenario-intros-cz.json'
+import { translateDescription, RESOURCES, MONEY_ICON } from '@/utils/gameIcons'
 
 const introsMap = scenarioIntros as Record<string, string>
 
@@ -88,18 +89,10 @@ const resourceNames: Record<string, string> = {
   'random-item-treasure': 'náhodný předmět',
 }
 
-const resourceIcons: Record<string, string> = {
-  coins: '#f59e0b',
-  lumber: '#92400e',
-  metal: '#94a3b8',
-  hide: '#a16207',
-  arrowvine: '#16a34a',
-  axenut: '#854d0e',
-  corpsecap: '#7c3aed',
-  flamefruit: '#ef4444',
-  rockroot: '#78716c',
-  snowthistle: '#06b6d4',
-  'random-item-treasure': '#a855f7',
+// Herní loot ikony (coins → mince, suroviny → RESOURCES)
+function resourceIconUrl(key: string): string | null {
+  if (key === 'coins') return MONEY_ICON
+  return RESOURCES[key]?.url ?? null
 }
 
 /* ── Modal ── */
@@ -219,30 +212,30 @@ const statusLabels: Record<string, string> = {
 }
 
 const statusAccentColors: Record<string, string> = {
-  [SCENARIO_STATUSES.COMPLETED]: 'bg-green-500',
-  [SCENARIO_STATUSES.AVAILABLE]: 'bg-fh-primary',
-  [SCENARIO_STATUSES.LOCKED]: 'bg-gray-600',
-  [SCENARIO_STATUSES.BLOCKED]: 'bg-red-500',
-  [SCENARIO_STATUSES.REQUIRED]: 'bg-yellow-500',
-  [SCENARIO_STATUSES.ATTEMPTED]: 'bg-orange-500',
+  [SCENARIO_STATUSES.COMPLETED]: 'bg-fh-completed',
+  [SCENARIO_STATUSES.AVAILABLE]: 'bg-fh-available',
+  [SCENARIO_STATUSES.LOCKED]: 'bg-fh-locked',
+  [SCENARIO_STATUSES.BLOCKED]: 'bg-fh-blocked',
+  [SCENARIO_STATUSES.REQUIRED]: 'bg-fh-required',
+  [SCENARIO_STATUSES.ATTEMPTED]: 'bg-fh-attempted',
 }
 
 const statusBadgeColors: Record<string, string> = {
-  [SCENARIO_STATUSES.COMPLETED]: 'bg-green-900/25 text-green-400 border border-green-800/40',
-  [SCENARIO_STATUSES.AVAILABLE]: 'bg-fh-primary/10 text-fh-primary border border-fh-primary/20',
-  [SCENARIO_STATUSES.LOCKED]: 'bg-white/5 text-gray-500 border border-fh-border',
-  [SCENARIO_STATUSES.BLOCKED]: 'bg-red-900/25 text-red-400 border border-red-800/40',
-  [SCENARIO_STATUSES.REQUIRED]: 'bg-yellow-900/25 text-yellow-400 border border-yellow-800/40',
-  [SCENARIO_STATUSES.ATTEMPTED]: 'bg-orange-900/25 text-orange-400 border border-orange-800/40',
+  [SCENARIO_STATUSES.COMPLETED]: 'bg-fh-completed/10 text-fh-completed border border-fh-completed/30',
+  [SCENARIO_STATUSES.AVAILABLE]: 'bg-fh-available/10 text-fh-available border border-fh-available/20',
+  [SCENARIO_STATUSES.LOCKED]: 'bg-white/5 text-fh-locked border border-fh-border',
+  [SCENARIO_STATUSES.BLOCKED]: 'bg-fh-blocked/10 text-fh-blocked border border-fh-blocked/30',
+  [SCENARIO_STATUSES.REQUIRED]: 'bg-fh-required/10 text-fh-required border border-fh-required/30',
+  [SCENARIO_STATUSES.ATTEMPTED]: 'bg-fh-attempted/10 text-fh-attempted border border-fh-attempted/30',
 }
 
 const statusCardBorder: Record<string, string> = {
-  [SCENARIO_STATUSES.COMPLETED]: 'border-green-800/30',
-  [SCENARIO_STATUSES.AVAILABLE]: 'border-fh-primary/20',
+  [SCENARIO_STATUSES.COMPLETED]: 'border-fh-completed/25',
+  [SCENARIO_STATUSES.AVAILABLE]: 'border-fh-available/20',
   [SCENARIO_STATUSES.LOCKED]: 'border-fh-border',
-  [SCENARIO_STATUSES.BLOCKED]: 'border-red-800/30',
-  [SCENARIO_STATUSES.REQUIRED]: 'border-yellow-800/30',
-  [SCENARIO_STATUSES.ATTEMPTED]: 'border-orange-800/30',
+  [SCENARIO_STATUSES.BLOCKED]: 'border-fh-blocked/25',
+  [SCENARIO_STATUSES.REQUIRED]: 'border-fh-required/25',
+  [SCENARIO_STATUSES.ATTEMPTED]: 'border-fh-attempted/25',
 }
 
 /* ── Helpers ── */
@@ -262,15 +255,21 @@ function hasLoot(loot: ScenarioData['loot']): boolean {
   return Object.keys(loot).length > 0
 }
 
-function lootEntries(loot: ScenarioData['loot']): { key: string; name: string; amount: number; color: string }[] {
+function lootEntries(loot: ScenarioData['loot']): { key: string; name: string; amount: number; icon: string | null }[] {
   return Object.entries(loot)
     .filter(([, v]) => v !== undefined && v > 0)
     .map(([k, v]) => ({
       key: k,
       name: resourceNames[k] ?? k,
       amount: v as number,
-      color: resourceIcons[k] ?? '#94a3b8',
+      icon: resourceIconUrl(k),
     }))
+}
+
+// Odměny: {TAG.fh} značky → herní ikony, zlato → ikona mince
+function renderReward(item: string): string {
+  return translateDescription(item)
+    .replace(/(\d+)\s*gold/g, `<span class="fh-keyword"><b class="text-amber-400">$1</b><img src="${MONEY_ICON}" class="fh-gicon" alt="zlato" title="Zlato"></span>`)
 }
 
 type RewardGroup = { label: string; items: string[] }
@@ -321,21 +320,21 @@ function lootPreview(loot: ScenarioData['loot']): string {
       </div>
       <div class="w-full h-3 bg-white/[0.06] rounded-full overflow-hidden mb-4">
         <div
-          class="h-full rounded-full transition-all duration-700 ease-out"
-          :style="{ width: pctBar(scenarioStore.completedScenarios.length, scenarioStore.allScenarios.length) + '%', background: 'linear-gradient(90deg, #3a7a9e, #5ba4cf, #7dbde5)' }"
+          class="h-full fh-progress-bar transition-all duration-700 ease-out"
+          :style="{ width: pctBar(scenarioStore.completedScenarios.length, scenarioStore.allScenarios.length) + '%' }"
         ></div>
       </div>
       <div class="flex flex-wrap gap-x-6 gap-y-1">
         <div class="flex items-center gap-2">
-          <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
-          <span class="text-xs text-gray-500">Dokončeno <span class="text-green-400 font-medium">{{ scenarioStore.completedScenarios.length }}</span></span>
+          <div class="w-2.5 h-2.5 rounded-full bg-fh-completed"></div>
+          <span class="text-xs text-gray-500">Dokončeno <span class="text-fh-completed font-medium">{{ scenarioStore.completedScenarios.length }}</span></span>
         </div>
         <div class="flex items-center gap-2">
           <div class="w-2.5 h-2.5 rounded-full bg-fh-primary"></div>
           <span class="text-xs text-gray-500">Dostupné <span class="text-fh-primary font-medium">{{ scenarioStore.availableScenarios.length }}</span></span>
         </div>
         <div class="flex items-center gap-2">
-          <div class="w-2.5 h-2.5 rounded-full bg-gray-600"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-fh-locked"></div>
           <span class="text-xs text-gray-500">Zamčeno <span class="text-gray-400 font-medium">{{ scenarioStore.allScenarios.length - scenarioStore.completedScenarios.length - scenarioStore.availableScenarios.length }}</span></span>
         </div>
       </div>
@@ -401,7 +400,7 @@ function lootPreview(loot: ScenarioData['loot']): string {
               </span>
               <span
                 v-if="scenarioStore.isChoiceScenario(s.id)"
-                class="shrink-0 text-[10px] bg-amber-900/20 text-amber-400 border border-amber-700/30 px-1.5 py-0.5 rounded flex items-center gap-0.5"
+                class="shrink-0 text-[10px] bg-amber-400/10 text-amber-400 border border-amber-400/25 px-1.5 py-0.5 rounded flex items-center gap-0.5"
                 :title="`Vzájemně výlučný — výběr 1 z ${scenarioStore.getChoiceGroup(s.id)?.total}`"
               >
                 <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/></svg>
@@ -409,7 +408,7 @@ function lootPreview(loot: ScenarioData['loot']): string {
               </span>
               <span
                 v-else-if="scenarioStore.hasChoices(s.id)"
-                class="shrink-0 text-[10px] bg-amber-900/20 text-amber-400 border border-amber-700/30 px-1.5 py-0.5 rounded flex items-center gap-0.5"
+                class="shrink-0 text-[10px] bg-amber-400/10 text-amber-400 border border-amber-400/25 px-1.5 py-0.5 rounded flex items-center gap-0.5"
                 title="Po dokončení vybereš jeden z navazujících scénářů"
               >
                 <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/></svg>
@@ -498,7 +497,7 @@ function lootPreview(loot: ScenarioData['loot']): string {
                     <span v-if="selectedScenario.complexity > 0" class="text-xs text-fh-primary/60">
                       {{ complexityStars(selectedScenario.complexity) }}
                     </span>
-                    <span v-if="selectedScenario.has_boss" class="text-[10px] text-red-400/70 bg-red-900/15 px-1.5 py-0.5 rounded border border-red-800/20">boss</span>
+                    <span v-if="selectedScenario.has_boss" class="text-[10px] text-fh-blocked/70 bg-fh-blocked/10 px-1.5 py-0.5 rounded border border-fh-blocked/20">boss</span>
                   </div>
                 </div>
                 <!-- close button -->
@@ -539,7 +538,7 @@ function lootPreview(loot: ScenarioData['loot']): string {
                         class="flex items-start gap-2 text-xs"
                       >
                         <span class="w-1.5 h-1.5 rounded-full bg-fh-primary/40 mt-1.5 shrink-0"></span>
-                        <span class="text-gray-300">{{ item }}</span>
+                        <span class="text-gray-300" v-html="renderReward(item)"></span>
                       </div>
                     </div>
                   </div>
@@ -553,14 +552,17 @@ function lootPreview(loot: ScenarioData['loot']): string {
                   <span
                     v-for="entry in lootEntries(selectedScenario.loot)"
                     :key="entry.key"
-                    class="inline-flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-lg border"
-                    :style="{
-                      background: entry.color + '15',
-                      borderColor: entry.color + '30',
-                      color: entry.color,
-                    }"
+                    class="inline-flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-lg border bg-white/[0.04] border-fh-border"
+                    :class="entry.key === 'coins' ? 'text-amber-400' : 'text-gray-300'"
                   >
-                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/></svg>
+                    <img
+                      v-if="entry.icon"
+                      :src="entry.icon"
+                      class="fh-gicon"
+                      :class="entry.key === 'coins' ? '' : 'fh-gicon-light'"
+                      :alt="entry.name"
+                      :title="entry.name"
+                    >
                     {{ entry.amount }}&times; {{ entry.name }}
                   </span>
                 </div>
@@ -573,7 +575,7 @@ function lootPreview(loot: ScenarioData['loot']): string {
                   <span
                     v-for="achId in selectedScenario.achievements_awarded"
                     :key="achId"
-                    class="inline-flex items-center gap-1 text-xs bg-green-900/20 text-green-400 px-2.5 py-1 rounded-lg border border-green-800/30"
+                    class="inline-flex items-center gap-1 text-xs bg-fh-completed/10 text-fh-completed px-2.5 py-1 rounded-lg border border-fh-completed/25"
                   >
                     <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
                     {{ achievementName(achId) }}
@@ -593,7 +595,7 @@ function lootPreview(loot: ScenarioData['loot']): string {
                     <span
                       class="w-5 h-5 rounded flex items-center justify-center text-[10px] font-bold shrink-0"
                       :class="selectedScenario.state.treasuresLooted.includes(tid)
-                        ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-700/30'
+                        ? 'bg-amber-400/15 text-amber-400 border border-amber-400/30'
                         : 'bg-white/[0.04] text-gray-500 border border-white/[0.06]'"
                     >
                       {{ tid }}
@@ -606,7 +608,7 @@ function lootPreview(loot: ScenarioData['loot']): string {
                     >
                       vyzvednout
                     </button>
-                    <span v-else class="text-yellow-500/60 text-[10px] ml-auto">vyzvednuto</span>
+                    <span v-else class="text-amber-400/60 text-[10px] ml-auto">vyzvednuto</span>
                   </div>
                 </div>
               </div>
@@ -660,7 +662,7 @@ function lootPreview(loot: ScenarioData['loot']): string {
                       ? 'bg-fh-primary/15 text-fh-primary border-fh-primary/30'
                       : selectedScenario.computedStatus === SCENARIO_STATUSES.COMPLETED
                         ? 'bg-white/[0.04] text-gray-400 border-white/[0.06] hover:bg-white/[0.06]'
-                        : 'bg-amber-900/10 text-amber-300/80 border-amber-700/25 hover:bg-amber-900/20'"
+                        : 'bg-amber-400/10 text-amber-400/80 border-amber-400/25 hover:bg-amber-400/20'"
                     @click="selectedScenario!.computedStatus === SCENARIO_STATUSES.COMPLETED ? scenarioStore.setChoice(selectedScenario!.id, choiceId) : openLinkedScenario(choiceId)"
                   >
                     {{ linkedScenarioName(choiceId) }}
@@ -669,19 +671,19 @@ function lootPreview(loot: ScenarioData['loot']): string {
               </div>
 
               <!-- exclusive siblings: this scenario is part of a choice group -->
-              <div v-if="scenarioStore.getChoiceGroup(selectedScenario.id)" class="bg-amber-900/10 rounded-xl p-3 border border-amber-700/20">
+              <div v-if="scenarioStore.getChoiceGroup(selectedScenario.id)" class="bg-amber-400/[0.06] rounded-xl p-3 border border-amber-400/20">
                 <h3 class="text-xs font-semibold text-amber-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                   <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>
                   Vzájemně výlučný — výběr 1 z {{ scenarioStore.getChoiceGroup(selectedScenario.id)!.total }}
                 </h3>
-                <p class="text-xs text-amber-300/60 mb-2">
+                <p class="text-xs text-amber-400/60 mb-2">
                   Dokončením tohoto scénáře ztratíš přístup k ostatním:
                 </p>
                 <div class="flex flex-wrap gap-1.5">
                   <button
                     v-for="sibId in scenarioStore.getChoiceGroup(selectedScenario.id)!.siblings"
                     :key="sibId"
-                    class="text-xs bg-amber-900/15 text-amber-300/80 px-2.5 py-1 rounded-lg border border-amber-700/25 hover:bg-amber-900/25 transition-colors cursor-pointer"
+                    class="text-xs bg-amber-400/10 text-amber-400/80 px-2.5 py-1 rounded-lg border border-amber-400/25 hover:bg-amber-400/20 transition-colors cursor-pointer"
                     @click="openLinkedScenario(sibId)"
                   >
                     {{ linkedScenarioName(sibId) }}
@@ -714,14 +716,14 @@ function lootPreview(loot: ScenarioData['loot']): string {
                 </button>
                 <button
                   v-if="selectedScenario.computedStatus === SCENARIO_STATUSES.AVAILABLE || selectedScenario.computedStatus === SCENARIO_STATUSES.ATTEMPTED || selectedScenario.computedStatus === SCENARIO_STATUSES.REQUIRED"
-                  class="w-full py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg font-medium hover:shadow-[0_0_20px_rgba(34,197,94,0.25)] transition-all text-sm"
+                  class="w-full py-2.5 bg-fh-completed/90 text-white rounded-lg font-medium hover:bg-fh-completed hover:shadow-[0_0_20px_rgba(34,197,94,0.25)] transition-all text-sm"
                   @click="handleComplete(selectedScenario.id)"
                 >
                   Označit jako dokončené
                 </button>
                 <button
                   v-if="selectedScenario.computedStatus === SCENARIO_STATUSES.AVAILABLE || selectedScenario.computedStatus === SCENARIO_STATUSES.REQUIRED"
-                  class="w-full py-2 bg-orange-600/15 text-orange-400 border border-orange-600/30 rounded-lg font-medium hover:bg-orange-600/25 transition-colors text-sm"
+                  class="w-full py-2 bg-fh-attempted/15 text-fh-attempted border border-fh-attempted/30 rounded-lg font-medium hover:bg-fh-attempted/25 transition-colors text-sm"
                   @click="scenarioStore.markAttempted(selectedScenario.id)"
                 >
                   Označit jako pokus
@@ -756,9 +758,9 @@ function lootPreview(loot: ScenarioData['loot']): string {
           class="fixed inset-0 z-[60] flex items-center justify-center p-4"
         >
           <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" @click="cancelChoice"></div>
-          <div class="relative w-full max-w-sm bg-fh-card border border-amber-700/30 rounded-2xl shadow-2xl overflow-hidden">
+          <div class="relative w-full max-w-sm bg-fh-card border border-amber-400/25 rounded-2xl shadow-2xl overflow-hidden">
             <!-- header -->
-            <div class="px-6 pt-5 pb-3 border-b border-amber-700/20">
+            <div class="px-6 pt-5 pb-3 border-b border-amber-400/20">
               <div class="flex items-center gap-2 mb-1">
                 <svg class="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/></svg>
                 <h3 class="text-base font-semibold text-gray-200">Vyber scénář k odemčení</h3>
@@ -782,7 +784,7 @@ function lootPreview(loot: ScenarioData['loot']): string {
                   name="choose-scenario"
                   :value="opt.id"
                   v-model="chosenOptionId"
-                  class="w-4 h-4 accent-[#5ba4cf]"
+                  class="w-4 h-4 accent-fh-primary"
                 >
                 <span class="text-sm text-gray-300">{{ opt.name }}</span>
               </label>
@@ -798,7 +800,7 @@ function lootPreview(loot: ScenarioData['loot']): string {
               <button
                 class="px-4 py-2 text-xs font-medium rounded-lg transition-all"
                 :class="chosenOptionId
-                  ? 'bg-gradient-to-r from-green-600 to-green-700 text-white hover:shadow-[0_0_15px_rgba(34,197,94,0.25)]'
+                  ? 'bg-fh-completed/90 text-white hover:bg-fh-completed hover:shadow-[0_0_15px_rgba(34,197,94,0.25)]'
                   : 'bg-white/5 text-gray-600 cursor-not-allowed'"
                 :disabled="!chosenOptionId"
                 @click="confirmChoice"

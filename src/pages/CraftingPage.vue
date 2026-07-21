@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { useCampaignStore } from '@/stores/campaignStore'
 import alchemyData from '@/data/alchemy.json'
 import itemsData from '@/data/items.json'
+import { RESOURCES } from '@/utils/gameIcons'
 
 const router = useRouter()
 const campaignStore = useCampaignStore()
@@ -37,14 +38,14 @@ const availableCharts = computed(() => {
   return alchemyData.filter(c => c.level <= alchemistLevel.value)
 })
 
-// Herb names & colors
-const herbs: Record<string, { name: string; color: string; bg: string; border: string }> = {
-  arrowvine:   { name: 'Šípobyl',      color: '#22c55e', bg: 'rgba(34,197,94,0.12)',  border: 'rgba(34,197,94,0.25)' },
-  axenut:      { name: 'Sekeřičník',   color: '#84cc16', bg: 'rgba(132,204,22,0.12)', border: 'rgba(132,204,22,0.25)' },
-  corpsecap:   { name: 'Mrtvolník',    color: '#a855f7', bg: 'rgba(168,85,247,0.12)', border: 'rgba(168,85,247,0.25)' },
-  flamefruit:  { name: 'Plamenoplod',  color: '#ef4444', bg: 'rgba(239,68,68,0.12)',  border: 'rgba(239,68,68,0.25)' },
-  rockroot:    { name: 'Skalokořen',   color: '#78716c', bg: 'rgba(120,113,108,0.12)',border: 'rgba(120,113,108,0.25)' },
-  snowthistle: { name: 'Sněhobodlák', color: '#06b6d4', bg: 'rgba(6,182,212,0.12)',  border: 'rgba(6,182,212,0.25)' },
+// Herb names (ikony bylin = herní loot ikony z RESOURCES)
+const herbs: Record<string, { name: string }> = {
+  arrowvine:   { name: 'Šípobyl' },
+  axenut:      { name: 'Sekeřičník' },
+  corpsecap:   { name: 'Mrtvolník' },
+  flamefruit:  { name: 'Plamenoplod' },
+  rockroot:    { name: 'Skalokořen' },
+  snowthistle: { name: 'Sněhobodlák' },
 }
 
 type HerbKey = keyof typeof herbs
@@ -58,8 +59,8 @@ function herbName(key: string): string {
   return herbs[key]?.name ?? key
 }
 
-function herbColor(key: string): string {
-  return herbs[key]?.color ?? '#94a3b8'
+function herbIconUrl(key: string): string {
+  return RESOURCES[key]?.url ?? ''
 }
 
 // Item lookup
@@ -131,15 +132,15 @@ function doDiscover() {
     </div>
 
     <!-- Alchemist status -->
-    <div v-if="alchemistLevel === 0" class="fh-card p-5 mb-6 border-yellow-800/30">
+    <div v-if="alchemistLevel === 0" class="fh-card p-5 mb-6 border-fh-required/25">
       <div class="flex items-start gap-3">
-        <div class="w-10 h-10 rounded-lg bg-yellow-500/15 border border-yellow-500/25 flex items-center justify-center shrink-0">
-          <svg class="w-5 h-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <div class="w-10 h-10 rounded-lg bg-fh-required/10 border border-fh-required/25 flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5 text-fh-required" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
           </svg>
         </div>
         <div>
-          <h3 class="text-sm font-semibold text-yellow-400 mb-1">Alchymista není postaven</h3>
+          <h3 class="text-sm font-semibold text-fh-required mb-1">Alchymista není postaven</h3>
           <p class="text-xs text-gray-400">Pro výrobu lektvarů musíš nejdříve postavit budovu Alchymista v základně. Přejdi na stránku Základna a postav ji.</p>
           <router-link to="/outpost" class="inline-block mt-2 text-xs text-fh-primary hover:text-fh-primary-light no-underline">
             Přejít na Základnu &rarr;
@@ -177,13 +178,13 @@ function doDiscover() {
           <div
             v-for="key in herbKeys"
             :key="key"
-            class="rounded-xl border p-3 text-center"
-            :style="{ background: herbs[key].bg, borderColor: herbs[key].border }"
+            class="rounded-xl border border-fh-border bg-black/20 p-3 text-center"
           >
-            <div class="text-xl font-bold" :style="{ color: herbs[key].color }">
+            <img :src="herbIconUrl(key)" class="fh-gicon fh-gicon-light !h-5" :alt="herbs[key].name" :title="herbs[key].name">
+            <div class="text-xl font-bold font-display text-fh-frost">
               {{ getHerbCount(key) }}
             </div>
-            <div class="text-[10px] font-medium mt-0.5" :style="{ color: herbs[key].color + 'aa' }">
+            <div class="text-[10px] font-medium mt-0.5 text-gray-500">
               {{ herbs[key].name }}
             </div>
           </div>
@@ -216,14 +217,14 @@ function doDiscover() {
                     class="p-1.5 text-center"
                   >
                     <template v-if="parseCell(header).type === 'header'">
-                      <div
-                        class="flex flex-col items-center gap-0.5 px-1 py-1 rounded-lg"
-                        :style="{ background: herbs[(parseCell(header) as { type: 'header'; herbKey: string }).herbKey]?.bg }"
-                      >
-                        <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" :fill="herbColor((parseCell(header) as { type: 'header'; herbKey: string }).herbKey)">
-                          <circle cx="8" cy="8" r="6"/>
-                        </svg>
-                        <span class="text-[8px] font-semibold leading-none" :style="{ color: herbColor((parseCell(header) as { type: 'header'; herbKey: string }).herbKey) }">
+                      <div class="flex flex-col items-center gap-0.5 px-1 py-1 rounded-lg bg-white/[0.04]">
+                        <img
+                          :src="herbIconUrl((parseCell(header) as { type: 'header'; herbKey: string }).herbKey)"
+                          class="fh-gicon fh-gicon-light"
+                          :alt="herbName((parseCell(header) as { type: 'header'; herbKey: string }).herbKey)"
+                          :title="herbName((parseCell(header) as { type: 'header'; herbKey: string }).herbKey)"
+                        >
+                        <span class="text-[8px] font-semibold leading-none text-gray-400">
                           {{ herbName((parseCell(header) as { type: 'header'; herbKey: string }).herbKey).slice(0, 4) }}
                         </span>
                       </div>
@@ -243,14 +244,14 @@ function doDiscover() {
                   >
                     <!-- Row header -->
                     <template v-if="parseCell(cell).type === 'header'">
-                      <div
-                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg whitespace-nowrap"
-                        :style="{ background: herbs[(parseCell(cell) as { type: 'header'; herbKey: string }).herbKey]?.bg }"
-                      >
-                        <svg class="w-3 h-3 shrink-0" viewBox="0 0 16 16" :fill="herbColor((parseCell(cell) as { type: 'header'; herbKey: string }).herbKey)">
-                          <circle cx="8" cy="8" r="6"/>
-                        </svg>
-                        <span class="text-[10px] font-semibold" :style="{ color: herbColor((parseCell(cell) as { type: 'header'; herbKey: string }).herbKey) }">
+                      <div class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg whitespace-nowrap bg-white/[0.04]">
+                        <img
+                          :src="herbIconUrl((parseCell(cell) as { type: 'header'; herbKey: string }).herbKey)"
+                          class="fh-gicon fh-gicon-light shrink-0"
+                          :alt="herbName((parseCell(cell) as { type: 'header'; herbKey: string }).herbKey)"
+                          :title="herbName((parseCell(cell) as { type: 'header'; herbKey: string }).herbKey)"
+                        >
+                        <span class="text-[10px] font-semibold text-gray-300">
                           {{ herbName((parseCell(cell) as { type: 'header'; herbKey: string }).herbKey) }}
                         </span>
                       </div>
@@ -291,23 +292,23 @@ function doDiscover() {
 
                     <!-- Double herb -->
                     <template v-else-if="parseCell(cell).type === 'double'">
-                      <div
-                        class="flex items-center justify-center gap-1 px-1.5 py-2 rounded-lg border border-dashed"
-                        :style="{
-                          borderColor: herbs[(parseCell(cell) as { herbKey: string }).herbKey]?.border,
-                          background: herbs[(parseCell(cell) as { herbKey: string }).herbKey]?.bg,
-                        }"
-                      >
-                        <span class="text-[10px] font-medium" :style="{ color: herbs[(parseCell(cell) as { herbKey: string }).herbKey]?.color }">
+                      <div class="flex items-center justify-center gap-1 px-1.5 py-2 rounded-lg border border-dashed border-fh-border-light bg-white/[0.03]">
+                        <span class="text-[10px] font-medium text-gray-400">
                           2&times;
                         </span>
+                        <img
+                          :src="herbIconUrl((parseCell(cell) as { herbKey: string }).herbKey)"
+                          class="fh-gicon fh-gicon-light"
+                          :alt="herbName((parseCell(cell) as { herbKey: string }).herbKey)"
+                          :title="herbName((parseCell(cell) as { herbKey: string }).herbKey)"
+                        >
                       </div>
                     </template>
 
                     <!-- Any herb -->
                     <template v-else-if="parseCell(cell).type === 'any'">
-                      <div class="flex items-center justify-center px-1.5 py-2 rounded-lg bg-purple-500/8 border border-purple-500/15">
-                        <span class="text-[10px] text-purple-400 font-medium">jakákoli</span>
+                      <div class="flex items-center justify-center px-1.5 py-2 rounded-lg bg-fh-primary/8 border border-fh-primary/15">
+                        <span class="text-[10px] text-fh-primary font-medium">jakákoli</span>
                       </div>
                     </template>
 
@@ -367,9 +368,9 @@ function doDiscover() {
                 <span
                   v-for="h in selectedItem.herbs"
                   :key="h"
-                  class="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full"
-                  :style="{ background: herbs[h]?.bg ?? 'rgba(255,255,255,0.05)', color: herbs[h]?.color ?? '#94a3b8' }"
+                  class="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full bg-white/[0.05] border border-fh-border text-gray-300"
                 >
+                  <img :src="herbIconUrl(h)" class="fh-gicon fh-gicon-light" :alt="herbName(h)">
                   {{ herbName(h) }}
                 </span>
               </div>
@@ -396,9 +397,9 @@ function doDiscover() {
               <span
                 v-for="h in [confirmDiscover.rowHerb, confirmDiscover.colHerb].filter(k => herbs[k])"
                 :key="h"
-                class="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full"
-                :style="{ background: herbs[h]?.bg, color: herbs[h]?.color }"
+                class="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-white/[0.05] border border-fh-border text-gray-300"
               >
+                <img :src="herbIconUrl(h)" class="fh-gicon fh-gicon-light" :alt="herbName(h)">
                 {{ herbName(h) }}
               </span>
               <span class="text-gray-600">&rarr;</span>
@@ -406,13 +407,13 @@ function doDiscover() {
             </div>
             <div class="flex gap-2">
               <button
-                class="flex-1 py-2.5 bg-gradient-to-r from-fh-primary-dim to-fh-primary text-white rounded-lg font-medium text-sm hover:shadow-[0_0_20px_rgba(91,164,207,0.25)] transition-all"
+                class="fh-btn-primary flex-1 text-sm"
                 @click="doDiscover"
               >
                 Odhalit recept
               </button>
               <button
-                class="px-4 py-2.5 bg-white/[0.04] text-gray-400 rounded-lg text-sm border border-fh-border hover:bg-white/[0.06] transition-colors"
+                class="fh-btn-ghost text-sm"
                 @click="confirmDiscover = null"
               >
                 Zrušit

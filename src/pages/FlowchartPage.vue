@@ -258,10 +258,10 @@ const selectedScenario = computed(() => {
 
 function statusColor(status: string): string {
   switch (status) {
-    case SCENARIO_STATUSES.COMPLETED: return '#3B8585'
-    case SCENARIO_STATUSES.AVAILABLE: return '#3B8585'
-    case SCENARIO_STATUSES.BLOCKED: return '#A13C2F'
-    case SCENARIO_STATUSES.REQUIRED: return '#E9A678'
+    case SCENARIO_STATUSES.COMPLETED: return '#22c55e'
+    case SCENARIO_STATUSES.AVAILABLE: return '#5ba4cf'
+    case SCENARIO_STATUSES.BLOCKED: return '#ef4444'
+    case SCENARIO_STATUSES.REQUIRED: return '#eab308'
     case SCENARIO_STATUSES.ATTEMPTED: return '#f97316'
     default: return '#5a6577'
   }
@@ -269,10 +269,10 @@ function statusColor(status: string): string {
 
 function statusBg(status: string): string {
   switch (status) {
-    case SCENARIO_STATUSES.COMPLETED: return 'rgba(59,133,133,0.15)'
-    case SCENARIO_STATUSES.AVAILABLE: return 'rgba(59,133,133,0.15)'
-    case SCENARIO_STATUSES.BLOCKED: return 'rgba(161,60,47,0.15)'
-    case SCENARIO_STATUSES.REQUIRED: return 'rgba(233,166,120,0.15)'
+    case SCENARIO_STATUSES.COMPLETED: return 'rgba(34,197,94,0.15)'
+    case SCENARIO_STATUSES.AVAILABLE: return 'rgba(91,164,207,0.15)'
+    case SCENARIO_STATUSES.BLOCKED: return 'rgba(239,68,68,0.15)'
+    case SCENARIO_STATUSES.REQUIRED: return 'rgba(234,179,8,0.15)'
     case SCENARIO_STATUSES.ATTEMPTED: return 'rgba(249,115,22,0.15)'
     default: return 'rgba(90,101,119,0.12)'
   }
@@ -299,10 +299,10 @@ const statusFilters: { label: string; value: StatusFilter }[] = [
 ]
 
 const legendItems = [
-  { label: 'Dostupné', color: '#3B8585' },
-  { label: 'Dokončeno', color: '#3B8585', filled: true },
-  { label: 'Zamčeno', color: '#A13C2F' },
-  { label: 'Vyžadováno', color: '#E9A678' },
+  { label: 'Dostupné', color: '#5ba4cf' },
+  { label: 'Dokončeno', color: '#22c55e', filled: true },
+  { label: 'Zamčeno', color: '#ef4444' },
+  { label: 'Vyžadováno', color: '#eab308' },
 ]
 </script>
 
@@ -486,7 +486,7 @@ const legendItems = [
                   <span
                     v-for="ach in selectedScenario.achievements_awarded"
                     :key="ach"
-                    class="px-2 py-0.5 text-[11px] rounded-full bg-green-900/15 text-green-400/80 border border-green-800/20"
+                    class="px-2 py-0.5 text-[11px] rounded-full bg-fh-completed/10 text-fh-completed/80 border border-fh-completed/20"
                   >
                     {{ ach }}
                   </span>
@@ -517,7 +517,7 @@ const legendItems = [
               </button>
               <button
                 v-if="selectedScenario.computedStatus === SCENARIO_STATUSES.AVAILABLE || selectedScenario.computedStatus === SCENARIO_STATUSES.REQUIRED"
-                class="w-full py-1.5 bg-orange-600/15 text-orange-400 border border-orange-600/30 rounded-lg font-medium hover:bg-orange-600/25 transition-colors text-sm"
+                class="w-full py-1.5 bg-fh-attempted/15 text-fh-attempted border border-fh-attempted/30 rounded-lg font-medium hover:bg-fh-attempted/25 transition-colors text-sm"
                 @click="scenarioStore.markAttempted(selectedScenario.id)"
               >
                 Označit jako pokus
@@ -609,7 +609,7 @@ const legendItems = [
                 </button>
                 <button
                   v-if="selectedScenario.computedStatus === SCENARIO_STATUSES.AVAILABLE || selectedScenario.computedStatus === SCENARIO_STATUSES.REQUIRED"
-                  class="w-full py-2 bg-orange-600/15 text-orange-400 border border-orange-600/30 rounded-lg font-medium hover:bg-orange-600/25 transition-colors text-sm"
+                  class="w-full py-2 bg-fh-attempted/15 text-fh-attempted border border-fh-attempted/30 rounded-lg font-medium hover:bg-fh-attempted/25 transition-colors text-sm"
                   @click="scenarioStore.markAttempted(selectedScenario.id)"
                 >
                   Označit jako pokus
@@ -735,13 +735,13 @@ const legendItems = [
 /* Status indicator icons — positioned relative to node center */
 .storyline-container text.blocked {
   font-size: 20px;
-  fill: #A13C2F;
+  fill: #ef4444;
 }
 
 .storyline-container text.required {
   font-size: 12px;
   font-weight: bold;
-  fill: #E9A678;
+  fill: #eab308;
 }
 
 .storyline-container text.label {
@@ -779,13 +779,13 @@ const legendItems = [
 }
 
 .storyline-container .scenario.incomplete .node {
-  stroke: #3B8585;
+  stroke: #5ba4cf;
   stroke-width: 2.5;
 }
 
 .storyline-container .scenario.complete .node {
-  stroke: #3B8585;
-  fill: #3B8585;
+  stroke: #22c55e;
+  fill: #22c55e;
 }
 
 .storyline-container .scenario.complete text {
@@ -794,19 +794,19 @@ const legendItems = [
 }
 
 .storyline-container .scenario.blocked .node {
-  stroke: #A13C2F;
+  stroke: #ef4444;
 }
 
 .storyline-container .scenario.blocked text.blocked {
-  fill: #A13C2F;
+  fill: #ef4444;
 }
 
 .storyline-container .scenario.required .node {
-  stroke: #E9A678;
+  stroke: #eab308;
 }
 
 .storyline-container .scenario.required text.required {
-  fill: #E9A678;
+  fill: #eab308;
 }
 
 /* Dimmed = locked but still visible */
@@ -815,7 +815,7 @@ const legendItems = [
 }
 
 .storyline-container .scenario.dimmed .node {
-  stroke: #374151;
+  stroke: #5a6577;
 }
 
 /* Chapter containers */
