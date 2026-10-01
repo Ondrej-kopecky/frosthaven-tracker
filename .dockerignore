@@ -1,0 +1,11 @@
+node_modules
+dist
+.git
+.brain
+.claude
+.env
+.env.production
+# backend má vlastní image (fh-api/Dockerfile) + data a tajnosti
+fh-api
+e2e
+test-results

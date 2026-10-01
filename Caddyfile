@@ -1,0 +1,26 @@
+{
+    # Skutečná IP z cloudflared (soukromý rozsah), ne IP kontejneru
+    servers {
+        trusted_proxies static private_ranges
+    }
+}
+
+:80 {
+    handle /api/* {
+        request_body {
+            max_size 2MB
+        }
+        reverse_proxy fh-api:8001 {
+            header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
+        }
+    }
+    handle {
+        root * /srv
+        try_files {path} /index.html
+        # v /srv je jen build (dist/), žádné .env ani zdrojáky
+        file_server
+
+        header /index.html Cache-Control "no-cache, no-store, must-revalidate"
+        header /sw.js Cache-Control "no-cache, no-store, must-revalidate"
+    }
+}

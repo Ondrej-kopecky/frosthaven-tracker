@@ -8,7 +8,8 @@ import os
 import re
 import ssl
 import time
-import random
+import hmac
+import secrets
 import string
 import smtplib
 import logging
@@ -24,9 +25,11 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Depends, status, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from jose import jwt, JWTError
+import jwt
+from jwt import PyJWTError as JWTError
 from passlib.context import CryptContext
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
+from starlette.concurrency import run_in_threadpool
 
 # ---------------------------------------------------------------------------
 # Config
@@ -198,7 +201,22 @@ def check_rate_limit(key: str, max_requests: int, window_seconds: int):
 
 
 def generate_verification_code() -> str:
-    return "".join(random.choices(string.digits, k=6))
+    return "".join(secrets.choice(string.digits) for _ in range(6))
+
+
+def get_client_ip(request: Request) -> str:
+    """Skutečná IP: přes Cloudflare CF-Connecting-IP; X-Forwarded-For jen od Caddy
+    (od 22. 9. 2026 ho nastavuje z CF-Connecting-IP) a jen poslední hop – klientem
+    podvržený řetězec Cloudflare nepřepisuje, jen za něj připojí skutečnou IP."""
+    cf_ip = request.headers.get("cf-connecting-ip")
+    if cf_ip:
+        return cf_ip.strip()
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        last = forwarded.split(",")[-1].strip()
+        if last:
+            return last
+    return request.client.host if request.client else "unknown"
 
 
 def send_verification_email(to_email: str, code: str, username: str):
@@ -239,7 +257,7 @@ def send_verification_email(to_email: str, code: str, username: str):
     """
 
     if not SMTP_USER or not SMTP_PASSWORD:
-        logger.warning(f"SMTP not configured. Verification code for {to_email}: {code}")
+        logger.warning(f"SMTP not configured; verification e-mail to {to_email} not sent")
         return
 
     msg = MIMEMultipart("alternative")
@@ -256,7 +274,6 @@ def send_verification_email(to_email: str, code: str, username: str):
         logger.info(f"Verification email sent to {to_email}")
     except Exception as e:
         logger.error(f"Failed to send email to {to_email}: {e}")
-        logger.warning(f"Fallback — verification code for {to_email}: {code}")
 
 
 def send_password_reset_email(to_email: str, code: str, username: str):
@@ -297,7 +314,7 @@ def send_password_reset_email(to_email: str, code: str, username: str):
     """
 
     if not SMTP_USER or not SMTP_PASSWORD:
-        logger.warning(f"SMTP not configured. Reset code for {to_email}: {code}")
+        logger.warning(f"SMTP not configured; reset e-mail to {to_email} not sent")
         return
 
     msg = MIMEMultipart("alternative")
@@ -314,7 +331,6 @@ def send_password_reset_email(to_email: str, code: str, username: str):
         logger.info(f"Password reset email sent to {to_email}")
     except Exception as e:
         logger.error(f"Failed to send reset email to {to_email}: {e}")
-        logger.warning(f"Fallback — reset code for {to_email}: {code}")
 
 
 # ---------------------------------------------------------------------------
@@ -324,13 +340,13 @@ def send_password_reset_email(to_email: str, code: str, username: str):
 
 class RegisterRequest(BaseModel):
     email: EmailStr
-    username: str
-    password: str
+    username: str = Field(min_length=2, max_length=32)
+    password: str = Field(min_length=6, max_length=128)
 
 
 class VerifyRequest(BaseModel):
     email: EmailStr
-    code: str
+    code: str = Field(max_length=16)
 
 
 class ResendCodeRequest(BaseModel):
@@ -343,33 +359,34 @@ class ForgotPasswordRequest(BaseModel):
 
 class ResetPasswordRequest(BaseModel):
     email: EmailStr
-    code: str
-    new_password: str
+    code: str = Field(max_length=16)
+    new_password: str = Field(min_length=6, max_length=128)
 
 
 class ChangePasswordRequest(BaseModel):
-    current_password: str
-    new_password: str
+    current_password: str = Field(max_length=128)
+    new_password: str = Field(min_length=6, max_length=128)
 
 
 class DeleteAccountRequest(BaseModel):
-    password: str
+    password: str = Field(max_length=128)
 
 
+# Limity délky (22. 9. 2026): bez nich šlo 60×/min uložit až 100 MB do SQLite
 class CampaignSaveRequest(BaseModel):
-    id: str
-    name: str
-    created_at: str
-    last_played_at: str
-    data: str  # JSON string
+    id: str = Field(max_length=64)
+    name: str = Field(max_length=200)
+    created_at: str = Field(max_length=64)
+    last_played_at: str = Field(max_length=64)
+    data: str = Field(max_length=512_000)  # JSON string
 
 
 class FeedbackRequest(BaseModel):
-    type: str  # 'bug' | 'navrh' | 'jine'
-    message: str
-    email: Optional[str] = None
-    page: Optional[str] = None
-    userAgent: Optional[str] = None
+    type: str = Field(max_length=16)  # 'bug' | 'navrh' | 'jine'
+    message: str = Field(max_length=5000)
+    email: Optional[str] = Field(default=None, max_length=254)
+    page: Optional[str] = Field(default=None, max_length=500)
+    userAgent: Optional[str] = Field(default=None, max_length=500)
 
 
 class UserResponse(BaseModel):
@@ -429,7 +446,7 @@ async def health():
 
 @app.post("/api/auth/register")
 async def register(req: RegisterRequest, request: Request):
-    client_ip = request.client.host if request.client else "unknown"
+    client_ip = get_client_ip(request)
     check_rate_limit(f"register:{client_ip}", max_requests=5, window_seconds=3600)
 
     # Validate
@@ -448,20 +465,28 @@ async def register(req: RegisterRequest, request: Request):
         if existing.is_verified:
             raise HTTPException(400, "Tento e-mail je již registrován")
         # Re-registration of unverified account — update it
+        # (jméno musí být volné i tady, jinak IntegrityError → 500)
+        name_clash = await database.fetch_one(
+            users.select().where(
+                (users.c.username == req.username) & (users.c.id != existing.id)
+            )
+        )
+        if name_clash:
+            raise HTTPException(400, "Toto uživatelské jméno je již obsazené")
         code = generate_verification_code()
         await database.execute(
             users.update()
             .where(users.c.id == existing.id)
             .values(
                 username=req.username,
-                hashed_password=hash_password(req.password),
+                hashed_password=await run_in_threadpool(hash_password, req.password),
                 verification_code=code,
                 verification_code_expires_at=datetime.utcnow() + timedelta(minutes=15),
                 resend_count=0,
                 resend_window_start=None,
             )
         )
-        send_verification_email(req.email, code, req.username)
+        await run_in_threadpool(send_verification_email, req.email, code, req.username)
         return {"message": "Ověřovací kód byl odeslán na e-mail"}
 
     existing_name = await database.fetch_one(
@@ -475,7 +500,7 @@ async def register(req: RegisterRequest, request: Request):
         users.insert().values(
             email=req.email,
             username=req.username,
-            hashed_password=hash_password(req.password),
+            hashed_password=await run_in_threadpool(hash_password, req.password),
             created_at=datetime.utcnow(),
             is_verified=False,
             verification_code=code,
@@ -484,12 +509,15 @@ async def register(req: RegisterRequest, request: Request):
             resend_window_start=None,
         )
     )
-    send_verification_email(req.email, code, req.username)
+    await run_in_threadpool(send_verification_email, req.email, code, req.username)
     return {"message": "Ověřovací kód byl odeslán na e-mail"}
 
 
 @app.post("/api/auth/verify")
-async def verify(req: VerifyRequest):
+async def verify(req: VerifyRequest, request: Request):
+    # 6místný kód šel bez limitu prohádat (22. 9. 2026)
+    check_rate_limit(f"verify_ip:{get_client_ip(request)}", max_requests=30, window_seconds=3600)
+    check_rate_limit(f"verify_email:{req.email.lower()}", max_requests=5, window_seconds=900)
     user = await database.fetch_one(
         users.select().where(users.c.email == req.email)
     )
@@ -501,7 +529,7 @@ async def verify(req: VerifyRequest):
         raise HTTPException(400, "Žádný ověřovací kód nebyl vygenerován")
     if user.verification_code_expires_at and user.verification_code_expires_at < datetime.utcnow():
         raise HTTPException(400, "Ověřovací kód vypršel. Nechte si poslat nový.")
-    if user.verification_code != req.code:
+    if not hmac.compare_digest(user.verification_code, req.code):
         raise HTTPException(400, "Nesprávný ověřovací kód")
 
     await database.execute(
@@ -528,7 +556,8 @@ async def verify(req: VerifyRequest):
 
 
 @app.post("/api/auth/resend-code")
-async def resend_code(req: ResendCodeRequest):
+async def resend_code(req: ResendCodeRequest, request: Request):
+    check_rate_limit(f"resend_ip:{get_client_ip(request)}", max_requests=10, window_seconds=3600)
     user = await database.fetch_one(
         users.select().where(users.c.email == req.email)
     )
@@ -561,13 +590,13 @@ async def resend_code(req: ResendCodeRequest):
             resend_window_start=window_start,
         )
     )
-    send_verification_email(req.email, code, user.username)
+    await run_in_threadpool(send_verification_email, req.email, code, user.username)
     return {"message": "Nový ověřovací kód byl odeslán"}
 
 
 @app.post("/api/auth/forgot-password")
 async def forgot_password(req: ForgotPasswordRequest, request: Request):
-    client_ip = request.client.host if request.client else "unknown"
+    client_ip = get_client_ip(request)
     check_rate_limit(f"forgot:{client_ip}", max_requests=5, window_seconds=3600)
 
     user = await database.fetch_one(
@@ -578,7 +607,7 @@ async def forgot_password(req: ForgotPasswordRequest, request: Request):
         return {"message": "Pokud účet existuje, byl odeslán kód pro reset hesla"}
 
     code = generate_verification_code()
-    expires = datetime.now(timezone.utc) + timedelta(minutes=15)
+    expires = datetime.utcnow() + timedelta(minutes=15)  # naive UTC jako zbytek souboru
     await database.execute(
         users.update().where(users.c.id == user.id).values(
             verification_code=code,
@@ -587,28 +616,29 @@ async def forgot_password(req: ForgotPasswordRequest, request: Request):
     )
 
     # Send reset email
-    send_password_reset_email(req.email, code, user.username)
+    await run_in_threadpool(send_password_reset_email, req.email, code, user.username)
     return {"message": "Pokud účet existuje, byl odeslán kód pro reset hesla"}
 
 
 @app.post("/api/auth/reset-password")
 async def reset_password(req: ResetPasswordRequest, request: Request):
-    client_ip = request.client.host if request.client else "unknown"
+    client_ip = get_client_ip(request)
     check_rate_limit(f"reset:{client_ip}", max_requests=10, window_seconds=3600)
+    check_rate_limit(f"reset_email:{req.email.lower()}", max_requests=5, window_seconds=900)
 
     user = await database.fetch_one(
         users.select().where(users.c.email == req.email)
     )
     if not user:
         raise HTTPException(400, "Neplatný požadavek")
-    if not user.verification_code or user.verification_code != req.code:
+    if not user.verification_code or not hmac.compare_digest(user.verification_code, req.code):
         raise HTTPException(400, "Nesprávný kód")
-    if user.verification_code_expires_at and user.verification_code_expires_at < datetime.now(timezone.utc):
+    if user.verification_code_expires_at and user.verification_code_expires_at < datetime.utcnow():
         raise HTTPException(400, "Kód vypršel. Požádejte o nový.")
     if len(req.new_password) < 6:
         raise HTTPException(400, "Heslo musí mít alespoň 6 znaků")
 
-    hashed = get_password_hash(req.new_password)
+    hashed = await run_in_threadpool(hash_password, req.new_password)  # dřív volalo neexistující get_password_hash → 500
     await database.execute(
         users.update().where(users.c.id == user.id).values(
             hashed_password=hashed,
@@ -621,14 +651,14 @@ async def reset_password(req: ResetPasswordRequest, request: Request):
 
 @app.post("/api/auth/login")
 async def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):
-    client_ip = request.client.host if request.client else "unknown"
+    client_ip = get_client_ip(request)
     check_rate_limit(f"login:{client_ip}", max_requests=10, window_seconds=3600)
 
     # OAuth2 form uses `username` field — we match against email
     user = await database.fetch_one(
         users.select().where(users.c.email == form_data.username)
     )
-    if not user or not verify_password(form_data.password, user.hashed_password):
+    if not user or not await run_in_threadpool(verify_password, form_data.password, user.hashed_password):
         raise HTTPException(400, "Nesprávný e-mail nebo heslo")
     if not user.is_verified:
         raise HTTPException(400, "Účet není ověřen. Zkontrolujte e-mail.")
@@ -660,7 +690,7 @@ async def me(current_user=Depends(get_current_user)):
 @app.post("/api/auth/change-password")
 async def change_password(req: ChangePasswordRequest, current_user=Depends(get_current_user)):
     # Verify current password
-    if not verify_password(req.current_password, current_user.hashed_password):
+    if not await run_in_threadpool(verify_password, req.current_password, current_user.hashed_password):
         raise HTTPException(400, "Nesprávné aktuální heslo")
 
     # Validate new password
@@ -668,7 +698,7 @@ async def change_password(req: ChangePasswordRequest, current_user=Depends(get_c
         raise HTTPException(400, "Nové heslo musí mít alespoň 6 znaků")
 
     # Update password
-    hashed = hash_password(req.new_password)
+    hashed = await run_in_threadpool(hash_password, req.new_password)
     await database.execute(
         users.update()
         .where(users.c.id == current_user.id)
@@ -680,7 +710,7 @@ async def change_password(req: ChangePasswordRequest, current_user=Depends(get_c
 @app.delete("/api/auth/account")
 async def delete_account(req: DeleteAccountRequest, current_user=Depends(get_current_user)):
     """GDPR: trvalé smazání účtu včetně všech kampaní."""
-    if not verify_password(req.password, current_user.hashed_password):
+    if not await run_in_threadpool(verify_password, req.password, current_user.hashed_password):
         raise HTTPException(400, "Nesprávné heslo")
 
     own_campaigns = await database.fetch_all(
@@ -782,7 +812,7 @@ async def save_campaign(
     request: Request,
     current_user=Depends(get_current_user),
 ):
-    client_ip = request.client.host if request.client else "unknown"
+    client_ip = get_client_ip(request)
     check_rate_limit(
         f"save:{current_user.id}:{client_ip}",
         max_requests=60,
@@ -861,7 +891,7 @@ SHARE_CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"  # bez záměnných zna
 
 
 class JoinRequest(BaseModel):
-    code: str
+    code: str = Field(max_length=16)
 
 
 @app.post("/api/campaigns/{campaign_id}/share")
@@ -878,7 +908,6 @@ async def create_share(campaign_id: str, current_user=Depends(get_current_user))
     if existing:
         return {"shareCode": existing.share_code}
 
-    import secrets
     for _ in range(20):
         code = "".join(secrets.choice(SHARE_CODE_ALPHABET) for _ in range(6))
         clash = await database.fetch_one(
@@ -948,6 +977,7 @@ async def revoke_share(campaign_id: str, current_user=Depends(get_current_user))
 
 @app.post("/api/campaigns/join")
 async def join_campaign(req: JoinRequest, current_user=Depends(get_current_user)):
+    check_rate_limit(f"join:{current_user.id}", max_requests=20, window_seconds=3600)
     share = await database.fetch_one(
         campaign_shares.select().where(
             campaign_shares.c.share_code == req.code.strip().upper()
@@ -1024,7 +1054,7 @@ async def kick_member(campaign_id: str, user_id: int, current_user=Depends(get_c
 
 @app.post("/api/feedback/")
 async def submit_feedback(req: FeedbackRequest, request: Request):
-    client_ip = request.client.host if request.client else "unknown"
+    client_ip = get_client_ip(request)
     check_rate_limit(f"feedback:{client_ip}", max_requests=5, window_seconds=3600)
 
     if not req.message or not req.message.strip():
@@ -1053,10 +1083,13 @@ async def submit_feedback(req: FeedbackRequest, request: Request):
             msg["From"] = "FH Tracker <" + SMTP_FROM + ">"
             msg["To"] = NOTIFY_EMAIL
             msg["Subject"] = "[FH Feedback] " + req.type + ": " + req.message[:50]
-            context = ssl.create_default_context()
-            with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=context) as server:
-                server.login(SMTP_USER, SMTP_PASSWORD)
-                server.sendmail(SMTP_FROM, NOTIFY_EMAIL, msg.as_string())
+            def _send():
+                context = ssl.create_default_context()
+                with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=context) as server:
+                    server.login(SMTP_USER, SMTP_PASSWORD)
+                    server.sendmail(SMTP_FROM, NOTIFY_EMAIL, msg.as_string())
+
+            await run_in_threadpool(_send)
         except Exception as e:
             logger.error(f"Failed to send feedback notification: {e}")
 

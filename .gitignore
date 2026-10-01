@@ -8,3 +8,4 @@ fh-api/.env
 .env
 .env.production
 .brain/
+.claude/
