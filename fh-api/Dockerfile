@@ -1,4 +1,7 @@
 FROM python:3.12-slim
+# Bezpečnostní opravy Debianu hned při buildu — oficiální image je dostává se zpožděním
+# (1. 10. 2026: OpenSSL/pcre2 deb13u3 už v Debianu, v python:3.12-slim ještě ne)
+RUN apt-get update && apt-get upgrade -y --no-install-recommends && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
